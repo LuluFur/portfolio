@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lewis Whitham - Game Developer Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coral: #FF6B6B;
+            --cyan: #00D9FF;
+            --purple: #A855F7;
+            --dark-bg: #1a1d2e;
+            --darker-bg: #13141f;
+            --card-bg: rgba(26, 29, 46, 0.8);
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #13141f 0%, #1a1d2e 50%, #1e2640 100%);
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #p5-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(19, 20, 31, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--cyan);
+        }
+
+        .resume-btn {
+            background: linear-gradient(135deg, var(--coral), #ff8787);
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        .hero-name {
+            display: inline-block;
+            font-weight: 900;
+            font-family: 'Space Grotesk';
+            background: linear-gradient(135deg, var(--coral) 0%, var(--cyan) 50%, var(--purple) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite, fontPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fontPulse {
+            0%, 100% { 
+                transform: scale(1);
+                letter-spacing: 0em;
+            }
+            50% { 
+                transform: scale(1.0);
+                letter-spacing: 0.01em;
+            }
+        }
+
+        .hero-name::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
+            animation: haloGlow 3s ease-in-out infinite;
+            z-index: -1;
+            filter: blur(20px);
+        }
+
+        @keyframes haloGlow {
+            0%, 100% { opacity: 0.3; transform: scale(0.95); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            max-width: 700px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+        }
+
+        .hero-subtitle strong {
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--purple), #c084fc);
+            color: #fff;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.5);
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: sticky;
+            top: 120px;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+            object-fit: cover;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--coral), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            color: var(--purple);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .profile-tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--coral), #ff8787);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 3rem;
+        }
+
+        .about-text strong {
+            font-weight: 800;
+            color: var(--cyan);
+        }
+
+        .working-on-section h3 {
+            font-size: 2rem;
+            color: var(--purple);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .projects-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .project-screenshot {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-screenshot::before {
+            content: '📸';
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .project-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--purple);
+            font-weight: 600;
+        }
+
+        /* Programs Section */
+        .programs {
+            padding: 8rem 5%;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .programs-title {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4rem;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .program-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .program-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .program-label {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .label-engine {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--coral);
+        }
+
+        .label-language {
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--purple);
+        }
+
+        .label-tool {
+            background: rgba(0, 217, 255, 0.2);
+            color: var(--cyan);
+        }
+
+        .program-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .program-level {
+            color: var(--cyan);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--coral), #ff8787);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+        }
+
+        .connect-title {
+            color: var(--purple);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-platforms-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .social-platform-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .social-platform-item:hover {
+            transform: translateX(10px);
+            border-color: var(--cyan);
+            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .social-platform-item:hover .social-icon {
+            background: var(--cyan);
+            transform: scale(1.1);
+        }
+
+        .social-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+        }
+
+        .social-platform-info {
+            flex: 1;
+        }
+
+        .social-platform-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .social-platform-handle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .social-arrow {
+            color: var(--cyan);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .social-platform-item:hover .social-arrow {
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                position: relative;
+                top: 0;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .programs-grid,
+            .projects-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div id="p5-canvas"></div>
+
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>Lewis Whitham</span>
+            </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#resume" class="resume-btn">Resume</a>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">
+                I'm <span class="hero-name">Lewis Whitham</span>
+            </h1>
+            <p class="hero-subtitle">
+                Embark on a journey through the <strong>digital realms</strong> crafted by a passionate developer. 
+                This is not just a portfolio; it's an <strong>interactive experience</strong>, 
+                a quest to discover the worlds brought to life through code.
+            </p>
+            <button class="cta-btn" onclick="document.querySelector('.about').scrollIntoView({behavior: 'smooth'})">
+                Begin Your Quest
+            </button>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="about-grid">
+                <div class="profile-card">
+                    <div class="profile-img"></div>
+                    <h2 class="profile-name">Lewis Whitham</h2>
+                    <p class="profile-title">Game Developer</p>
+                    <p class="profile-tagline">
+                        Passionate game developer focusing on immersive experiences 
+                        and pushing the boundaries of interactive entertainment.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="section-title">About Me</h2>
+                    <p class="about-text">
+                        From a young age, I've been <strong>captivated by the power of games</strong> 
+                        to transport players to other worlds. This led me to pursue a career in 
+                        <strong>game development</strong>, where I strive to craft experiences that are 
+                        both technically impressive and deeply engaging. My journey has taken me through 
+                        various aspects of game creation, from <strong>level design and gameplay mechanics</strong> 
+                        to <strong>scripting and optimization</strong>. I'm drawn to projects that challenge 
+                        me creatively and allow for collaboration with talented teams to bring 
+                        <strong>ambitious visions to life</strong>.
+                    </p>
+
+                    <div class="working-on-section">
+                        <h3>What I'm Working On</h3>
+                        <div class="projects-showcase">
+                            <div class="project-item">
+                                <div class="project-screenshot">
+                                    <!-- Add your screenshot here: <img src="path/to/image.jpg" alt="Project name"> -->
+                                </div>
+                                <div class="project-info">
+                                    <h4 class="project-name">Quantum Odyssey</h4>
+                                    <p class="project-description">
+                                        A first-person puzzle game exploring quantum mechanics through 
+                                        mind-bending portals and time manipulation.
+                                    </p>
+                                    <div class="project-tech">
+                                        <span class="tech-tag">Unity</span>
+                                        <span class="tech-tag">C#</span>
+                                        <span class="tech-tag">Shaders</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-item">
+                                <div class="project-screenshot">
+                                    <!-- Add your screenshot here -->
+                                </div>
+                                <div class="project-info">
+                                    <h4 class="project-name">Neon Runner</h4>
+                                    <p class="project-description">
+                                        Fast-paced endless runner with procedural generation and 
+                                        synthwave aesthetics.
+                                    </p>
+                                    <div class="project-tech">
+                                        <span class="tech-tag">Unreal Engine</span>
+                                        <span class="tech-tag">Blueprints</span>
+                                        <span class="tech-tag">C++</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="project-item">
+                                <div class="project-screenshot">
+                                    <!-- Add your screenshot here -->
+                                </div>
+                                <div class="project-info">
+                                    <h4 class="project-name">Dungeon Architect</h4>
+                                    <p class="project-description">
+                                        Procedural dungeon generation tool with real-time visualization 
+                                        for game designers.
+                                    </p>
+                                    <div class="project-tech">
+                                        <span class="tech-tag">Python</span>
+                                        <span class="tech-tag">Algorithm Design</span>
+                                        <span class="tech-tag">Tool Development</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs Section -->
+        <section class="programs" id="programs">
+            <h2 class="programs-title">My Programs, Languages, and Tools</h2>
+            <div class="programs-grid">
+                <!-- Game Engines -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-engine">Game Engine</span>
+                    </div>
+                    <h3 class="program-name">Roblox Studio</h3>
+                    <p class="program-level">⚡ Highly Skilled</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Scripting</span>
+                        <span class="skill-tag">Level Design</span>
+                        <span class="skill-tag">Multiplayer</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-engine">Game Engine</span>
+                    </div>
+                    <h3 class="program-name">GameMaker</h3>
+                    <p class="program-level">⚡ Highly Skilled</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">2D Games</span>
+                        <span class="skill-tag">GML</span>
+                        <span class="skill-tag">Rapid Prototyping</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-engine">Game Engine</span>
+                    </div>
+                    <h3 class="program-name">Unreal Engine</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Blueprints</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Level Design</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-engine">Game Engine</span>
+                    </div>
+                    <h3 class="program-name">Unity</h3>
+                    <p class="program-level">⚡ Expert</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">Shaders</span>
+                        <span class="skill-tag">Physics</span>
+                        <span class="skill-tag">UI/UX</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-engine">Game Engine</span>
+                    </div>
+                    <h3 class="program-name">Godot</h3>
+                    <p class="program-level">⚡ Learning</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">GDScript</span>
+                        <span class="skill-tag">2D/3D</span>
+                        <span class="skill-tag">Node System</span>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-language">Language</span>
+                    </div>
+                    <h3 class="program-name">Lua/Luau</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Scripting</span>
+                        <span class="skill-tag">Game Logic</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-language">Language</span>
+                    </div>
+                    <h3 class="program-name">C#</h3>
+                    <p class="program-level">⚡ Expert</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">OOP</span>
+                        <span class="skill-tag">Unity</span>
+                        <span class="skill-tag">Design Patterns</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-language">Language</span>
+                    </div>
+                    <h3 class="program-name">C++</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Performance</span>
+                        <span class="skill-tag">Unreal</span>
+                        <span class="skill-tag">Low-Level</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-language">Language</span>
+                    </div>
+                    <h3 class="program-name">Python</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Tools</span>
+                        <span class="skill-tag">Automation</span>
+                        <span class="skill-tag">Data Processing</span>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-tool">Tool</span>
+                    </div>
+                    <h3 class="program-name">Visual Studio</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Debugging</span>
+                        <span class="skill-tag">Code Analysis</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-tool">Tool</span>
+                    </div>
+                    <h3 class="program-name">VS Code</h3>
+                    <p class="program-level">⚡ Highly Skilled</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Extensions</span>
+                        <span class="skill-tag">Workflow</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-tool">Tool</span>
+                    </div>
+                    <h3 class="program-name">Blender</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">3D Modeling</span>
+                        <span class="skill-tag">Asset Creation</span>
+                    </div>
+                </div>
+
+                <div class="program-card">
+                    <div class="program-header">
+                        <span class="program-label label-tool">Tool</span>
+                    </div>
+                    <h3 class="program-name">Git/Perforce</h3>
+                    <p class="program-level">⚡ Proficient</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Version Control</span>
+                        <span class="skill-tag">Collaboration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Contact</h2>
+                    <p class="contact-text">
+                        I'm always open to discussing new opportunities and collaborations. 
+                        Feel free to reach out on any of these platforms!
+                    </p>
+                    <h3 class="connect-title">Let's Connect</h3>
+                </div>
+
+                <div class="social-platforms-list">
+                    <a href="https://github.com/yourusername" class="social-platform-item" target="_blank" rel="noopener">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">GitHub</div>
+                            <div class="social-platform-handle">@yourusername</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+
+                    <a href="https://linkedin.com/in/yourusername" class="social-platform-item" target="_blank" rel="noopener">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">LinkedIn</div>
+                            <div class="social-platform-handle">@yourusername</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+
+                    <a href="https://twitter.com/yourusername" class="social-platform-item" target="_blank" rel="noopener">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">Twitter / X</div>
+                            <div class="social-platform-handle">@yourusername</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+
+                    <a href="https://discord.gg/yourserver" class="social-platform-item" target="_blank" rel="noopener">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">Discord</div>
+                            <div class="social-platform-handle">username#0000</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+
+                    <a href="mailto:your.email@example.com" class="social-platform-item">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">Email</div>
+                            <div class="social-platform-handle">your.email@example.com</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+
+                    <a href="https://youtube.com/@yourchannel" class="social-platform-item" target="_blank" rel="noopener">
+                        <div class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </div>
+                        <div class="social-platform-info">
+                            <div class="social-platform-name">YouTube</div>
+                            <div class="social-platform-handle">@yourchannel</div>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 Lewis Whitham. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // p5.js 2.0 Sketch with new features
+        let particles = [];
+        let textParticles = [];
+        let variableWeight = 300;
+        let weightDirection = 1;
+
+        function setup() {
+            const canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('p5-canvas');
+            
+            // Initialize particles for background effect
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: random(width),
+                    y: random(height),
+                    vx: random(-0.5, 0.5),
+                    vy: random(-0.5, 0.5),
+                    size: random(2, 6),
+                    opacityVal: random(0.1, 0.5),
+                    hue: random([0, 180, 270]) // coral, cyan, purple
+                });
+            }
+        }
+
+        function draw() {
+            clear();
+            
+            // Animate variable font weight
+            variableWeight += weightDirection * 2;
+            if (variableWeight > 900 || variableWeight < 300) {
+                weightDirection *= -1;
+            }
+            
+            // Draw and update particles
+            for (let p of particles) {
+                // Set color based on hue
+                if (p.hue === 0) {
+                    fill(255, 107, 107, p.opacityVal * 255);
+                } else if (p.hue === 180) {
+                    fill(0, 217, 255, p.opacityVal * 255);
+                } else {
+                    fill(168, 85, 247, p.opacityVal * 255);
+                }
+                
+                noStroke();
+                circle(p.x, p.y, p.size);
+                
+                // Create connections
+                for (let other of particles) {
+                    let d = dist(p.x, p.y, other.x, other.y);
+                    if (d < 150) {
+                        stroke(255, 255, 255, map(d, 0, 150, 30, 0));
+                        strokeWeight(0.5);
+                        line(p.x, p.y, other.x, other.y);
+                    }
+                }
+                
+                // Update position
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                // Wrap around screen
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+            }
+            
+            // Mouse interaction - create temporary particles
+            if (mouseIsPressed) {
+                fill(0, 217, 255, 100);
+                noStroke();
+                circle(mouseX, mouseY, 20);
+                
+                // Add halftone dot effect around cursor
+                for (let i = 0; i < 5; i++) {
+                    let angle = random(TWO_PI);
+                    let distance = random(20, 60);
+                    let x = mouseX + cos(angle) * distance;
+                    let y = mouseY + sin(angle) * distance;
+                    fill(168, 85, 247, random(50, 150));
+                    circle(x, y, random(3, 8));
+                }
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        // Vanilla JS for smooth scrolling and animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Fade in animations on scroll
+            const fadeElements = document.querySelectorAll('.program-card, .project-item, .social-platform-item');
+            
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 50);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                fadeObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
