@@ -617,6 +617,129 @@
         .fade-in-up {
             animation: fadeInUp 0.8s ease-out forwards;
         }
+
+        .site-nav {
+          /* position: fixed; top: 0; width: 100%; */
+          anchor-name: --hovered-link;
+          isolation: isolate; /* ensure pseudo elements layer correctly */
+          position: fixed;
+          top: 0;
+          width: 100%;
+          padding: 1.5rem 5%;
+          background: rgba(19, 20, 31, 0.85);
+          backdrop-filter: blur(10px);
+          z-index: 100;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+        
+        /* ul, a styles. */
+        .site-nav .nav-links {
+          display: flex;
+          list-style: none;
+          gap: 2rem;
+          padding: 0;
+          margin: 0;
+        }
+        
+        .site-nav .nav-links > li:hover {
+          anchor-name: --hovered-link;
+        }
+        
+        .site-nav::before,
+        .site-nav::after {
+          content: "";
+          position: absolute;
+          top: calc(anchor(bottom) - 10px);
+          left: calc(anchor(left) + 0.5rem);
+          right: calc(anchor(right) + 0.5rem);
+          bottom: calc(anchor(bottom) + 6px);
+          position-anchor: --hovered-link;
+          border-radius: 10px;
+          transition: 500ms
+            linear(
+              0,
+              0.029 1.6%,
+              0.123 3.5%,
+              0.651 10.6%,
+              0.862 14.1%,
+              1.002 17.7%,
+              1.046 19.6%,
+              1.074 21.6%,
+              1.087 23.9%,
+              1.086 26.6%,
+              1.014 38.5%,
+              0.994 46.3%,
+              1
+            );
+          pointer-events: none;
+        }
+        
+        .site-nav::before {
+          z-index: -1;
+          background: rgb(0 0 0 / 0.25);
+          backdrop-filter: blur(4px);
+        }
+        
+        .site-nav::after {
+          z-index: -2;
+          background: linear-gradient(
+              135deg,
+              rgba(0, 217, 255, 0.15),
+              rgba(168, 85, 247, 0.15)
+            ),
+            radial-gradient(600px 200px at 50% -50%, rgba(0, 0, 0, 0.25), transparent);
+           background-attachment: fixed;
+          background-size: cover;
+          background-position: center;
+        }
+        
+        .site-nav:has(a:hover)::before,
+        .site-nav:has(a:hover)::after {
+          top: anchor(top);
+          left: anchor(left);
+          right: anchor(right);
+          bottom: anchor(bottom);
+        
+          @supports (corner-shape: squircle) {
+            corner-shape: squircle;
+            border-radius: 50%;
+          }
+        }
+        
+        .site-nav:has(.nav-links > li:first-of-type a:hover)::before,
+        .site-nav:has(.nav-links > li:first-of-type a:hover)::after {
+          @supports (corner-shape: squircle) {
+            border-radius: 32px 50% 50% 32px;
+          }
+        }
+        .site-nav:has(.nav-links > li:last-of-type a:hover)::before,
+        .site-nav:has(.nav-links > li:last-of-type a:hover)::after {
+          @supports (corner-shape: squircle) {
+            border-radius: 50% 32px 32px 50%;
+          }
+        }
+        
+        @supports (corner-shape: squircle) {
+          .site-nav {
+            border-radius: 18px;
+            corner-shape: squircle;
+          }
+        }
+        
+        .site-nav a {
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.3s;
+          font-weight: 500;
+          display: block; /* needed so anchor box is used for anchoring */
+          padding: 0.4rem 0; /* vertical padding for better target box */
+        }
+        .site-nav a:hover {
+          color: var(--cyan);
+        }
     </style>
 </head>
 <body>
@@ -624,17 +747,19 @@
 
     <div class="content-wrapper">
         <!-- Navigation -->
-        <nav>
-            <div class="logo">
-                <div class="logo-icon">⚡</div>
-                <span>Lewis Whitham</span>
-            </div>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <a href="#resume" class="resume-btn">Resume</a>
+        <nav class="site-nav">
+          <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <span>Lewis Whitham</span>
+          </div>
+        
+          <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#programs">Programs</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        
+          <a href="#resume" class="resume-btn">Resume</a>
         </nav>
 
         <!-- Hero Section -->
