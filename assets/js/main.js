@@ -1,40 +1,57 @@
 // Extracted from index.html inline script
-// p5.js 2.0 Sketch with new features
+// p5.js 2.0 Sketch with lightweight optimizations
+const CONNECTION_DISTANCE = 150;
+const GRID_SIZE = 160;
+const MAX_CONNECTIONS_PER_PARTICLE = 6;
 let particles = [];
 let textParticles = [];
 let variableWeight = 300;
 let weightDirection = 1;
+let particleCount = determineParticleCount();
+const spatialGrid = new Map();
+
+function determineParticleCount() {
+  const isSmallScreen = window.innerWidth < 768;
+  const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 4;
+  const lowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+  const highDensity = (window.devicePixelRatio || 1) > 2;
+  let count = isSmallScreen ? 70 : 110;
+  if (lowMemory || lowCores || highDensity) { count *= 0.65; }
+  return Math.max(40, Math.round(count));
+}
+
+function createParticle() {
+  return {
+    x: random(width), y: random(height),
+    vx: random(-0.5, 0.5), vy: random(-0.5, 0.5),
+    size: random(2, 6), opacityVal: random(0.1, 0.5),
+    hue: random([0, 180, 270])
+  };
+}
+
+function syncParticlePool(targetCount) {
+  if (particles.length > targetCount) {
+    particles.length = targetCount;
+    return;
+  }
+  for (let i = particles.length; i < targetCount; i++) {
+    particles.push(createParticle());
+  }
+}
 
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('p5-canvas');
-  for (let i = 0; i < 100; i++) {
-    particles.push({
-      x: random(width), y: random(height),
-      vx: random(-0.5, 0.5), vy: random(-0.5, 0.5),
-      size: random(2, 6), opacityVal: random(0.1, 0.5),
-      hue: random([0, 180, 270])
-    });
-  }
+  syncParticlePool(particleCount);
 }
 
 function draw() {
   clear();
   variableWeight += weightDirection * 2;
   if (variableWeight > 900 || variableWeight < 300) { weightDirection *= -1; }
-  for (let p of particles) {
-    if (p.hue === 0) { fill(255, 107, 107, p.opacityVal * 255); }
-    else if (p.hue === 180) { fill(0, 217, 255, p.opacityVal * 255); }
-    else { fill(168, 85, 247, p.opacityVal * 255); }
-    noStroke(); circle(p.x, p.y, p.size);
-    for (let other of particles) {
-      let d = dist(p.x, p.y, other.x, other.y);
-      if (d < 150) { stroke(255, 255, 255, map(d, 0, 150, 30, 0)); strokeWeight(0.5); line(p.x, p.y, other.x, other.y); }
-    }
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
-    if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
-  }
+  updateParticles();
+  populateSpatialGrid();
+  renderParticles();
   if (mouseIsPressed) {
     fill(0, 217, 255, 100); noStroke(); circle(mouseX, mouseY, 20);
     for (let i = 0; i < 5; i++) {
@@ -47,7 +64,84 @@ function draw() {
   }
 }
 
-function windowResized() { resizeCanvas(windowWidth, windowHeight); }
+function updateParticles() {
+  for (let p of particles) {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = width;
+    if (p.x > width) p.x = 0;
+    if (p.y < 0) p.y = height;
+    if (p.y > height) p.y = 0;
+  }
+}
+
+function populateSpatialGrid() {
+  spatialGrid.clear();
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    const key = getCellKey(p.x, p.y);
+    let bucket = spatialGrid.get(key);
+    if (!bucket) {
+      bucket = [];
+      spatialGrid.set(key, bucket);
+    }
+    bucket.push(i);
+  }
+}
+
+function getCellKey(x, y) {
+  return `${Math.floor(x / GRID_SIZE)}:${Math.floor(y / GRID_SIZE)}`;
+}
+
+function renderParticles() {
+  for (let i = 0; i < particles.length; i++) {
+    const p = particles[i];
+    applyParticleColor(p);
+    noStroke();
+    circle(p.x, p.y, p.size);
+    drawConnectionsFor(i, p);
+  }
+}
+
+function applyParticleColor(particle) {
+  if (particle.hue === 0) { fill(255, 107, 107, particle.opacityVal * 255); }
+  else if (particle.hue === 180) { fill(0, 217, 255, particle.opacityVal * 255); }
+  else { fill(168, 85, 247, particle.opacityVal * 255); }
+}
+
+function drawConnectionsFor(index, particle) {
+  let connections = 0;
+  for (const neighborIndex of getNeighborIndices(particle)) {
+    if (neighborIndex <= index) { continue; }
+    const other = particles[neighborIndex];
+    const d = dist(particle.x, particle.y, other.x, other.y);
+    if (d < CONNECTION_DISTANCE) {
+      stroke(255, 255, 255, map(d, 0, CONNECTION_DISTANCE, 35, 0));
+      strokeWeight(0.5);
+      line(particle.x, particle.y, other.x, other.y);
+      if (++connections >= MAX_CONNECTIONS_PER_PARTICLE) { break; }
+    }
+  }
+}
+
+function getNeighborIndices(particle) {
+  const cellX = Math.floor(particle.x / GRID_SIZE);
+  const cellY = Math.floor(particle.y / GRID_SIZE);
+  const neighbors = [];
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      const bucket = spatialGrid.get(`${cellX + dx}:${cellY + dy}`);
+      if (bucket) { neighbors.push(...bucket); }
+    }
+  }
+  return neighbors;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  const desiredCount = determineParticleCount();
+  particleCount = desiredCount;
+  syncParticlePool(desiredCount);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
