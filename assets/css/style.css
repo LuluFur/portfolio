@@ -97,13 +97,20 @@ footer{padding:2rem 5%; border-top:1px solid rgba(255,255,255,0.1); text-align:c
 .site-nav a{color:#fff; text-decoration:none; transition:color .3s; font-weight:500; display:block; padding:.4rem 0}
 .site-nav a:hover{color:var(--cyan)}
 /* Gallery for per-game pages */
-.page-hero{padding:10rem 5% 3rem; text-align:center}
-.page-hero h1{font-size:clamp(2.5rem,6vw,4rem); font-weight:800; background:linear-gradient(135deg,var(--coral),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
+.page-hero{padding:9rem 5% 3rem; display:flex; flex-direction:column; gap:1.75rem}
+.page-hero h1{font-size:clamp(2.5rem,6vw,4rem); font-weight:800; background:linear-gradient(135deg,var(--coral),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin:0}
+.page-hero p{color:rgba(255,255,255,0.78); line-height:1.7; max-width:960px}
+.hero-media-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem}
+.hero-media{position:relative; width:100%; padding-top:56.25%; border-radius:18px; border:1px solid rgba(0,217,255,0.25); overflow:hidden; background:linear-gradient(135deg,#2d3748 0%,#4a5568 100%); box-shadow:0 20px 45px rgba(0,0,0,0.35)}
+.hero-media iframe{position:absolute; inset:0; width:100%; height:100%; border:0; border-radius:inherit}
+.hero-meta{display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center}
+.hero-meta .meta-pill{padding:.35rem .9rem; border-radius:999px; border:1px solid rgba(255,255,255,0.2); font-size:.85rem; color:rgba(255,255,255,0.8)}
 .gallery{padding:2rem 5% 6rem; max-width:1400px; margin:0 auto}
 .gallery h2{margin:2rem 0 1rem; color:var(--purple)}
 .gallery-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem}
-.asset-item{background:var(--card-bg); border:1px solid rgba(0,217,255,0.2); border-radius:12px; overflow:hidden}
-.asset-thumb{width:100%; height:220px; background:linear-gradient(135deg,#2d3748 0%,#4a5568 100%); display:flex; align-items:center; justify-content:center}
+.asset-item{background:var(--card-bg); border:1px solid rgba(0,217,255,0.2); border-radius:12px; overflow:hidden; display:flex; flex-direction:column}
+.asset-thumb{width:100%; height:240px; background:linear-gradient(135deg,#2d3748 0%,#4a5568 100%); display:flex; align-items:center; justify-content:center}
+.asset-thumb iframe{width:100%; height:100%; border:0}
 .asset-thumb img,.asset-thumb video{width:100%; height:100%; object-fit:cover}
 .asset-body{padding:1rem}
 .asset-title{font-weight:600; font-size:.95rem}

@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Snek Solver — Lewis Whitham</title>
+  <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
@@ -22,38 +23,40 @@
     </nav>
 
     <header class="page-hero">
+      <div class="hero-media-grid">
+        <div class="hero-media">
+          <iframe title="Snek Solver gameplay" src="https://www.youtube.com/embed/KI9pk7N0RjY" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
       <h1>Snek Solver</h1>
+      <p>Snek Solver is a Unity puzzle project about routing energy paths without painting yourself into a corner. The prototype let me explore tilemap tooling, juicy grid feedback, and onboarding difficulty ramps.</p>
+      <div class="hero-meta">
+        <span class="meta-pill">Unity</span>
+        <span class="meta-pill">C#</span>
+        <span class="meta-pill">Puzzle Design</span>
+      </div>
     </header>
 
     <main class="gallery">
       <h2>Images</h2>
       <div class="gallery-grid">
         <a class="asset-item" href="Snek_Solver_Files/Snek_Solver_Cover_Image.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/Snek_Solver_Cover_Image.png" alt="Cover"/></div><div class="asset-body"><div class="asset-title">Cover</div></div></a>
-        <a class="asset-item" href="Snek_Solver_Files/Chests for loot  upgrades.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/Chests for loot  upgrades.png" alt="Chests"/></div><div class="asset-body"><div class="asset-title">Chests for loot upgrades</div></div></a>
+        <a class="asset-item" href="Snek_Solver_Files/assets-showcase.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/assets-showcase.png" alt="Assets showcase"/></div><div class="asset-body"><div class="asset-title">Assets Showcase</div></div></a>
         <a class="asset-item" href="Snek_Solver_Files/Isometric.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/Isometric.png" alt="Isometric"/></div><div class="asset-body"><div class="asset-title">Isometric</div></div></a>
-        <a class="asset-item" href="Snek_Solver_Files/Screenshot 2024-10-14 141110.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/Screenshot 2024-10-14 141110.png" alt="Screenshot 1"/></div><div class="asset-body"><div class="asset-title">Screenshot 141110</div></div></a>
-        <a class="asset-item" href="Snek_Solver_Files/Screenshot 2024-10-14 141151.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/Screenshot 2024-10-14 141151.png" alt="Screenshot 2"/></div><div class="asset-body"><div class="asset-title">Screenshot 141151</div></div></a>
+        <a class="asset-item" href="Snek_Solver_Files/snek-screenshot.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/snek-screenshot.png" alt="Screenshot"/></div><div class="asset-body"><div class="asset-title">Gameplay Screenshot</div></div></a>
+        <a class="asset-item" href="Snek_Solver_Files/snek-screenshot-2.png" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/snek-screenshot-2.png" alt="Screenshot 2"/></div><div class="asset-body"><div class="asset-title">Screenshot 2</div></div></a>
       </div>
 
       <h2>GIFs</h2>
       <div class="gallery-grid">
-        <a class="asset-item" href="Snek_Solver_Files/2024-10-1022-29-17-ezgif.com-video-to-gif-converter.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/2024-10-1022-29-17-ezgif.com-video-to-gif-converter.gif" alt="GIF 1"/></div><div class="asset-body"><div class="asset-title">GIF 22-29-17</div></div></a>
-        <a class="asset-item" href="Snek_Solver_Files/2024-10-1222-30-16-ezgif.com-video-to-gif-converter.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/2024-10-1222-30-16-ezgif.com-video-to-gif-converter.gif" alt="GIF 2"/></div><div class="asset-body"><div class="asset-title">GIF 22-30-16</div></div></a>
-        <a class="asset-item" href="Snek_Solver_Files/2024-10-1222-39-57-ezgif.com-video-to-gif-converter.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/2024-10-1222-39-57-ezgif.com-video-to-gif-converter.gif" alt="GIF 3"/></div><div class="asset-body"><div class="asset-title">GIF 22-39-57</div></div></a>
-      </div>
-
-      <h2>Videos</h2>
-      <div class="gallery-grid">
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Snek_Solver_Files/2024-10-10 22-29-17.mp4" type="video/mp4" /></video></div><div class="asset-body"><div class="asset-title">2024-10-10 22-29-17.mp4</div></div></div>
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Snek_Solver_Files/2024-10-12 22-30-16.mp4" type="video/mp4" /></video></div><div class="asset-body"><div class="asset-title">2024-10-12 22-30-16.mp4</div></div></div>
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Snek_Solver_Files/2024-10-12 22-39-57.mp4" type="video/mp4" /></video></div><div class="asset-body"><div class="asset-title">2024-10-12 22-39-57.mp4</div></div></div>
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Snek_Solver_Files/2024-10-12 22-55-30.mp4" type="video/mp4" /></video></div><div class="asset-body"><div class="asset-title">2024-10-12 22-55-30.mp4</div></div></div>
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Snek_Solver_Files/2024-10-12 23-50-57.mp4" type="video/mp4" /></video></div><div class="asset-body"><div class="asset-title">2024-10-12 23-50-57.mp4</div></div></div>
+        <a class="asset-item" href="Snek_Solver_Files/snek-gameplay-cover-video.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/snek-gameplay-cover-video.gif" alt="GIF 1"/></div><div class="asset-body"><div class="asset-title">Gameplay GIF</div></div></a>
+        <a class="asset-item" href="Snek_Solver_Files/snek-gameplay-cover-video-2.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/snek-gameplay-cover-video-2.gif" alt="GIF 2"/></div><div class="asset-body"><div class="asset-title">Gameplay GIF 2</div></div></a>
+        <a class="asset-item" href="Snek_Solver_Files/snek-gameplay-cover-video-3.gif" target="_blank" rel="noopener"><div class="asset-thumb"><img src="Snek_Solver_Files/snek-gameplay-cover-video-3.gif" alt="GIF 3"/></div><div class="asset-body"><div class="asset-title">Gameplay GIF 3</div></div></a>
       </div>
     </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
-  <script src="assets/js/main.js"></script>
+  <script src="./assets/js/main.js"></script>
 </body>
 </html>

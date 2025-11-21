@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cube Defence — Lewis Whitham</title>
+  <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
@@ -22,18 +23,36 @@
     </nav>
 
     <header class="page-hero">
+      <div class="hero-media-grid">
+        <div class="hero-media">
+          <iframe title="CubeTD Progress" src="https://www.youtube.com/embed/DeV-7ofG0lQ" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div class="hero-media">
+          <iframe title="CubeTD Gameplay" src="https://www.youtube.com/embed/Xma89H1E_9Y" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div class="hero-media">
+          <iframe title="CubeTD Gameplay 2" src="https://www.youtube.com/embed/HrADTvw6nUM" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
       <h1>Cube Defence</h1>
+      <p>Cube Defence is my Roblox tower-defence playground for testing enemy pacing, turret upgrades, and UI feedback loops. Each build focuses on shaving friction from iteration so I can rapidly balance wave spikes and economy curves.</p>
+      <div class="hero-meta">
+        <span class="meta-pill">Roblox Studio</span>
+        <span class="meta-pill">Luau</span>
+        <span class="meta-pill">Systems Design</span>
+      </div>
     </header>
 
     <main class="gallery">
-      <h2>Videos</h2>
-      <div class="gallery-grid">
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Cube_Defence_Files/2023-12-27 22-04-42.mp4" type="video/mp4" />Your browser may not support this video.</video></div><div class="asset-body"><div class="asset-title">2023-12-27 22-04-42.mp4</div></div></div>
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Cube_Defence_Files/CubeTD_Progress_Video.mp4" type="video/mp4" />Your browser may not support this video.</video></div><div class="asset-body"><div class="asset-title">CubeTD_Progress_Video.mp4</div></div></div>
-      </div>
+      <h2>Highlights</h2>
+      <ul>
+        <li>Modular tower scripts with hot-swappable behaviors for splash, single-target, and status effects.</li>
+        <li>Wave authoring tools to dial in spawn cadence, mixed enemy compositions, and boss reveals.</li>
+        <li>Player-facing UI polish for upgrade previews, damage numbers, and resource flows.</li>
+      </ul>
     </main>
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
-  <script src="assets/js/main.js"></script>
+  <script src="./assets/js/main.js"></script>
 </body>
 </html>

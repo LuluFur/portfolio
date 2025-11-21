@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Slime Slasher — Lewis Whitham</title>
+  <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
@@ -22,18 +23,30 @@
     </nav>
 
     <header class="page-hero">
+      <div class="hero-media-grid">
+        <div class="hero-media">
+          <iframe title="Slime Slasher gameplay" src="https://www.youtube.com/embed/IGzAvMYppkw" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
       <h1>Slime Slasher</h1>
+      <p>Built in GameMaker, Slime Slasher is where I dialed in melee feel—animation timing, hitstop, and particle bursts—while experimenting with enemy reads and arena layouts.</p>
+      <div class="hero-meta">
+        <span class="meta-pill">GameMaker</span>
+        <span class="meta-pill">Combat Design</span>
+      </div>
     </header>
 
     <main class="gallery">
-      <h2>Videos</h2>
-      <div class="gallery-grid">
-        <div class="asset-item"><div class="asset-thumb"><video controls preload="metadata"><source src="Slime_Slasher_Files/8 June 2023.mp4" type="video/mp4" />Your browser may not support this video.</video></div><div class="asset-body"><div class="asset-title">8 June 2023.mp4</div></div></div>
-      </div>
+      <h2>Highlights</h2>
+      <ul>
+        <li>Frame-perfect dodge windows paired with generous coyote time for responsive controls.</li>
+        <li>Parametric VFX system that recolors trails and particles per weapon upgrade.</li>
+        <li>Enemy archetypes telegraph intent with squash-and-stretch animation silhouettes.</li>
+      </ul>
     </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
-  <script src="assets/js/main.js"></script>
+  <script src="./assets/js/main.js"></script>
 </body>
 </html>
