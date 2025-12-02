@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>p5.js Sketches — Lewis Whitham</title>
+  <base href="./" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+  <div id="p5-canvas"></div>
+  <div class="content-wrapper">
+    <nav class="site-nav">
+      <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#programs">Programs</a></li>
+        <li><a href="sketches.html">Sketches</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#resume" class="resume-btn">Resume</a>
+    </nav>
+
+    <header class="page-hero">
+      <span class="eyebrow">Creative Coding</span>
+      <h1>p5.js Sketches</h1>
+      <p>A collection of interactive experiments and visual art created with p5.js.</p>
+    </header>
+
+    <main class="gallery">
+      <span class="eyebrow">01. Rapid Prototypes</span>
+      <h2>Made in One Day</h2>
+      <div class="sketch-grid">
+        <!-- Sketch 1: Snake -->
+        <div class="sketch-item">
+          <div class="sketch-thumb">
+            <img src="Snake_p5_sketch/snake-image.png" alt="Snake Game Preview" class="sketch-preview-img" style="position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.6;">
+            <a href="https://editor.p5js.org/Lulu.p5/full/g8xhQ0Bzq" target="_blank" class="play-overlay" style="text-decoration: none;">
+              <div class="play-button">▶</div>
+              <span>Play Full Screen</span>
+            </a>
+          </div>
+          <div class="sketch-info">
+            <div class="sketch-meta">
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">HTML+CSS</span>
+                <span class="tech-tag">p5.js v1.4.0</span>
+            </div>
+            <h3 class="sketch-title">Snake Made in 1 Day</h3>
+            <p class="sketch-description">
+                A classic Snake game implementation with a twist, all made in one day.
+            </p>
+            
+            <div class="sketch-controls">
+                <h4>Controls & Mechanics</h4>
+                <ul>
+                    <li><strong>Start:</strong> <span>Press <kbd>Enter</kbd></span></li>
+                    <li><strong>Move:</strong> <span>Use <kbd>Arrow Keys</kbd></span></li>
+                    <li><strong>Screen Wrapping:</strong> <span>If you hit the edge of the screen, you'll reappear on the opposite side instead of crashing!</span></li>
+                </ul>
+            </div>
+
+            <div class="sketch-actions">
+                <a href="https://editor.p5js.org/Lulu.p5/sketches/g8xhQ0Bzq" target="_blank" class="sketch-link">View Code</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sketch 2: Tic-Tac-Toe -->
+        <div class="sketch-item">
+          <div class="sketch-thumb" style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);">
+            <div style="font-size: 3rem; opacity: 0.5;">❌⭕</div>
+            <a href="https://editor.p5js.org/Lulu.p5/full/NbagbrHGC" target="_blank" class="play-overlay" style="text-decoration: none;">
+              <div class="play-button">▶</div>
+              <span>Play Full Screen</span>
+            </a>
+          </div>
+          <div class="sketch-info">
+            <div class="sketch-meta">
+                <span class="tech-tag">p5.js</span>
+                <span class="tech-tag">Game Logic</span>
+            </div>
+            <h3 class="sketch-title">Tic-Tac-Toe</h3>
+            <p class="sketch-description">
+                A classic implementation of Tic-Tac-Toe built in a single day. Challenge a friend or play against yourself!
+            </p>
+            
+            <div class="sketch-controls">
+                <h4>Controls</h4>
+                <ul>
+                    <li><strong>Play:</strong> <span>Click any empty cell to place your mark.</span></li>
+                </ul>
+            </div>
+
+            <div class="sketch-actions">
+                <a href="https://editor.p5js.org/Lulu.p5/sketches/NbagbrHGC" target="_blank" class="sketch-link">View Code</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder for more sketches -->
+        <div class="sketch-item placeholder">
+            <div class="sketch-thumb">
+                <span>More Coming Soon</span>
+            </div>
+        </div>
+      </div>
+    </main>
+
+    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+  </div>
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>

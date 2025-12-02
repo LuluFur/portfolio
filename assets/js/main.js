@@ -21,8 +21,11 @@ function determineParticleCount() {
 }
 
 function createParticle() {
+  const xPct = random(1);
+  const yPct = random(1);
   return {
-    x: random(width), y: random(height),
+    xPct: xPct, yPct: yPct,
+    x: xPct * width, y: yPct * height,
     vx: random(-0.5, 0.5), vy: random(-0.5, 0.5),
     size: random(2, 6), opacityVal: random(0.1, 0.5),
     hue: random([0, 180, 270])
@@ -43,6 +46,15 @@ function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('p5-canvas');
   syncParticlePool(particleCount);
+  
+  // Performance: Pause rendering when tab is not visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      noLoop();
+    } else {
+      loop();
+    }
+  });
 }
 
 function draw() {
@@ -66,11 +78,16 @@ function draw() {
 
 function updateParticles() {
   for (let p of particles) {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0) p.x = width;
-    if (p.x > width) p.x = 0;
-    if (p.y < 0) p.y = height;
-    if (p.y > height) p.y = 0;
+    p.xPct += p.vx / width;
+    p.yPct += p.vy / height;
+    
+    if (p.xPct < 0) p.xPct += 1;
+    if (p.xPct > 1) p.xPct -= 1;
+    if (p.yPct < 0) p.yPct += 1;
+    if (p.yPct > 1) p.yPct -= 1;
+
+    p.x = p.xPct * width;
+    p.y = p.yPct * height;
   }
 }
 
@@ -144,6 +161,18 @@ function windowResized() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Scroll Prompt Logic
+  const scrollPrompt = document.querySelector('.scroll-prompt');
+  if (scrollPrompt) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        scrollPrompt.classList.add('hidden');
+      } else {
+        scrollPrompt.classList.remove('hidden');
+      }
+    });
+  }
+
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -162,5 +191,25 @@ document.addEventListener('DOMContentLoaded', () => {
   fadeElements.forEach(el => {
     el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     fadeObserver.observe(el);
+  });
+
+  // p5.js Sketch Lazy Loading
+  document.querySelectorAll('.sketch-item').forEach(item => {
+    const overlay = item.querySelector('.play-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        const embedUrl = item.dataset.embedUrl;
+        if (embedUrl) {
+          const iframe = document.createElement('iframe');
+          iframe.src = embedUrl;
+          iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          
+          const thumb = item.querySelector('.sketch-thumb');
+          thumb.innerHTML = ''; // Clear overlay
+          thumb.appendChild(iframe);
+        }
+      });
+    }
   });
 });
