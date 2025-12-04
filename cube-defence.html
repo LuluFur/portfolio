@@ -22,35 +22,83 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <header class="page-hero">
-      <div class="hero-media-grid">
-        <div class="hero-media">
-          <iframe title="CubeTD Progress" src="https://www.youtube.com/embed/DeV-7ofG0lQ" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="hero-media">
-          <iframe title="CubeTD Gameplay" src="https://www.youtube.com/embed/Xma89H1E_9Y" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="hero-media">
-          <iframe title="CubeTD Gameplay 2" src="https://www.youtube.com/embed/HrADTvw6nUM" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-      </div>
-      <h1>Cube Defence</h1>
-      <p>Cube Defence is my Roblox tower-defence playground for testing enemy pacing, turret upgrades, and UI feedback loops. Each build focuses on shaving friction from iteration so I can rapidly balance wave spikes and economy curves.</p>
-      <div class="hero-meta">
-        <span class="meta-pill">Roblox Studio</span>
-        <span class="meta-pill">Luau</span>
-        <span class="meta-pill">Systems Design</span>
-      </div>
-    </header>
+    <article class="project-article">
+        <header class="article-header">
+            <h1 class="article-title">Cube Defence</h1>
+            <p class="article-subtitle">A Roblox Tower-Defence Playground</p>
+            
+            <div class="article-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Engine</span>
+                    <span class="meta-value">Roblox Studio</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Language</span>
+                    <span class="meta-value">Luau</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Focus</span>
+                    <span class="meta-value">Systems Design</span>
+                </div>
+            </div>
 
-    <main class="gallery">
-      <h2>Highlights</h2>
-      <ul>
-        <li>Modular tower scripts with hot-swappable behaviors for splash, single-target, and status effects.</li>
-        <li>Wave authoring tools to dial in spawn cadence, mixed enemy compositions, and boss reveals.</li>
-        <li>Player-facing UI polish for upgrade previews, damage numbers, and resource flows.</li>
-      </ul>
-    </main>
+            <div class="tech-stack-list" style="justify-content: center;">
+                <span class="tech-pill">Tower Defense</span>
+                <span class="tech-pill">Wave Management</span>
+                <span class="tech-pill">UI/UX</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <section class="article-section">
+                <h2>The Goal</h2>
+                <p>
+                    Cube Defence serves as my dedicated testing ground for tower-defence mechanics within the Roblox ecosystem. 
+                    Rather than a full commercial release, this project focuses on the "feel" of the genre—specifically testing 
+                    enemy pacing, turret upgrade paths, and the critical UI feedback loops that keep players engaged.
+                </p>
+                <p>
+                    My primary objective was to create a system where I could shave friction from the iteration process, 
+                    allowing me to rapidly balance wave spikes and economy curves without getting bogged down in boilerplate code.
+                </p>
+            </section>
+
+            <div class="article-media">
+                <iframe width="100%" height="450" src="https://www.youtube.com/embed/DeV-7ofG0lQ" title="CubeTD Progress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <caption>Early development progress showing basic pathfinding and tower placement.</caption>
+            </div>
+
+            <section class="article-section">
+                <h2>Key Systems</h2>
+                
+                <h3>Modular Tower Architecture</h3>
+                <p>
+                    I built the tower system using modular scripts with hot-swappable behaviors. This allows for distinct 
+                    attack types like splash damage, single-target high DPS, and status effects (slowing/freezing) to be 
+                    mixed and matched easily.
+                </p>
+
+                <h3>Wave Authoring Tools</h3>
+                <p>
+                    Balancing a tower defense game is all about the flow. I developed custom wave authoring tools to 
+                    finely dial in spawn cadence, create mixed enemy compositions, and stage dramatic boss reveals. 
+                    This tooling allows for rapid testing of difficulty curves.
+                </p>
+
+                <h3>UI & Feedback</h3>
+                <p>
+                    A huge part of the "juice" in tower defense comes from feedback. I implemented polished player-facing UI 
+                    for upgrade previews, floating damage numbers, and clear resource flow indicators to ensure the player 
+                    always understands the state of the battlefield.
+                </p>
+            </section>
+
+            <div class="article-media">
+                <iframe width="100%" height="450" src="https://www.youtube.com/embed/Xma89H1E_9Y" title="CubeTD Gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <caption>Gameplay footage demonstrating wave mechanics and UI feedback.</caption>
+            </div>
+        </div>
+    </article>
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>

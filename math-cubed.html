@@ -22,33 +22,74 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <header class="page-hero">
-      <div class="hero-media-grid">
-        <div class="hero-media">
-          <iframe title="Math Cubed gameplay" src="https://www.youtube.com/embed/ZOSgTVgXXGk" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-      </div>
-      <h1>Math Cubed</h1>
-      <p>Math Cubed breaks maths drills into satisfying arcade loops. I iterated on reward pacing, tactile UI, and Unreal Blueprint tools so number puzzles feel as punchy as action games.</p>
-      <div class="hero-meta">
-        <span class="meta-pill">Unreal Engine</span>
-        <span class="meta-pill">Blueprints</span>
-        <span class="meta-pill">Education</span>
-      </div>
-    </header>
+    <article class="project-article">
+        <header class="article-header">
+            <h1 class="article-title">Math Cubed</h1>
+            <p class="article-subtitle">Arcade-Style Educational Gameplay</p>
+            
+            <div class="article-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Engine</span>
+                    <span class="meta-value">Unreal Engine 5</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Language</span>
+                    <span class="meta-value">Blueprints / C++</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Focus</span>
+                    <span class="meta-value">Educational Game Design</span>
+                </div>
+            </div>
 
-    <main class="gallery">
-      <h2>Documents</h2>
-      <div class="gallery-grid">
-        <div class="asset-item">
-          <div class="asset-thumb"><embed src="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" type="application/pdf" style="width:100%;height:220px" /></div>
-          <div class="asset-body">
-            <div class="asset-title">Design Document (PDF)</div>
-            <div class="asset-actions"><a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" rel="noopener">Open PDF</a></div>
-          </div>
+            <div class="tech-stack-list" style="justify-content: center;">
+                <span class="tech-pill">EdTech</span>
+                <span class="tech-pill">Arcade Mechanics</span>
+                <span class="tech-pill">UI Design</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <section class="article-section">
+                <h2>The Concept</h2>
+                <p>
+                    Math Cubed breaks maths drills into satisfying arcade loops. I iterated on reward pacing, tactile UI, 
+                    and Unreal Blueprint tools so number puzzles feel as punchy as action games. The goal was to remove 
+                    the "chore" feeling from learning and replace it with the dopamine hit of a high score.
+                </p>
+                <p style="color: var(--coral); font-style: italic;">
+                    [TODO: Add more details here from your Design Document about the core gameplay loop and educational goals.]
+                </p>
+            </section>
+
+            <div class="article-media">
+                <iframe width="100%" height="450" src="https://www.youtube.com/embed/ZOSgTVgXXGk" title="Math Cubed gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <caption>Gameplay demonstration showing the puzzle mechanics.</caption>
+            </div>
+
+            <section class="article-section">
+                <h2>Technical Implementation</h2>
+                <p>
+                    Using Unreal Engine 5, I focused on creating a modular system for generating math problems that could 
+                    scale in difficulty.
+                </p>
+                <p style="color: var(--coral); font-style: italic;">
+                    [TODO: Describe the technical challenges you faced. How did you generate the puzzles? How did you handle the UI updates?]
+                </p>
+            </section>
+
+            <section class="article-section">
+                <h2>Design Document</h2>
+                <p>For a deep dive into the mechanics and design choices, view the full design document below.</p>
+                <div class="article-media">
+                    <embed src="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" type="application/pdf" style="width:100%;height:600px" />
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" class="sketch-link">Open PDF in New Tab</a>
+                </div>
+            </section>
         </div>
-      </div>
-    </main>
+    </article>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>

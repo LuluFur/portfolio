@@ -126,8 +126,54 @@ nav a:hover { color:var(--cyan); }
 
 .about-text{font-size:1.1rem; line-height:1.8; color:rgba(255,255,255,0.85); margin-bottom:3rem; border-left: 2px solid rgba(0,217,255,0.3); padding-left: 1.5rem;}
 .about-text strong{font-weight:800; color:var(--cyan)}
+.working-on-section { position: relative; }
 .working-on-section h3{font-size:2rem; color:var(--purple); margin-bottom:2rem; font-weight:700}
 .projects-showcase{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem}
+
+/* Click Me Prompt */
+.click-me-prompt {
+    position: absolute;
+    right: -140px;
+    top: 190px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    pointer-events: none;
+    flex-direction: row-reverse; /* Text then Arrow pointing left */
+    transition: opacity 0.3s ease; /* Removed top transition */
+}
+
+.click-me-prompt.hidden {
+    opacity: 0;
+}
+
+.click-me-text {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+}
+
+.click-me-arrow {
+    font-size: 1.5rem;
+    color: var(--cyan);
+    animation: pointLeft 1.5s ease-in-out infinite;
+}
+
+@keyframes pointLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-10px); }
+}
+
+@media (max-width: 1400px) {
+    .click-me-prompt {
+        display: none;
+    }
+}
+
 .project-item{/* background:var(--card-bg); removed for mixin */ border-radius:4px; overflow:hidden; transition:transform .3s, box-shadow .3s}
 .project-item:hover{transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,217,255,.3)}
 .project-screenshot{width:100%; height:200px; background:linear-gradient(135deg,#2d3748 0%,#4a5568 100%); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden}
@@ -494,4 +540,125 @@ kbd {
     font-family: monospace;
     font-size: 0.8em;
     color: #fff;
+}
+
+/* Project Article Layout */
+.project-article {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 5%;
+}
+
+.article-header {
+    margin-bottom: 4rem;
+    text-align: center;
+}
+
+.article-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.article-subtitle {
+    font-size: 1.2rem;
+    color: var(--cyan);
+    margin-bottom: 2rem;
+    font-family: 'Space Grotesk', monospace;
+}
+
+.article-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.meta-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.3rem;
+}
+
+.meta-value {
+    font-weight: 600;
+    color: #fff;
+}
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+}
+
+.article-section {
+    margin-bottom: 4rem;
+}
+
+.article-section h2 {
+    font-size: 2rem;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--purple);
+    padding-left: 1rem;
+}
+
+.article-section h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-media {
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.2);
+}
+
+.article-media img, .article-media video, .article-media iframe {
+    width: 100%;
+    display: block;
+    border: none;
+}
+
+.article-media caption {
+    display: block;
+    padding: 0.8rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    background: rgba(0,0,0,0.3);
+    font-style: italic;
+}
+
+.tech-stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.tech-pill {
+    padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--cyan);
 }

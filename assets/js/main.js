@@ -64,16 +64,6 @@ function draw() {
   updateParticles();
   populateSpatialGrid();
   renderParticles();
-  if (mouseIsPressed) {
-    fill(0, 217, 255, 100); noStroke(); circle(mouseX, mouseY, 20);
-    for (let i = 0; i < 5; i++) {
-      let angle = random(TWO_PI);
-      let distance = random(20, 60);
-      let x = mouseX + cos(angle) * distance;
-      let y = mouseY + sin(angle) * distance;
-      fill(168, 85, 247, random(50, 150)); circle(x, y, random(3, 8));
-    }
-  }
 }
 
 function updateParticles() {
@@ -171,6 +161,63 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollPrompt.classList.remove('hidden');
       }
     });
+  }
+
+  // Dynamic Click Me Prompt Logic
+  const clickMePrompt = document.querySelector('.click-me-prompt');
+  const projectItems = document.querySelectorAll('.project-item');
+  const workingSection = document.querySelector('.working-on-section');
+
+  if (clickMePrompt && projectItems.length > 0 && workingSection) {
+    let currentActiveItem = null;
+
+    const updateClickMePrompt = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let closestItem = null;
+      let minDistance = Infinity;
+
+      projectItems.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        // Check if item is roughly in view
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          const itemCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(itemCenter - viewportCenter);
+          
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestItem = item;
+          }
+        }
+      });
+
+      if (closestItem) {
+        if (currentActiveItem !== closestItem) {
+          // Fade out
+          clickMePrompt.classList.add('hidden');
+          
+          // Wait for fade out, then move and fade in
+          setTimeout(() => {
+            currentActiveItem = closestItem;
+            const targetTop = closestItem.offsetTop + (closestItem.offsetHeight / 2) - (clickMePrompt.offsetHeight / 2);
+            clickMePrompt.style.top = `${targetTop}px`;
+            clickMePrompt.classList.remove('hidden');
+          }, 300); // Match CSS transition duration
+        } else if (clickMePrompt.classList.contains('hidden') && !clickMePrompt.dataset.fading) {
+             // Ensure it's visible if it's the same item but was hidden (e.g. initial load or scrolling back)
+             // We check a custom flag or just ensure we don't interrupt the fade-out logic above
+             // For simplicity, if it's the same item, just show it.
+             clickMePrompt.classList.remove('hidden');
+        }
+      } else {
+        clickMePrompt.classList.add('hidden');
+        currentActiveItem = null;
+      }
+    };
+
+    window.addEventListener('scroll', () => requestAnimationFrame(updateClickMePrompt));
+    window.addEventListener('resize', () => requestAnimationFrame(updateClickMePrompt));
+    // Initial check
+    updateClickMePrompt();
   }
 
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
