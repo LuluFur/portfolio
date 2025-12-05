@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,62 +24,148 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-      <header class="article-header">
-        <h1 class="article-title">Snek Solver</h1>
-        <div class="tech-stack">
-          <span class="tech-pill">Unity</span>
-          <span class="tech-pill">C#</span>
-          <span class="tech-pill">Puzzle Design</span>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Unity</span>
+          <span class="hero-tag">C#</span>
         </div>
-        <p class="article-intro">
-          Snek Solver is a Unity puzzle project about routing energy paths without painting yourself into a corner. The prototype let me explore tilemap tooling, juicy grid feedback, and onboarding difficulty ramps.
-        </p>
-      </header>
-
-      <figure class="article-media">
-        <iframe title="Snek Solver gameplay" src="https://www.youtube.com/embed/KI9pk7N0RjY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <figcaption>Gameplay overview.</figcaption>
-      </figure>
-
-      <section class="article-section">
-        <h2>The Goal</h2>
-        <p>
-          [TODO: Describe the design philosophy behind the puzzle mechanics. e.g., "To build a puzzle game that teaches mechanics through play rather than tutorials..."]
-        </p>
-      </section>
-
-      <section class="article-section">
-        <h2>Key Systems</h2>
-        <p>
-          [TODO: Detail the grid system and pathfinding logic.]
-        </p>
-      </section>
-
-      <figure class="article-media">
-        <img src="Snek_Solver_Files/Snek_Solver_Cover_Image.png" alt="Snek Solver Cover">
-        <figcaption>Game Cover Art.</figcaption>
-      </figure>
-
-      <div class="media-grid">
-        <figure class="article-media">
-          <img src="Snek_Solver_Files/Isometric.png" alt="Isometric View">
-          <figcaption>Isometric level view.</figcaption>
-        </figure>
-        <figure class="article-media">
-          <img src="Snek_Solver_Files/assets-showcase.png" alt="Assets Showcase">
-          <figcaption>Asset kit used for level construction.</figcaption>
-        </figure>
+        <h1 class="hero-title">Snek Solver</h1>
+        <p class="hero-subtitle">Grid-Based Puzzle Mechanics</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Puzzle</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Prototype</span>
+            <span class="stat-label">Status</span>
+          </div>
+        </div>
       </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/KI9pk7N0RjY?autoplay=1&mute=1&loop=1&playlist=KI9pk7N0RjY" title="Snek Solver Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
 
-      <figure class="article-media">
-        <img src="Snek_Solver_Files/snek-screenshot.png" alt="Gameplay Screenshot">
-        <figcaption>In-game puzzle solving.</figcaption>
-      </figure>
-    </article>
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Snek Solver is a Unity puzzle project about routing energy paths without painting yourself into a corner.
+            </p>
+            <p>
+              The prototype let me explore tilemap tooling, juicy grid feedback, and onboarding difficulty ramps.
+              My goal was to build a puzzle game that teaches mechanics through play rather than tutorials, using visual cues to guide the player.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Grid Logic:</strong> Pathfinding and spatial reasoning.</li>
+                  <li><strong>Juicy Feedback:</strong> Responsive tile interactions.</li>
+                  <li><strong>Level Design:</strong> Progressive difficulty curve.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">🐍</div>
+            <h3>Pathfinding</h3>
+            <p>Grid-based movement logic that challenges players to plan ahead and avoid trapping themselves.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🗺️</div>
+            <h3>Tilemap Tooling</h3>
+            <p>Custom editor tools to speed up level creation and iteration.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🎓</div>
+            <h3>Onboarding</h3>
+            <p>Designed to introduce mechanics organically, ramping up complexity without overwhelming the player.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visuals Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Visual Assets</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+           <div class="media-item">
+              <img src="Snek_Solver_Files/Snek_Solver_Cover_Image.png" alt="Cover Art" style="width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+           </div>
+           <div class="media-item">
+              <img src="Snek_Solver_Files/Isometric.png" alt="Isometric View" style="width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+           </div>
+           <div class="media-item">
+              <img src="Snek_Solver_Files/assets-showcase.png" alt="Assets" style="width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+           </div>
+           <div class="media-item">
+              <img src="Snek_Solver_Files/snek-screenshot.png" alt="Gameplay" style="width: 100%; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+           </div>
+        </div>
+      </section>
+
+    </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

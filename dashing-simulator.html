@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,77 +24,142 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-        <header class="article-header">
-            <h1 class="article-title">Dashing Simulator</h1>
-            <p class="article-subtitle">Fast-Paced Roblox Platformer</p>
-            
-            <div class="article-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Engine</span>
-                    <span class="meta-value">Roblox Studio</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Language</span>
-                    <span class="meta-value">Luau</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Focus</span>
-                    <span class="meta-value">Gameplay Programming</span>
-                </div>
-            </div>
-
-            <div class="tech-stack-list" style="justify-content: center;">
-                <span class="tech-pill">Movement Systems</span>
-                <span class="tech-pill">Multiplayer</span>
-                <span class="tech-pill">Low Poly Art</span>
-            </div>
-        </header>
-
-        <div class="article-content">
-            <section class="article-section">
-                <h2>Overview</h2>
-                <p>
-                    Dashing Simulator is a high-energy Roblox experience focused on fluid movement and speed. 
-                    The core loop revolves around mastering the dash mechanic to traverse complex environments 
-                    and compete with other players.
-                </p>
-                <p style="color: var(--coral); font-style: italic;">
-                    [TODO: Add more details about the game's objective and your specific role in its development.]
-                </p>
-            </section>
-
-            <div class="article-media">
-                <img src="Dashing_Simulator_Files/dash-sim-logo-cover-image.png" alt="Dashing Simulator Cover" loading="lazy">
-                <caption>Promotional cover art showing the game's vibrant style.</caption>
-            </div>
-
-            <section class="article-section">
-                <h2>Visual Style & Assets</h2>
-                <p>
-                    The game features a distinct low-poly aesthetic designed to be readable at high speeds.
-                </p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-                    <div class="article-media" style="margin: 0;">
-                        <img src="Dashing_Simulator_Files/dash-sim-logo-transparent.png" alt="Game Logo" loading="lazy">
-                    </div>
-                    <div class="article-media" style="margin: 0;">
-                        <img src="Dashing_Simulator_Files/lulufur.png" alt="Character Avatar" loading="lazy">
-                    </div>
-                </div>
-            </section>
-
-            <section class="article-section">
-                <h2>Technical Challenges</h2>
-                <p style="color: var(--coral); font-style: italic;">
-                    [TODO: Discuss the challenges of implementing lag-compensated movement in Roblox or handling multiplayer replication.]
-                </p>
-            </section>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Roblox Studio</span>
+          <span class="hero-tag">Luau</span>
         </div>
-    </article>
+        <h1 class="hero-title">Dashing Simulator</h1>
+        <p class="hero-subtitle">Fast-Paced Roblox Platformer</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Gameplay</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Ongoing</span>
+            <span class="stat-label">Status</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <img src="Dashing_Simulator_Files/dash-sim-logo-cover-image.png" alt="Dashing Simulator Cover" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+        </div>
+      </div>
+    </header>
+
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Dashing Simulator is a high-energy Roblox experience focused on fluid movement and speed.
+            </p>
+            <p>
+              The core loop revolves around mastering the dash mechanic to traverse complex environments and compete with other players.
+              I focused on creating a distinct low-poly aesthetic designed to be readable at high speeds, ensuring players can always read the path ahead.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Fluid Movement:</strong> Responsive dash mechanics.</li>
+                  <li><strong>Visual Clarity:</strong> Low-poly art for high-speed readability.</li>
+                  <li><strong>Competition:</strong> Leaderboards and race mechanics.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">⚡</div>
+            <h3>Dash Mechanic</h3>
+            <p>A physics-based dash system that allows for air-dashing, wall-bouncing, and momentum conservation.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🎨</div>
+            <h3>Art Style</h3>
+            <p>Vibrant low-poly assets created to maintain performance and visual clarity during chaotic gameplay.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🌐</div>
+            <h3>Multiplayer</h3>
+            <p>Replication systems designed to handle fast-paced movement without desync or lag for other clients.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visuals Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Visual Assets</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+           <div class="media-item">
+              <img src="Dashing_Simulator_Files/dash-sim-logo-transparent.png" alt="Game Logo" style="width: 100%; border-radius: 8px; background: rgba(255,255,255,0.05); padding: 1rem;">
+           </div>
+           <div class="media-item">
+              <img src="Dashing_Simulator_Files/lulufur.png" alt="Character Avatar" style="width: 100%; border-radius: 8px; background: rgba(255,255,255,0.05); padding: 1rem;">
+           </div>
+        </div>
+      </section>
+
+    </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

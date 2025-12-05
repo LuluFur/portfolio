@@ -1,70 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Isosceles Invasion — Lewis Whitham</title>
-	<base href="./" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
-	<link rel="stylesheet" href="./assets/css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isosceles Invasion — Lewis Whitham</title>
+  <base href="./" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
-	<div id="p5-canvas"></div>
-	<div class="content-wrapper">
-		<nav class="site-nav">
-			<div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
-			<ul class="nav-links">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="index.html#about">About</a></li>
-				<li><a href="index.html#programs">Programs</a></li>
-				<li><a href="index.html#contact">Contact</a></li>
-			</ul>
-			<a href="index.html#resume" class="resume-btn">Resume</a>
-		</nav>
+  <div id="p5-canvas"></div>
+  
+  <div class="content-wrapper">
+    <nav class="site-nav">
+      <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#programs">Programs</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <a href="index.html#resume" class="resume-btn">Resume</a>
+    </nav>
 
-    <article class="project-article">
-      <header class="article-header">
-        <h1 class="article-title">Isosceles Invasion</h1>
-        <div class="tech-stack">
-          <span class="tech-pill">Unreal Engine</span>
-          <span class="tech-pill">Blueprints</span>
-          <span class="tech-pill">Level Design</span>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Unreal Engine</span>
+          <span class="hero-tag">Blueprints</span>
         </div>
-        <p class="article-intro">
-          Isosceles Invasion is an arcade defence concept where triangle classifications drive enemy behaviors. Each wave enforces a new geometry rule, pushing players to reconfigure turret loadouts on the fly.
-        </p>
-      </header>
+        <h1 class="hero-title">Isosceles Invasion</h1>
+        <p class="hero-subtitle">Geometric Arcade Defence</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Level Design</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Prototype</span>
+            <span class="stat-label">Status</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/mL9pg9fBxFc?autoplay=1&mute=1&loop=1&playlist=mL9pg9fBxFc" title="Isosceles Invasion Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
 
-      <figure class="article-media">
-        <iframe title="Isosceles Invasion gameplay" src="https://www.youtube.com/embed/mL9pg9fBxFc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <figcaption>Gameplay overview.</figcaption>
-      </figure>
-
-      <section class="article-section">
-        <h2>The Goal</h2>
-        <p>
-          [TODO: Describe the core concept. e.g., "To gamify geometric concepts into an engaging arcade defence experience..."]
-        </p>
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Isosceles Invasion is an arcade defence concept where triangle classifications drive enemy behaviors.
+            </p>
+            <p>
+              Each wave enforces a new geometry rule, pushing players to reconfigure turret loadouts on the fly.
+              My goal was to gamify geometric concepts into an engaging arcade defence experience, making math concepts intuitive through gameplay.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Geometric Logic:</strong> Enemy behavior based on triangle types.</li>
+                  <li><strong>Adaptive Strategy:</strong> Loadout reconfiguration per wave.</li>
+                  <li><strong>Arcade Feel:</strong> Juicy hit reactions and scoring.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
       </section>
 
-      <section class="article-section">
-        <h2>Key Systems</h2>
-        <p>
-          [TODO: Detail the Blueprint implementation and wave editor.]
-        </p>
-        <ul>
-          <li><strong>Geometric Archetypes:</strong> Enemies defined through triangle classifications and adaptive movement rules.</li>
-          <li><strong>Wave Editor:</strong> Blueprint-driven tools for tuning spawn cadence, angle distributions, and scoring.</li>
-          <li><strong>Game Feel:</strong> Juicy hit reactions and screen-space UI cues reinforce geometric learning moments.</li>
-        </ul>
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">📐</div>
+            <h3>Geometric Archetypes</h3>
+            <p>Enemies defined through triangle classifications (equilateral, isosceles, scalene) and adaptive movement rules.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🌊</div>
+            <h3>Wave Editor</h3>
+            <p>Blueprint-driven tools for tuning spawn cadence, angle distributions, and scoring.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">💥</div>
+            <h3>Game Feel</h3>
+            <p>Juicy hit reactions and screen-space UI cues reinforce geometric learning moments.</p>
+          </div>
+        </div>
       </section>
 
-      <figure class="article-media">
-        <img src="Isosceles_Invasion_Files/image-1764803500445.png" alt="Isosceles Invasion Screenshot">
-        <figcaption>Gameplay screenshot showing geometric enemies.</figcaption>
-      </figure>
-    </article>		<footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
-	</div>
-	<script src="./assets/js/main.js"></script>
+      <!-- Visuals Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Visual Assets</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-showcase">
+           <img src="Isosceles_Invasion_Files/image-1764803500445.png" alt="Gameplay Screenshot" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        </div>
+      </section>
+
+    </main>
+
+    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+  </div>
+  <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

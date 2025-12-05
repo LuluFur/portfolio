@@ -7,88 +7,230 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#programs">Programs</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="index.html#resume" class="resume-btn">Resume</a>
+  </nav>
+
   <div class="content-wrapper">
-    <nav class="site-nav">
-      <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="index.html#programs">Programs</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-      </ul>
-      <a href="index.html#resume" class="resume-btn">Resume</a>
-    </nav>
-
-    <article class="project-article">
-      <header class="article-header">
-        <h1 class="article-title">Sustain a City</h1>
-        <div class="tech-stack">
-          <span class="tech-pill">Unreal Engine 5</span>
-          <span class="tech-pill">Systems Design</span>
-          <span class="tech-pill">UX</span>
+    
+    <!-- Hero Section -->
+    <header class="project-hero" style="background-image: url('Sustain_A_City_Files/SustainacityGameBackground.png');">
+        <div class="project-hero-content">
+            <h1>Sustainacity</h1>
+            <p>Sustainable City Simulation • Unreal Engine 5</p>
+            <div class="tech-stack-list" style="justify-content: center; margin-top: 2rem;">
+                <span class="tech-pill">Unreal Engine 5</span>
+                <span class="tech-pill">Systems Design</span>
+                <span class="tech-pill">UX/UI</span>
+                <span class="tech-pill">Educational</span>
+            </div>
         </div>
-        <p class="article-intro">
-          Sustainacity is an eco-systems sim rooted in balancing citizen needs with renewable infrastructure. I focused on rapid iteration tools for tweaking resource loops, narrative beats, and the UI panels that explain environmental impact.
-        </p>
-      </header>
+    </header>
 
-      <figure class="article-media">
-        <iframe title="Sustainacity gameplay" src="https://www.youtube.com/embed/Q2u8TlSkWDM" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <figcaption>Gameplay overview.</figcaption>
-      </figure>
-
+    <article class="project-article" style="max-width: 1400px; margin: 0 auto; padding: 0 5%;">
+      
+      <!-- Intro Section -->
       <section class="article-section">
-        <h2>The Goal</h2>
-        <p>
-          [TODO: Describe the educational and gameplay goals of the project. e.g., "To simulate the complexities of sustainable urban planning..."]
-        </p>
+        <div class="about-grid">
+            <div>
+                <span class="eyebrow">01. Overview</span>
+                <h2>The Project</h2>
+                <p class="about-text">
+                    <strong>Sustainacity</strong> is an eco-systems simulation game rooted in balancing citizen needs with renewable infrastructure. 
+                    The goal was to create an engaging, immersive experience that challenges players to manage a sustainable city, 
+                    combining the fun of city-building with the educational value of environmental awareness.
+                </p>
+                <p class="about-text">
+                    I focused on rapid iteration tools for tweaking resource loops, narrative beats, and designing UI panels that clearly explain environmental impact to the player.
+                </p>
+            </div>
+            <figure class="article-media" style="margin-top: 0;">
+                <iframe title="Sustainacity gameplay" src="https://www.youtube.com/embed/Q2u8TlSkWDM" style="height: 300px;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <figcaption>Gameplay Overview</figcaption>
+            </figure>
+        </div>
       </section>
 
+      <div class="dashed-line"></div>
+
+      <!-- Research Section -->
       <section class="article-section">
-        <h2>Key Systems</h2>
-        <p>
-          [TODO: Detail the resource management and simulation systems.]
+        <span class="eyebrow">02. Research & Theory</span>
+        <h2>The Science of Engagement</h2>
+        <p class="about-text" style="max-width: 800px;">
+            My dissertation, <em>"How do you maintain engagement in a simulation game?"</em>, formed the theoretical backbone of this project. 
+            I explored strategies to sustain player interest through difficulty adjustment and immersion.
         </p>
-        <ul>
-          <li><strong>Resource Loops:</strong> Balancing citizen needs with renewable infrastructure.</li>
-          <li><strong>Iteration Tools:</strong> Rapid tweaking of resource loops and narrative beats.</li>
-          <li><strong>UX Design:</strong> UI panels that clearly explain environmental impact.</li>
-        </ul>
+        
+        <div class="programs-grid" style="margin-top: 3rem;">
+            <div class="program-card">
+                <div class="program-header"><span class="program-label label-tool">Theory</span></div>
+                <h3 class="program-name">Dynamic Difficulty</h3>
+                <p class="program-level">Kristan et al.</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 1rem;">
+                    Adjusting the game's challenge level in real-time based on player performance to maintain the "Flow" state—preventing boredom or frustration.
+                </p>
+            </div>
+
+            <div class="program-card">
+                <div class="program-header"><span class="program-label label-tool">Psychology</span></div>
+                <h3 class="program-name">Autotelic Personality</h3>
+                <p class="program-level">Flow Psychology</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 1rem;">
+                    Designing for players who are self-motivated by the activity itself. Creating systems that reward curiosity and mastery of complex mechanics.
+                </p>
+            </div>
+
+            <div class="program-card">
+                <div class="program-header"><span class="program-label label-tool">Design</span></div>
+                <h3 class="program-name">Immersion</h3>
+                <p class="program-level">Michailidis et al.</p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 1rem;">
+                    Creating authentic environments and narrative depth to motivate exploration. If the world feels real, players are more likely to care about saving it.
+                </p>
+            </div>
+        </div>
       </section>
 
-      <figure class="article-media">
-        <img src="Sustain_A_City_Files/Sustainacity.png" alt="Sustainacity Cover">
-        <figcaption>Game Cover Art.</figcaption>
-      </figure>
+      <div class="dashed-line"></div>
 
+      <!-- Development Section -->
+      <section class="article-section">
+        <span class="eyebrow">03. Development</span>
+        <h2>Building the Simulation</h2>
+        
+        <figure class="article-media">
+            <img src="Sustain_A_City_Files/sustainacity-development-showcase.png" alt="Development Showcase">
+            <figcaption>Development process: From Low Poly assets in Blender to City Layouts in Unreal Engine 5.</figcaption>
+        </figure>
+
+        <div class="about-grid" style="margin-top: 3rem;">
+            <div>
+                <h3>Core Systems</h3>
+                <p class="about-text">
+                    The heart of Sustainacity is the <strong>Resource Loop</strong>. I designed systems where every action has an environmental reaction. 
+                    Building a factory boosts the economy but raises pollution; planting trees lowers pollution but costs money and space.
+                </p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
+                        <span style="color: var(--cyan);">⚡</span> <strong>Renewable Infrastructure:</strong> Solar, Wind, and Hydro power systems.
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
+                        <span style="color: var(--cyan);">👥</span> <strong>Citizen Needs:</strong> Balancing happiness with sustainability goals.
+                    </li>
+                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
+                        <span style="color: var(--cyan);">📊</span> <strong>UI/UX:</strong> Data visualization panels to make complex stats readable.
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3>Tools & Tech</h3>
+                <div class="program-card" style="margin-bottom: 1rem;">
+                    <h3 class="program-name">Unreal Engine 5</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Utilized Blueprints for rapid prototyping of simulation logic and the UI system.
+                    </p>
+                </div>
+                <div class="program-card" style="margin-bottom: 1rem;">
+                    <h3 class="program-name">Blender</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Created a cohesive Low Poly art style to allow for large-scale city rendering without performance hits.
+                    </p>
+                </div>
+                <div class="program-card" style="margin-bottom: 1rem;">
+                    <h3 class="program-name">C++ / Blueprints</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Hybrid workflow using C++ for core systems performance and Blueprints for rapid gameplay iteration.
+                    </p>
+                </div>
+                <div class="program-card">
+                    <h3 class="program-name">Canva</h3>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Used for planning layouts, presentation slides, and visual documentation.
+                    </p>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <div class="dashed-line"></div>
+
+      <!-- Reflection Section -->
+      <section class="article-section">
+        <span class="eyebrow">04. Reflection</span>
+        <h2>Post-Mortem</h2>
+        <div class="programs-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="program-card" style="border-color: rgba(100, 255, 100, 0.3);">
+                <h3 class="program-name" style="color: #6eff6e;">What Went Well</h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem; color: rgba(255,255,255,0.8); line-height: 1.6;">
+                    <li><strong>Educational Integration:</strong> Successfully gamified complex sustainability concepts without making it feel like a "lecture."</li>
+                    <li><strong>Visual Style:</strong> The Low Poly aesthetic was distinct, performant, and allowed for rapid asset creation during the game jam timeframe.</li>
+                    <li><strong>System Depth:</strong> The resource loops created genuine strategic depth, requiring players to think ahead.</li>
+                </ul>
+            </div>
+            <div class="program-card" style="border-color: rgba(255, 100, 100, 0.3);">
+                <h3 class="program-name" style="color: #ff6e6e;">Areas for Improvement</h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem; color: rgba(255,255,255,0.8); line-height: 1.6;">
+                    <li><strong>Onboarding:</strong> The initial learning curve was steep. A more gradual tutorial system would help retain non-simulation players.</li>
+                    <li><strong>DDA Implementation:</strong> While researched, the Dynamic Difficulty Adjustment could be more robust to better tailor the experience to different skill levels.</li>
+                    <li><strong>Feedback Loops:</strong> More visual cues (e.g., smog appearing, trees dying) would help communicate state changes better than just UI numbers.</li>
+                </ul>
+            </div>
+        </div>
+      </section>
+
+      <div class="dashed-line"></div>
+
+      <!-- Documentation Section -->
       <section class="article-section">
         <h2>Documentation</h2>
-        <p>Detailed design documents and presentations created during development.</p>
-        <div class="media-grid">
-          <div class="asset-item">
-            <div class="asset-thumb"><embed src="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" type="application/pdf" style="width:100%;height:220px"/></div>
-            <div class="asset-body">
-              <div class="asset-title">Dissertation</div>
-              <div class="asset-actions"><a href="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+        <p class="about-text">Detailed design documents and presentations created during development.</p>
+        
+        <div class="pdf-viewer-container" style="display: flex; flex-direction: column; gap: 4rem; margin-top: 2rem;">
+            
+            <div class="pdf-item">
+                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Dissertation</h3>
+                <div style="position: relative; width: 100%; height: 800px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
+                    <iframe src="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" width="100%" height="100%" style="border: none;"></iframe>
+                </div>
+                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
+                    <a href="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
+                </div>
             </div>
-          </div>
-          <div class="asset-item">
-            <div class="asset-thumb"><embed src="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" type="application/pdf" style="width:100%;height:220px"/></div>
-            <div class="asset-body">
-              <div class="asset-title">Pitch Presentation</div>
-              <div class="asset-actions"><a href="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+
+            <div class="pdf-item">
+                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Pitch Presentation</h3>
+                <div style="position: relative; width: 100%; height: 600px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
+                    <iframe src="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" width="100%" height="100%" style="border: none;"></iframe>
+                </div>
+                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
+                    <a href="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
+                </div>
             </div>
-          </div>
-          <div class="asset-item">
-            <div class="asset-thumb"><embed src="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" type="application/pdf" style="width:100%;height:220px"/></div>
-            <div class="asset-body">
-              <div class="asset-title">Design Document</div>
-              <div class="asset-actions"><a href="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+
+            <div class="pdf-item">
+                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Design Document</h3>
+                <div style="position: relative; width: 100%; height: 800px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
+                    <iframe src="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" width="100%" height="100%" style="border: none;"></iframe>
+                </div>
+                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
+                    <a href="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
+                </div>
             </div>
-          </div>
+
         </div>
       </section>
 
@@ -111,5 +253,6 @@
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
 </body>
 </html>

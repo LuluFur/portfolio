@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,50 +24,137 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-      <header class="article-header">
-        <h1 class="article-title">Turret Defence</h1>
-        <div class="tech-stack">
-          <span class="tech-pill">Unity</span>
-          <span class="tech-pill">Rapid Prototyping</span>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Unity</span>
+          <span class="hero-tag">C#</span>
         </div>
-        <p class="article-intro">
-          Turret Defence expands on my tower-defence experiments with a heavier focus on moment-to-moment gameplay. Modular turrets, wave scripting tools, and responsive UI feedback let me balance quickly without being blocked by tooling.
-        </p>
-      </header>
+        <h1 class="hero-title">Turret Defence</h1>
+        <p class="hero-subtitle">Rapid Prototyping Framework</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Systems</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Prototype</span>
+            <span class="stat-label">Status</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ESW-sUvysSE?autoplay=1&mute=1&loop=1&playlist=ESW-sUvysSE" title="Turret Defence Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
 
-      <figure class="article-media">
-        <iframe title="Turret Defence gameplay" src="https://www.youtube.com/embed/ESW-sUvysSE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <figcaption>Gameplay demonstration.</figcaption>
-      </figure>
-
-      <section class="article-section">
-        <h2>The Goal</h2>
-        <p>
-          [TODO: Describe the goal of this project. e.g., "To create a flexible tower defence framework that allows for rapid iteration of turret types and enemy waves..."]
-        </p>
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Turret Defence expands on my tower-defence experiments with a heavier focus on moment-to-moment gameplay.
+            </p>
+            <p>
+              Modular turrets, wave scripting tools, and responsive UI feedback let me balance quickly without being blocked by tooling.
+              The goal was to create a flexible tower defence framework that allows for rapid iteration of turret types and enemy waves.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Modular Architecture:</strong> Quick stat swaps and firing modes.</li>
+                  <li><strong>Runtime Tuning:</strong> Live profiling of DPS and spend efficiency.</li>
+                  <li><strong>Stylized FX:</strong> Visual feedback for damage types.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
       </section>
 
-      <section class="article-section">
-        <h2>Key Systems</h2>
-        <p>
-          [TODO: Explain the technical details of the modular turret system and wave scripting.]
-        </p>
-        <ul>
-          <li><strong>Modular Architecture:</strong> Turrets support quick stat swaps and firing modes.</li>
-          <li><strong>Runtime Tuning:</strong> A panel to profile DPS, pathing, and spend efficiency live.</li>
-          <li><strong>Stylized FX:</strong> Visual feedback to reinforce damage types and targeting priorities.</li>
-        </ul>
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">🏗️</div>
+            <h3>Modular Turrets</h3>
+            <p>Turrets support quick stat swaps and firing modes, allowing for diverse strategies.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🎛️</div>
+            <h3>Runtime Tuning</h3>
+            <p>A panel to profile DPS, pathing, and spend efficiency live, speeding up the balancing process.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">✨</div>
+            <h3>Stylized FX</h3>
+            <p>Visual feedback to reinforce damage types and targeting priorities, making the chaos readable.</p>
+          </div>
+        </div>
       </section>
 
-      <figure class="article-media">
-        <img src="Turret_Defence_Files/image-1764803419723.png" alt="Turret Defence Screenshot">
-        <figcaption>In-game view of turret placement.</figcaption>
-      </figure>
-    </article>
+      <!-- Visuals Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Visual Assets</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-showcase">
+           <img src="Turret_Defence_Files/image-1764803419723.png" alt="Gameplay Screenshot" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        </div>
+      </section>
+
+    </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,50 +24,137 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-      <header class="article-header">
-        <h1 class="article-title">Slime Slasher</h1>
-        <div class="tech-stack">
-          <span class="tech-pill">GameMaker</span>
-          <span class="tech-pill">Combat Design</span>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">GameMaker</span>
+          <span class="hero-tag">GML</span>
         </div>
-        <p class="article-intro">
-          Built in GameMaker, Slime Slasher is where I dialed in melee feel—animation timing, hitstop, and particle bursts—while experimenting with enemy reads and arena layouts.
-        </p>
-      </header>
+        <h1 class="hero-title">Slime Slasher</h1>
+        <p class="hero-subtitle">Action-Combat Prototype</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Combat</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Prototype</span>
+            <span class="stat-label">Status</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/IGzAvMYppkw?autoplay=1&mute=1&loop=1&playlist=IGzAvMYppkw" title="Slime Slasher Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
 
-      <figure class="article-media">
-        <iframe title="Slime Slasher gameplay" src="https://www.youtube.com/embed/IGzAvMYppkw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <figcaption>Gameplay demonstration showing combat mechanics.</figcaption>
-      </figure>
-
-      <section class="article-section">
-        <h2>The Goal</h2>
-        <p>
-          [TODO: Describe the primary objective of this project. e.g., "To create a responsive combat system that feels fair but challenging..."]
-        </p>
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Built in GameMaker, Slime Slasher is where I dialed in melee feel—animation timing, hitstop, and particle bursts.
+            </p>
+            <p>
+              I experimented with enemy reads and arena layouts to create a responsive combat system that feels fair but challenging.
+              The focus was on "game feel" - ensuring every hit, dodge, and movement felt satisfying and impactful.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Game Feel:</strong> Hitstop, screen shake, and particle effects.</li>
+                  <li><strong>Combat Design:</strong> Enemy telegraphing and dodge mechanics.</li>
+                  <li><strong>VFX:</strong> Parametric systems for visual feedback.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
       </section>
 
-      <section class="article-section">
-        <h2>Key Systems</h2>
-        <p>
-          [TODO: Elaborate on the technical implementation of the combat system.]
-        </p>
-        <ul>
-          <li><strong>Responsive Controls:</strong> Frame-perfect dodge windows paired with generous coyote time.</li>
-          <li><strong>Parametric VFX:</strong> A system that recolors trails and particles per weapon upgrade.</li>
-          <li><strong>Enemy AI:</strong> Archetypes that telegraph intent with squash-and-stretch animation silhouettes.</li>
-        </ul>
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">⚔️</div>
+            <h3>Responsive Controls</h3>
+            <p>Frame-perfect dodge windows paired with generous coyote time for fluid movement.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">✨</div>
+            <h3>Parametric VFX</h3>
+            <p>A system that recolors trails and particles per weapon upgrade, providing clear visual progression.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🤖</div>
+            <h3>Enemy AI</h3>
+            <p>Archetypes that telegraph intent with squash-and-stretch animation silhouettes for readability.</p>
+          </div>
+        </div>
       </section>
 
-      <figure class="article-media">
-        <img src="Slime_Slasher_Files/image-1764803366175.png" alt="Slime Slasher Screenshot">
-        <figcaption>In-game combat scenario.</figcaption>
-      </figure>
-    </article>
+      <!-- Visuals Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Visual Assets</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-showcase">
+           <img src="Slime_Slasher_Files/image-1764803366175.png" alt="Combat Screenshot" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        </div>
+      </section>
+
+    </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

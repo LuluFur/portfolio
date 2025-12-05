@@ -1,0 +1,43 @@
+.project-hero {
+    height: 60vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+    border-bottom: 2px solid var(--cyan);
+    margin-top: -80px; /* Counteract nav padding/margin if needed, or just sit at top */
+}
+.project-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(19, 20, 31, 0.3), rgba(19, 20, 31, 1));
+}
+.project-hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 2rem;
+    margin-top: 4rem;
+}
+.project-hero h1 {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.project-hero p {
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+    letter-spacing: 1px;
+}

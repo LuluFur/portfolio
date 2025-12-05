@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,85 +24,139 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-        <header class="article-header">
-            <h1 class="article-title">Cube Defence</h1>
-            <p class="article-subtitle">A Roblox Tower-Defence Playground</p>
-            
-            <div class="article-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Engine</span>
-                    <span class="meta-value">Roblox Studio</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Language</span>
-                    <span class="meta-value">Luau</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Focus</span>
-                    <span class="meta-value">Systems Design</span>
-                </div>
-            </div>
-
-            <div class="tech-stack-list" style="justify-content: center;">
-                <span class="tech-pill">Tower Defense</span>
-                <span class="tech-pill">Wave Management</span>
-                <span class="tech-pill">UI/UX</span>
-            </div>
-        </header>
-
-        <div class="article-content">
-            <section class="article-section">
-                <h2>The Goal</h2>
-                <p>
-                    Cube Defence serves as my dedicated testing ground for tower-defence mechanics within the Roblox ecosystem. 
-                    Rather than a full commercial release, this project focuses on the "feel" of the genre—specifically testing 
-                    enemy pacing, turret upgrade paths, and the critical UI feedback loops that keep players engaged.
-                </p>
-                <p>
-                    My primary objective was to create a system where I could shave friction from the iteration process, 
-                    allowing me to rapidly balance wave spikes and economy curves without getting bogged down in boilerplate code.
-                </p>
-            </section>
-
-            <div class="article-media">
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/DeV-7ofG0lQ" title="CubeTD Progress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <caption>Early development progress showing basic pathfinding and tower placement.</caption>
-            </div>
-
-            <section class="article-section">
-                <h2>Key Systems</h2>
-                
-                <h3>Modular Tower Architecture</h3>
-                <p>
-                    I built the tower system using modular scripts with hot-swappable behaviors. This allows for distinct 
-                    attack types like splash damage, single-target high DPS, and status effects (slowing/freezing) to be 
-                    mixed and matched easily.
-                </p>
-
-                <h3>Wave Authoring Tools</h3>
-                <p>
-                    Balancing a tower defense game is all about the flow. I developed custom wave authoring tools to 
-                    finely dial in spawn cadence, create mixed enemy compositions, and stage dramatic boss reveals. 
-                    This tooling allows for rapid testing of difficulty curves.
-                </p>
-
-                <h3>UI & Feedback</h3>
-                <p>
-                    A huge part of the "juice" in tower defense comes from feedback. I implemented polished player-facing UI 
-                    for upgrade previews, floating damage numbers, and clear resource flow indicators to ensure the player 
-                    always understands the state of the battlefield.
-                </p>
-            </section>
-
-            <div class="article-media">
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/Xma89H1E_9Y" title="CubeTD Gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <caption>Gameplay footage demonstrating wave mechanics and UI feedback.</caption>
-            </div>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Roblox Studio</span>
+          <span class="hero-tag">Luau</span>
         </div>
-    </article>
+        <h1 class="hero-title">Cube Defence</h1>
+        <p class="hero-subtitle">A Roblox Tower-Defence Playground</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">Systems</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">2 Weeks</span>
+            <span class="stat-label">Duration</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DeV-7ofG0lQ?autoplay=1&mute=1&loop=1&playlist=DeV-7ofG0lQ" title="CubeTD Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
+
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Cube Defence serves as my dedicated testing ground for tower-defence mechanics within the Roblox ecosystem.
+            </p>
+            <p>
+              Rather than a full commercial release, this project focuses on the "feel" of the genre—specifically testing 
+              enemy pacing, turret upgrade paths, and the critical UI feedback loops that keep players engaged.
+              My primary objective was to create a system where I could shave friction from the iteration process, 
+              allowing me to rapidly balance wave spikes and economy curves without getting bogged down in boilerplate code.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Modular Architecture:</strong> Hot-swappable tower behaviors.</li>
+                  <li><strong>Wave Authoring:</strong> Custom tools for spawn cadence.</li>
+                  <li><strong>Feedback Loops:</strong> Polished UI for player clarity.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">🏰</div>
+            <h3>Modular Towers</h3>
+            <p>Built using modular scripts allowing distinct attack types like splash damage, single-target high DPS, and status effects to be mixed and matched.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🌊</div>
+            <h3>Wave Authoring</h3>
+            <p>Custom tools to finely dial in spawn cadence, create mixed enemy compositions, and stage dramatic boss reveals for rapid difficulty testing.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">📊</div>
+            <h3>UI & Feedback</h3>
+            <p>Polished player-facing UI for upgrade previews, floating damage numbers, and clear resource flow indicators.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Media Showcase -->
+      <section class="project-section">
+         <div class="section-header">
+          <h2 class="section-title">Gameplay Showcase</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="media-showcase">
+           <iframe width="100%" height="500" src="https://www.youtube.com/embed/Xma89H1E_9Y" title="CubeTD Gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></iframe>
+        </div>
+      </section>
+
+    </main>
+
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>

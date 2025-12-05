@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Page Dither</title>
+    <style>
+        /* 1. PAGE SETUP */
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            background-color: #05030a; /* Darkest base color */
+            overflow: hidden; /* Prevent scrollbars from the canvas */
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            
+            /* Center the card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 2. THE BACKGROUND CANVAS */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Deepest layer */
+        }
+
+        /* 3. THE GLASS CARD */
+        .glass-card {
+            position: relative;
+            z-index: 10; /* Must be higher than canvas */
+            
+            width: 450px;
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            
+            /* Glassmorphism */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px); /* Blurs the dots BEHIND the card */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        /* 4. TYPOGRAPHY & BUTTONS */
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 3rem;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+        }
+
+        p {
+            color: #b0b0d0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        button {
+            padding: 14px 36px;
+            background: white;
+            color: #0b0514;
+            border: none;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- THE BACKGROUND -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- THE CONTENT -->
+    <div class="glass-card">
+        <h1>SIDEKICK</h1>
+        <p>The dither effect now spans the entire viewport, reacting to your mouse globally.</p>
+        <button>ENTER</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // --- CONFIGURATION ---
+        const CONFIG = {
+            spacing: 24,        // Space between dots
+            size: 2,            // Dot radius
+            color: '#5d5d8a',   // Dot color
+            fadeRadius: 800,    // How wide the cloud of dots is (bigger for full screen)
+            moveStrength: 30,   // Parallax movement amount
+            ease: 0.05          // Smoothness (lower = smoother/slower)
+        };
+
+        // State
+        let width, height;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        let currentX = 0, currentY = 0;
+
+        // 1. Resize Handler
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        // 2. Mouse Tracking
+        window.addEventListener('mousemove', (e) => {
+            // Map mouse position from -1 to 1 based on screen size
+            const x = (e.clientX / width - 0.5) * 2;
+            const y = (e.clientY / height - 0.5) * 2;
+            
+            targetX = x * CONFIG.moveStrength;
+            targetY = y * CONFIG.moveStrength;
+        });
+
+        // 3. Draw Loop
+        function draw() {
+            // Smooth movement
+            currentX += (targetX - currentX) * CONFIG.ease;
+            currentY += (targetY - currentY) * CONFIG.ease;
+
+            // Clear Screen
+            ctx.clearRect(0, 0, width, height);
+            
+            // Set Color
+            ctx.fillStyle = CONFIG.color;
+
+            // Center of Screen
+            const cx = width / 2;
+            const cy = height / 2;
+
+            // Determine loop bounds (add buffer to ensure no edges are visible during movement)
+            const buffer = 100;
+
+            for (let x = -buffer; x < width + buffer; x += CONFIG.spacing) {
+                for (let y = -buffer; y < height + buffer; y += CONFIG.spacing) {
+                    
+                    // Shift the entire grid by the current mouse movement
+                    const drawX = x + currentX;
+                    const drawY = y + currentY;
+
+                    // Calculate distance from center (for the radial fade)
+                    // We check distance against the SCREEN center (cx, cy)
+                    const dist = Math.sqrt((drawX - cx) ** 2 + (drawY - cy) ** 2);
+                    
+                    // Calculate probability
+                    let prob = 1 - (dist / CONFIG.fadeRadius);
+                    if (prob < 0) prob = 0;
+
+                    // Use original (unshifted) coordinates for the random seed
+                    // This keeps the "randomness" locked in place while the dots move
+                    const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+                    const randomVal = seed - Math.floor(seed);
+
+                    if (randomVal < prob) {
+                        ctx.beginPath();
+                        ctx.arc(drawX, drawY, CONFIG.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        // Init
+        window.addEventListener('resize', resize);
+        resize();
+        requestAnimationFrame(draw);
+
+    </script>
+</body>
+</html>

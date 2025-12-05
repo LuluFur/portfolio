@@ -7,9 +7,11 @@
   <base href="./" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
 <body>
   <div id="p5-canvas"></div>
+  
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo"><div class="logo-icon">⚡</div><span>Lewis Whitham</span></div>
@@ -22,77 +24,141 @@
       <a href="index.html#resume" class="resume-btn">Resume</a>
     </nav>
 
-    <article class="project-article">
-        <header class="article-header">
-            <h1 class="article-title">Math Cubed</h1>
-            <p class="article-subtitle">Arcade-Style Educational Gameplay</p>
-            
-            <div class="article-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Engine</span>
-                    <span class="meta-value">Unreal Engine 5</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Language</span>
-                    <span class="meta-value">Blueprints / C++</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Focus</span>
-                    <span class="meta-value">Educational Game Design</span>
-                </div>
-            </div>
-
-            <div class="tech-stack-list" style="justify-content: center;">
-                <span class="tech-pill">EdTech</span>
-                <span class="tech-pill">Arcade Mechanics</span>
-                <span class="tech-pill">UI Design</span>
-            </div>
-        </header>
-
-        <div class="article-content">
-            <section class="article-section">
-                <h2>The Concept</h2>
-                <p>
-                    Math Cubed breaks maths drills into satisfying arcade loops. I iterated on reward pacing, tactile UI, 
-                    and Unreal Blueprint tools so number puzzles feel as punchy as action games. The goal was to remove 
-                    the "chore" feeling from learning and replace it with the dopamine hit of a high score.
-                </p>
-                <p style="color: var(--coral); font-style: italic;">
-                    [TODO: Add more details here from your Design Document about the core gameplay loop and educational goals.]
-                </p>
-            </section>
-
-            <div class="article-media">
-                <iframe width="100%" height="450" src="https://www.youtube.com/embed/ZOSgTVgXXGk" title="Math Cubed gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <caption>Gameplay demonstration showing the puzzle mechanics.</caption>
-            </div>
-
-            <section class="article-section">
-                <h2>Technical Implementation</h2>
-                <p>
-                    Using Unreal Engine 5, I focused on creating a modular system for generating math problems that could 
-                    scale in difficulty.
-                </p>
-                <p style="color: var(--coral); font-style: italic;">
-                    [TODO: Describe the technical challenges you faced. How did you generate the puzzles? How did you handle the UI updates?]
-                </p>
-            </section>
-
-            <section class="article-section">
-                <h2>Design Document</h2>
-                <p>For a deep dive into the mechanics and design choices, view the full design document below.</p>
-                <div class="article-media">
-                    <embed src="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" type="application/pdf" style="width:100%;height:600px" />
-                </div>
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" class="sketch-link">Open PDF in New Tab</a>
-                </div>
-            </section>
+    <!-- Hero Section -->
+    <header class="project-hero">
+      <div class="hero-content">
+        <div class="hero-meta">
+          <span class="hero-tag">Unreal Engine 5</span>
+          <span class="hero-tag">Blueprints / C++</span>
         </div>
-    </article>
+        <h1 class="hero-title">Math Cubed</h1>
+        <p class="hero-subtitle">Arcade-Style Educational Gameplay</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">EdTech</span>
+            <span class="stat-label">Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Solo</span>
+            <span class="stat-label">Team Size</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">3 Weeks</span>
+            <span class="stat-label">Duration</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <!-- Placeholder for hero image/video -->
+        <div class="hero-media-placeholder">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZOSgTVgXXGk?autoplay=1&mute=1&loop=1&playlist=ZOSgTVgXXGk" title="Math Cubed Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+        </div>
+      </div>
+    </header>
+
+    <main class="project-main">
+      <!-- Overview Section -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Mission Brief</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="two-column-grid">
+          <div class="text-content">
+            <p class="lead-text">
+              Math Cubed breaks maths drills into satisfying arcade loops.
+            </p>
+            <p>
+              I iterated on reward pacing, tactile UI, and Unreal Blueprint tools so number puzzles feel as punchy as action games. 
+              The goal was to remove the "chore" feeling from learning and replace it with the dopamine hit of a high score.
+            </p>
+          </div>
+          <div class="media-content">
+             <div class="stat-card">
+                <h3>Core Pillars</h3>
+                <ul class="feature-list">
+                  <li><strong>Gamification:</strong> Arcade loops for education.</li>
+                  <li><strong>Tactile UI:</strong> Satisfying feedback for correct answers.</li>
+                  <li><strong>Difficulty Scaling:</strong> Modular problem generation.</li>
+                </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mechanics Deep Dive -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">System Mechanics</h2>
+          <div class="dashed-line"></div>
+        </div>
+        
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="card-icon">🧩</div>
+            <h3>Modular Problems</h3>
+            <p>A modular system for generating math problems that scales in difficulty, keeping the challenge fresh.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">🎮</div>
+            <h3>Arcade Feel</h3>
+            <p>Focus on "juice" - sound effects, particle systems, and screen shake to make math feel impactful.</p>
+          </div>
+          <div class="program-card">
+            <div class="card-icon">📈</div>
+            <h3>Progression</h3>
+            <p>Reward pacing designed to encourage repeated play sessions and mastery of concepts.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Design Document -->
+      <section class="project-section">
+        <div class="section-header">
+          <h2 class="section-title">Design Document</h2>
+          <div class="dashed-line"></div>
+        </div>
+        <div class="pdf-viewer-container">
+            <iframe src="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" width="100%" height="600px" style="border: none; border-radius: 8px;">
+            </iframe>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" class="sketch-link">Open PDF in New Tab</a>
+        </div>
+      </section>
+
+    </main>
 
     <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
   </div>
   <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/dither.js"></script>
+  <script>
+    // Initialize dither effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'ditherCanvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        document.getElementById('p5-canvas').appendChild(canvas);
+
+        const dither = new DitherSection(canvas);
+        
+        // Add sections to dither effect
+        const sections = document.querySelectorAll('.project-hero, .project-section');
+        sections.forEach(section => {
+            dither.addSection(section, {
+                color: 'rgba(100, 255, 218, 0.15)', // Cyan tint
+                size: 2,
+                spacing: 15
+            });
+        });
+    });
+  </script>
 </body>
 </html>
