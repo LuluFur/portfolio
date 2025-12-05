@@ -1,43 +1,295 @@
+/* Project Page Specific Styles */
+
+/* --- Hero Section --- */
 .project-hero {
-    height: 60vh;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
+    min-height: 85vh;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 4rem;
-    border-bottom: 2px solid var(--cyan);
-    margin-top: -80px; /* Counteract nav padding/margin if needed, or just sit at top */
+    padding: 8rem 5% 4rem;
+    background: radial-gradient(circle at 70% 30%, rgba(0, 217, 255, 0.05) 0%, transparent 60%);
+    overflow: hidden;
+    gap: 4rem;
+    max-width: 1600px;
+    margin: 0 auto;
 }
+
 .project-hero::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(19, 20, 31, 0.3), rgba(19, 20, 31, 1));
-}
-.project-hero-content {
-    position: relative;
+    background: linear-gradient(to bottom, rgba(19, 20, 31, 0) 0%, rgba(19, 20, 31, 1) 100%);
+    pointer-events: none;
     z-index: 1;
-    text-align: center;
-    max-width: 800px;
-    padding: 0 2rem;
-    margin-top: 4rem;
 }
-.project-hero h1 {
+
+.hero-content {
+    flex: 1;
+    z-index: 2;
+    min-width: 300px;
+}
+
+.hero-visual {
+    flex: 1.2;
+    z-index: 2;
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-media-placeholder {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.hero-media-placeholder:hover {
+    transform: translateY(-5px);
+    border-color: var(--cyan);
+}
+
+/* Hero Typography */
+.hero-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-tag {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.9rem;
+    color: var(--cyan);
+    background: rgba(0, 217, 255, 0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-title {
     font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 800;
+    line-height: 1.1;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+    background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-.project-hero p {
+
+.hero-subtitle {
     font-size: 1.5rem;
-    color: rgba(255,255,255,0.9);
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
     font-weight: 300;
+}
+
+/* Hero Stats Grid */
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
     letter-spacing: 1px;
+    margin-top: 0.2rem;
+}
+
+/* --- Main Content Layout --- */
+.project-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 5% 8rem;
+    position: relative;
+    z-index: 2;
+}
+
+.project-section {
+    margin-bottom: 8rem;
+}
+
+.section-header {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+/* Two Column Layout (Mission Brief) */
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.lead-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.text-content p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+/* Stat/Feature Card */
+.stat-card {
+    background: rgba(26, 29, 46, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 217, 255, 0.15);
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 20px; height: 20px;
+    border-top: 2px solid var(--cyan);
+    border-left: 2px solid var(--cyan);
+}
+
+.stat-card h3 {
+    font-size: 1.2rem;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+}
+
+.feature-list li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--coral);
+}
+
+.feature-list strong {
+    color: #fff;
+}
+
+/* Mechanics Grid */
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.program-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.program-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--cyan);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.program-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.program-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+}
+
+/* Media Showcase */
+.media-showcase {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 968px) {
+    .project-hero {
+        flex-direction: column;
+        padding-top: 6rem;
+        text-align: center;
+    }
+
+    .hero-content {
+        order: 2;
+    }
+
+    .hero-visual {
+        order: 1;
+        width: 100%;
+        height: 300px;
+    }
+
+    .hero-meta {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .two-column-grid {
+        grid-template-columns: 1fr;
+    }
 }
