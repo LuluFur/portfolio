@@ -184,6 +184,30 @@ nav a:hover { color:var(--cyan); }
 .project-description{color:rgba(255,255,255,0.7); font-size:.95rem; line-height:1.5; margin-bottom:1rem}
 .project-tech{display:flex; flex-wrap:wrap; gap:.5rem}
 .tech-tag{padding:.3rem .7rem; background:rgba(168,85,247,.2); border:1px solid rgba(168,85,247,.3); border-radius:6px; font-size:.8rem; color:var(--purple); font-weight:600}
+
+.project-cta {
+    margin-top: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(0, 217, 255, 0.05);
+}
+
+.project-item:hover .project-cta {
+    background: var(--cyan);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
+}
 /* Programs */
 .programs{padding:8rem 5%; background:rgba(0,0,0,0.2)}
 .programs-title{text-align:center; font-size:clamp(2.5rem,5vw,3.5rem); font-weight:800; background:linear-gradient(135deg,var(--purple),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:4rem}
@@ -386,6 +410,23 @@ footer{padding:2rem 5%; border-top:1px solid rgba(255,255,255,0.1); text-align:c
     justify-content: center;
     overflow: hidden;
     border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.pc-only-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .sketch-thumb iframe {

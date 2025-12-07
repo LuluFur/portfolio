@@ -34,10 +34,10 @@
           <span class="hero-tag">Systems Design</span>
         </div>
         <h1 class="hero-title">Sustainacity</h1>
-        <p class="hero-subtitle">Sustainable City Simulation</p>
+        <p class="hero-subtitle">Superhero City Defence</p>
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-value">UX/UI</span>
+            <span class="stat-value">Documentation</span>
             <span class="stat-label">Focus</span>
           </div>
           <div class="stat-item">
@@ -66,12 +66,12 @@
                 <span class="eyebrow">01. Overview</span>
                 <h2>The Project</h2>
                 <p class="about-text">
-                    <strong>Sustainacity</strong> is an eco-systems simulation game rooted in balancing citizen needs with renewable infrastructure. 
-                    The goal was to create an engaging, immersive experience that challenges players to manage a sustainable city, 
-                    combining the fun of city-building with the educational value of environmental awareness.
+                    <strong>Sustainacity</strong> is a unique superhero game developed in Unreal Engine 5 with a core theme of sustainability. 
+                    Designed during my third year of college, this project prioritized documentation and theoretical application over complex mechanics.
                 </p>
                 <p class="about-text">
-                    I focused on rapid iteration tools for tweaking resource loops, narrative beats, and designing UI panels that clearly explain environmental impact to the player.
+                    You play as a superhero flying through a procedurally generated low-poly city, tasked with defending it from incoming asteroids using laser-eye abilities. 
+                    The project combines smooth flight mechanics with arcade-style defence gameplay.
                 </p>
             </div>
             <figure class="article-media" style="margin-top: 0;">
@@ -138,18 +138,27 @@
             <div>
                 <h3>Core Systems</h3>
                 <p class="about-text">
-                    The heart of Sustainacity is the <strong>Resource Loop</strong>. I designed systems where every action has an environmental reaction. 
-                    Building a factory boosts the economy but raises pollution; planting trees lowers pollution but costs money and space.
+                    While the focus was on documentation, I implemented several key systems to create a functional prototype. 
+                    The procedural city generation ensures a unique environment for every playthrough, while the flight controller provides a satisfying sense of movement.
                 </p>
-                <ul style="list-style: none; margin-top: 1rem;">
-                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
-                        <span style="color: var(--cyan);">⚡</span> <strong>Renewable Infrastructure:</strong> Solar, Wind, and Hydro power systems.
+                <ul class="feature-list" style="list-style: none; margin-top: 1.5rem; padding: 0;">
+                    <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
+                        <div>
+                            <strong style="color: #fff; display: block; margin-bottom: 0.25rem;">Procedural City</strong>
+                            <span style="color: rgba(255,255,255,0.7);">WFC algorithm generates unique low-poly layouts.</span>
+                        </div>
                     </li>
-                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
-                        <span style="color: var(--cyan);">👥</span> <strong>Citizen Needs:</strong> Balancing happiness with sustainability goals.
+                    <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
+                        <div>
+                            <strong style="color: #fff; display: block; margin-bottom: 0.25rem;">Flight Mechanics</strong>
+                            <span style="color: rgba(255,255,255,0.7);">Smooth superhero flight controls.</span>
+                        </div>
                     </li>
-                    <li style="margin-bottom: 1rem; display: flex; gap: 1rem; align-items: center;">
-                        <span style="color: var(--cyan);">📊</span> <strong>UI/UX:</strong> Data visualization panels to make complex stats readable.
+                    <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;">
+                        <div>
+                            <strong style="color: #fff; display: block; margin-bottom: 0.25rem;">Laser Combat</strong>
+                            <span style="color: rgba(255,255,255,0.7);">Auto-aim assist for destroying asteroids.</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -193,17 +202,16 @@
             <div class="program-card" style="border-color: rgba(100, 255, 100, 0.3);">
                 <h3 class="program-name" style="color: #6eff6e;">What Went Well</h3>
                 <ul style="margin-top: 1rem; padding-left: 1.5rem; color: rgba(255,255,255,0.8); line-height: 1.6;">
-                    <li><strong>Educational Integration:</strong> Successfully gamified complex sustainability concepts without making it feel like a "lecture."</li>
-                    <li><strong>Visual Style:</strong> The Low Poly aesthetic was distinct, performant, and allowed for rapid asset creation during the game jam timeframe.</li>
-                    <li><strong>System Depth:</strong> The resource loops created genuine strategic depth, requiring players to think ahead.</li>
+                    <li><strong>Efficient Documentation:</strong> Maintained comprehensive documentation of development progress over several months.</li>
+                    <li><strong>Technical Implementation:</strong> Created efficient blueprints and animation work that streamlined development.</li>
+                    <li><strong>Gameplay Validation:</strong> Achieved a sufficient and enjoyable gameplay result confirmed through playtesting.</li>
                 </ul>
             </div>
             <div class="program-card" style="border-color: rgba(255, 100, 100, 0.3);">
                 <h3 class="program-name" style="color: #ff6e6e;">Areas for Improvement</h3>
                 <ul style="margin-top: 1rem; padding-left: 1.5rem; color: rgba(255,255,255,0.8); line-height: 1.6;">
-                    <li><strong>Onboarding:</strong> The initial learning curve was steep. A more gradual tutorial system would help retain non-simulation players.</li>
-                    <li><strong>DDA Implementation:</strong> While researched, the Dynamic Difficulty Adjustment could be more robust to better tailor the experience to different skill levels.</li>
-                    <li><strong>Feedback Loops:</strong> More visual cues (e.g., smog appearing, trees dying) would help communicate state changes better than just UI numbers.</li>
+                    <li><strong>Visual Fidelity:</strong> Could have created better graphics, including more realistic buildings and a larger city scale.</li>
+                    <li><strong>Mechanics Refinement:</strong> The gameplay mechanics and difficulty tuning could have been more refined to enhance player engagement.</li>
                 </ul>
             </div>
         </div>
@@ -216,37 +224,34 @@
         <h2>Documentation</h2>
         <p class="about-text">Detailed design documents and presentations created during development.</p>
         
-        <div class="pdf-viewer-container" style="display: flex; flex-direction: column; gap: 4rem; margin-top: 2rem;">
+        <div class="programs-grid" style="margin-top: 2rem;">
             
-            <div class="pdf-item">
-                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Dissertation</h3>
-                <div style="position: relative; width: 100%; height: 800px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
-                    <iframe src="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" width="100%" height="100%" style="border: none;"></iframe>
-                </div>
-                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
-                    <a href="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
-                </div>
-            </div>
+            <a href="Sustain_A_City_Files/L_Whitham_Dissertation_U12.pdf" target="_blank" class="program-card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <div class="card-icon">📄</div>
+                <h3 class="program-name">Dissertation</h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Research on engagement in simulation games.
+                </p>
+                <span class="cta-btn" style="margin-top: auto; font-size: 0.9rem;">Open PDF ↗</span>
+            </a>
 
-            <div class="pdf-item">
-                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Pitch Presentation</h3>
-                <div style="position: relative; width: 100%; height: 600px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
-                    <iframe src="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" width="100%" height="100%" style="border: none;"></iframe>
-                </div>
-                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
-                    <a href="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
-                </div>
-            </div>
+            <a href="Sustain_A_City_Files/L_Whitham_FMPY2_PitchPresentation.pdf" target="_blank" class="program-card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <div class="card-icon">📊</div>
+                <h3 class="program-name">Pitch Presentation</h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Initial concept pitch and features.
+                </p>
+                <span class="cta-btn" style="margin-top: auto; font-size: 0.9rem;">Open PDF ↗</span>
+            </a>
 
-            <div class="pdf-item">
-                <h3 style="margin-top: 0; color: var(--cyan); margin-bottom: 1rem;">Design Document</h3>
-                <div style="position: relative; width: 100%; height: 800px; border: 1px solid rgba(0, 217, 255, 0.2); border-radius: 8px; overflow: hidden; background: #1a1d2e;">
-                    <iframe src="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" width="100%" height="100%" style="border: none;"></iframe>
-                </div>
-                <div class="asset-actions" style="margin-top: 1rem; text-align: right;">
-                    <a href="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" target="_blank" rel="noopener" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; text-decoration: none; display: inline-block;">Open Full PDF</a>
-                </div>
-            </div>
+            <a href="Sustain_A_City_Files/L_Whitham_FMP_Design Document_V1.pdf" target="_blank" class="program-card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <div class="card-icon">📝</div>
+                <h3 class="program-name">Design Document</h3>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Technical specifications and game mechanics.
+                </p>
+                <span class="cta-btn" style="margin-top: auto; font-size: 0.9rem;">Open PDF ↗</span>
+            </a>
 
         </div>
       </section>
