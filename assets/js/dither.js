@@ -1,6 +1,14 @@
 class DitherSection {
     constructor(selector, options = {}) {
-        this.container = document.querySelector(selector);
+        // Accept either a CSS selector string or a direct Element
+        if (typeof selector === 'string') {
+            this.container = document.querySelector(selector);
+        } else if (selector && selector.nodeType === 1) {
+            this.container = selector;
+        } else {
+            this.container = null;
+        }
+
         if (!this.container) return;
 
         this.canvas = document.createElement('canvas');

@@ -151,6 +151,67 @@ function windowResized() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Nav active link (scroll spy)
+  const navLinks = Array.from(document.querySelectorAll('.site-nav .nav-links a'));
+
+  const getHashSelectorFromHrefAttr = (hrefAttr) => {
+    if (!hrefAttr) return null;
+    if (hrefAttr.startsWith('#')) return hrefAttr;
+    const hashIndex = hrefAttr.indexOf('#');
+    if (hashIndex === -1) return null;
+    return hrefAttr.slice(hashIndex);
+  };
+
+  const sectionTargets = navLinks
+    .map((link) => {
+      const selector = getHashSelectorFromHrefAttr(link.getAttribute('href'));
+      if (!selector) return null;
+      try {
+        return document.querySelector(selector);
+      } catch (e) {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  const setActiveNav = (hash) => {
+    navLinks.forEach((link) => {
+      const isActive = link.getAttribute('href') === hash;
+      link.classList.toggle('active', isActive);
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  };
+
+  const updateActiveNavOnScroll = () => {
+    if (sectionTargets.length === 0 || navLinks.length === 0) return;
+
+    const scrollY = window.scrollY || window.pageYOffset;
+    const offset = 160; // accounts for fixed nav height
+    let activeHash = `#${sectionTargets[0].id}`;
+
+    for (const section of sectionTargets) {
+      if (scrollY + offset >= section.offsetTop) {
+        activeHash = `#${section.id}`;
+      }
+    }
+
+    setActiveNav(activeHash);
+  };
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      setActiveNav(link.getAttribute('href'));
+    });
+  });
+
+  window.addEventListener('scroll', () => requestAnimationFrame(updateActiveNavOnScroll), { passive: true });
+  window.addEventListener('resize', () => requestAnimationFrame(updateActiveNavOnScroll));
+  updateActiveNavOnScroll();
+
   // Scroll Prompt Logic
   const scrollPrompt = document.querySelector('.scroll-prompt');
   if (scrollPrompt) {
@@ -167,6 +228,75 @@ document.addEventListener('DOMContentLoaded', () => {
   const clickMePrompt = document.querySelector('.click-me-prompt');
   const projectItems = document.querySelectorAll('.project-item');
   const workingSection = document.querySelector('.working-on-section');
+
+  // One-time mouse cue on first viewport entry (projects)
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion && projectItems.length > 0 && 'IntersectionObserver' in window) {
+    const makeMouseCueSvg = () => {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('class', 'mouse-cue');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      svg.setAttribute('aria-hidden', 'true');
+
+      const path1 = document.createElementNS(svgNS, 'path');
+      path1.setAttribute('d', 'M10 2h4');
+      const path2 = document.createElementNS(svgNS, 'path');
+      path2.setAttribute('d', 'M12 2v8');
+      const path3 = document.createElementNS(svgNS, 'path');
+      path3.setAttribute('d', 'M9 12l3 3 3-3');
+      const path4 = document.createElementNS(svgNS, 'path');
+      path4.setAttribute('d', 'M8 10v7a4 4 0 0 0 8 0v-7');
+
+      const clickDot = document.createElementNS(svgNS, 'circle');
+      clickDot.setAttribute('cx', '18');
+      clickDot.setAttribute('cy', '6');
+      clickDot.setAttribute('r', '1.2');
+
+      svg.append(path1, path2, path3, path4, clickDot);
+      return svg;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const item = entry.target;
+          if (item.dataset.mouseCueShown === '1') {
+            observer.unobserve(item);
+            return;
+          }
+
+          item.dataset.mouseCueShown = '1';
+          const screenshot = item.querySelector('.project-screenshot');
+          if (!screenshot) {
+            observer.unobserve(item);
+            return;
+          }
+
+          const cue = makeMouseCueSvg();
+          screenshot.appendChild(cue);
+          screenshot.classList.add('mouse-cue-active');
+
+          window.setTimeout(() => {
+            screenshot.classList.remove('mouse-cue-active');
+            cue.remove();
+          }, 1500);
+
+          observer.unobserve(item);
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    projectItems.forEach((item) => observer.observe(item));
+  }
 
   if (clickMePrompt && projectItems.length > 0 && workingSection) {
     let currentActiveItem = null;

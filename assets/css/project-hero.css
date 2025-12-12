@@ -207,10 +207,15 @@
 }
 
 .feature-list li::before {
-    content: '▹';
+    content: '';
     position: absolute;
     left: 0;
-    color: var(--coral);
+    top: 0.25rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    background-image: url('../svgs/asterisk.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .feature-list strong {
