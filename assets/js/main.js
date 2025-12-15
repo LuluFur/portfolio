@@ -46,7 +46,7 @@ function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('p5-canvas');
   syncParticlePool(particleCount);
-  
+
   // Performance: Pause rendering when tab is not visible
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
@@ -70,7 +70,7 @@ function updateParticles() {
   for (let p of particles) {
     p.xPct += p.vx / width;
     p.yPct += p.vy / height;
-    
+
     if (p.xPct < 0) p.xPct += 1;
     if (p.xPct > 1) p.xPct -= 1;
     if (p.yPct < 0) p.yPct += 1;
@@ -151,6 +151,151 @@ function windowResized() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Page Entry Transition (for non-index pages)
+  if (document.querySelector('.project-hero') || document.querySelector('.page-hero')) {
+    const overlay = document.createElement('div');
+    overlay.className = 'page-enter-overlay';
+    document.body.appendChild(overlay);
+
+    // Force reflow
+    overlay.getBoundingClientRect();
+
+    requestAnimationFrame(() => {
+      overlay.classList.add('fade-out');
+      setTimeout(() => {
+        overlay.remove();
+      }, 800);
+    });
+  }
+
+
+
+  // Dynamic Text Rotation (Hero)
+  const dynamicText = document.getElementById('hero-dynamic-text');
+  if (dynamicText) {
+    const roles = [
+      "Game Development",
+      "Gameplay Systems",
+      "Rapid Prototyping",
+      "Interactive UI / UX",
+      "Level Design"
+    ];
+    let roleIndex = 0;
+
+    setInterval(() => {
+      roleIndex = (roleIndex + 1) % roles.length;
+
+      // Slide out
+      dynamicText.classList.add('swapping');
+
+      setTimeout(() => {
+        // Change text
+        dynamicText.textContent = roles[roleIndex];
+        // Slide in
+        dynamicText.classList.remove('swapping');
+      }, 300); // Wait for opacity            
+    }, 3000); // 3 seconds per role
+  }
+
+  // --- Global Scroll Animations ---
+
+  // 1. Intersection Observer for Reveal on Scroll
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1 // Trigger when 10% visible
+  };
+
+  const scrollObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = entry.target;
+
+        // Add stagger delay if part of a grid
+        if (target.dataset.delay) {
+          target.style.transitionDelay = target.dataset.delay;
+        }
+
+        target.classList.add('is-visible');
+        observer.unobserve(target); // Only animate once
+      }
+    });
+  }, observerOptions);
+
+  // Target elements
+  const scrollTargets = document.querySelectorAll('.reveal-on-scroll, .project-item, .program-card, .sketch-item, .asset-item, .section-title, .about-text');
+
+  // Auto-assign stagger delays to grids
+  const grids = document.querySelectorAll('.programs-grid, .projects-showcase, .sketch-grid, .gallery-grid, .logo-marquee');
+  grids.forEach(grid => {
+    const children = grid.children;
+    Array.from(children).forEach((child, index) => {
+      // Apply delay based on index (max 5 items staggered to prevent long waits)
+      const delay = (index % 5) * 0.1;
+      child.dataset.delay = `${delay}s`;
+      scrollObserver.observe(child);
+    });
+  });
+
+  // Observe standalone elements
+  scrollTargets.forEach(el => {
+    if (!el.parentElement.classList.contains('programs-grid') &&
+      !el.parentElement.classList.contains('projects-showcase') &&
+      !el.parentElement.classList.contains('sketch-grid')) {
+      scrollObserver.observe(el);
+    }
+  });
+
+
+  // 2. Typewriter Effect for Hero Title
+  const heroName = document.querySelector('.hero-name');
+  if (heroName) {
+    const text = heroName.textContent;
+    heroName.textContent = '';
+    heroName.classList.add('typewriter-cursor');
+
+    let i = 0;
+    function typeWriter() {
+      if (i < text.length) {
+        heroName.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100); // Typing speed
+      } else {
+        // Remove cursor after finished
+        setTimeout(() => {
+          heroName.classList.remove('typewriter-cursor');
+          // Add the halo glow back if needed, or trigger subtitle reveal
+          const subtitle = document.querySelector('.hero-subtitle');
+          if (subtitle) subtitle.classList.add('is-visible');
+        }, 1000);
+      }
+    }
+    // Start typing after a short delay
+    setTimeout(typeWriter, 500);
+  }
+
+  // Typewriter for Project Titles (on page load)
+  const projectTitle = document.querySelector('.hero-title'); // Detail pages
+  if (projectTitle && !document.querySelector('.hero-name')) { // Only if not homepage
+    const text = projectTitle.textContent;
+    projectTitle.textContent = '';
+    projectTitle.classList.add('typewriter-cursor');
+
+    let j = 0;
+    function typeProject() {
+      if (j < text.length) {
+        projectTitle.textContent += text.charAt(j);
+        j++;
+        setTimeout(typeProject, 80);
+      } else {
+        setTimeout(() => {
+          projectTitle.classList.remove('typewriter-cursor');
+        }, 500);
+      }
+    }
+    setTimeout(typeProject, 300);
+  }
+
   // Nav active link (scroll spy)
   const navLinks = Array.from(document.querySelectorAll('.site-nav .nav-links a'));
 
@@ -224,131 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Dynamic Click Me Prompt Logic
-  const clickMePrompt = document.querySelector('.click-me-prompt');
-  const projectItems = document.querySelectorAll('.project-item');
-  const workingSection = document.querySelector('.working-on-section');
 
-  // One-time mouse cue on first viewport entry (projects)
-  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion && projectItems.length > 0 && 'IntersectionObserver' in window) {
-    const makeMouseCueSvg = () => {
-      const svgNS = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('class', 'mouse-cue');
-      svg.setAttribute('viewBox', '0 0 24 24');
-      svg.setAttribute('fill', 'none');
-      svg.setAttribute('stroke', 'currentColor');
-      svg.setAttribute('stroke-width', '2');
-      svg.setAttribute('stroke-linecap', 'round');
-      svg.setAttribute('stroke-linejoin', 'round');
-      svg.setAttribute('aria-hidden', 'true');
-
-      const path1 = document.createElementNS(svgNS, 'path');
-      path1.setAttribute('d', 'M10 2h4');
-      const path2 = document.createElementNS(svgNS, 'path');
-      path2.setAttribute('d', 'M12 2v8');
-      const path3 = document.createElementNS(svgNS, 'path');
-      path3.setAttribute('d', 'M9 12l3 3 3-3');
-      const path4 = document.createElementNS(svgNS, 'path');
-      path4.setAttribute('d', 'M8 10v7a4 4 0 0 0 8 0v-7');
-
-      const clickDot = document.createElementNS(svgNS, 'circle');
-      clickDot.setAttribute('cx', '18');
-      clickDot.setAttribute('cy', '6');
-      clickDot.setAttribute('r', '1.2');
-
-      svg.append(path1, path2, path3, path4, clickDot);
-      return svg;
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const item = entry.target;
-          if (item.dataset.mouseCueShown === '1') {
-            observer.unobserve(item);
-            return;
-          }
-
-          item.dataset.mouseCueShown = '1';
-          const screenshot = item.querySelector('.project-screenshot');
-          if (!screenshot) {
-            observer.unobserve(item);
-            return;
-          }
-
-          const cue = makeMouseCueSvg();
-          screenshot.appendChild(cue);
-          screenshot.classList.add('mouse-cue-active');
-
-          window.setTimeout(() => {
-            screenshot.classList.remove('mouse-cue-active');
-            cue.remove();
-          }, 1500);
-
-          observer.unobserve(item);
-        });
-      },
-      { threshold: 0.35 }
-    );
-
-    projectItems.forEach((item) => observer.observe(item));
-  }
-
-  if (clickMePrompt && projectItems.length > 0 && workingSection) {
-    let currentActiveItem = null;
-
-    const updateClickMePrompt = () => {
-      const viewportCenter = window.innerHeight / 2;
-      let closestItem = null;
-      let minDistance = Infinity;
-
-      projectItems.forEach(item => {
-        const rect = item.getBoundingClientRect();
-        // Check if item is roughly in view
-        if (rect.bottom > 0 && rect.top < window.innerHeight) {
-          const itemCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(itemCenter - viewportCenter);
-          
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestItem = item;
-          }
-        }
-      });
-
-      if (closestItem) {
-        if (currentActiveItem !== closestItem) {
-          // Fade out
-          clickMePrompt.classList.add('hidden');
-          
-          // Wait for fade out, then move and fade in
-          setTimeout(() => {
-            currentActiveItem = closestItem;
-            const targetTop = closestItem.offsetTop + (closestItem.offsetHeight / 2) - (clickMePrompt.offsetHeight / 2);
-            clickMePrompt.style.top = `${targetTop}px`;
-            clickMePrompt.classList.remove('hidden');
-          }, 300); // Match CSS transition duration
-        } else if (clickMePrompt.classList.contains('hidden') && !clickMePrompt.dataset.fading) {
-             // Ensure it's visible if it's the same item but was hidden (e.g. initial load or scrolling back)
-             // We check a custom flag or just ensure we don't interrupt the fade-out logic above
-             // For simplicity, if it's the same item, just show it.
-             clickMePrompt.classList.remove('hidden');
-        }
-      } else {
-        clickMePrompt.classList.add('hidden');
-        currentActiveItem = null;
-      }
-    };
-
-    window.addEventListener('scroll', () => requestAnimationFrame(updateClickMePrompt));
-    window.addEventListener('resize', () => requestAnimationFrame(updateClickMePrompt));
-    // Initial check
-    updateClickMePrompt();
-  }
 
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -381,12 +402,108 @@ document.addEventListener('DOMContentLoaded', () => {
           iframe.src = embedUrl;
           iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
           iframe.allowFullscreen = true;
-          
+
           const thumb = item.querySelector('.sketch-thumb');
           thumb.innerHTML = ''; // Clear overlay
           thumb.appendChild(iframe);
         }
       });
     }
+  });
+
+  // Copy Email Functionality
+  const emailContact = document.getElementById('email-contact');
+  const emailText = document.getElementById('email-text');
+  const copyFeedback = document.querySelector('.copy-feedback');
+  const copyIcon = document.getElementById('copy-icon');
+
+  if (emailContact && emailText && copyFeedback) {
+    emailContact.addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = emailText.textContent;
+      navigator.clipboard.writeText(email).then(() => {
+        // Show feedback
+        copyFeedback.style.opacity = '1';
+
+        // Optional: Change icon to checkmark temporarily
+        const originalIconHTML = copyIcon.innerHTML;
+        copyIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        copyIcon.style.color = '#00D9FF'; // Cyan
+
+        setTimeout(() => {
+          copyFeedback.style.opacity = '0';
+          copyIcon.innerHTML = originalIconHTML;
+          copyIcon.style.color = ''; // Reset color
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy email: ', err);
+      });
+    });
+  }
+
+
+  // Project Card Transition Logic
+  const allProjectItems = document.querySelectorAll('.project-item');
+  allProjectItems.forEach(item => {
+    item.addEventListener('click', function (e) {
+      if (this.getAttribute('target') === '_blank') return; // Ignore external links
+      e.preventDefault();
+      const href = this.getAttribute('href');
+
+      // 1. Get current rect
+      const rect = this.getBoundingClientRect();
+
+      // 2. Clone the card
+      const clone = this.cloneNode(true);
+      clone.classList.remove('featured'); // Remove animation/glow
+
+      // 3. Create wrapper for 3D context
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('transition-hero-clone');
+      wrapper.style.width = `${rect.width}px`;
+      wrapper.style.height = `${rect.height}px`;
+      wrapper.style.top = `${rect.top}px`;
+      wrapper.style.left = `${rect.left}px`;
+
+      // 4. Append clone to wrapper and wrapper to body
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+
+      // 5. Hide original
+      this.style.opacity = '0';
+
+      // 6. Force reflow
+      wrapper.getBoundingClientRect();
+
+      // 7. Animate
+      wrapper.style.transition = 'all 1s cubic-bezier(0.6, 0.05, 0.2, 1)';
+      wrapper.style.top = '0';
+      wrapper.style.left = '0';
+      wrapper.style.width = '100vw';
+      wrapper.style.height = '100vh';
+      wrapper.style.borderRadius = '0';
+      wrapper.style.transform = 'rotateY(180deg)';
+
+      // Animate child radius too
+      const innerCard = wrapper.querySelector('.project-item');
+      if (innerCard) {
+        innerCard.style.transition = 'border-radius 1s ease';
+        innerCard.style.borderRadius = '0';
+      }
+
+      const backface = document.createElement('div');
+      backface.style.position = 'absolute';
+      backface.style.inset = '0';
+      backface.style.background = '#13141f';
+      backface.style.transform = 'rotateY(180deg)';
+      backface.style.backfaceVisibility = 'hidden';
+      backface.style.borderRadius = '0';
+      backface.style.zIndex = '-1';
+
+      // 8. Navigate after animation
+      setTimeout(() => {
+        window.location.href = href;
+      }, 1000);
+    });
   });
 });

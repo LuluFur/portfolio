@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,15 +10,16 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
+
 <body>
   <div id="p5-canvas"></div>
-  
+
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo">
         <span>Lewis Whitham</span>
       </div>
-    
+
       <ul class="nav-links">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#programs">Programs</a></li>
@@ -30,14 +32,14 @@
     <header class="project-hero">
       <div class="hero-content">
         <div class="hero-meta">
-          <span class="hero-tag">Unreal Engine</span>
-          <span class="hero-tag">Blueprints</span>
+          <span class="hero-tag">GameMaker</span>
+          <span class="hero-tag">GML</span>
         </div>
         <h1 class="hero-title">Isosceles Invasion</h1>
-        <p class="hero-subtitle">Geometric Arcade Defence</p>
+        <p class="hero-subtitle">Physics-Based Platformer</p>
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-value">Level Design</span>
+            <span class="stat-value">Physics</span>
             <span class="stat-label">Focus</span>
           </div>
           <div class="stat-item">
@@ -51,9 +53,12 @@
         </div>
       </div>
       <div class="hero-visual">
-        <!-- Placeholder for hero image/video -->
         <div class="hero-media-placeholder">
-           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/mL9pg9fBxFc?autoplay=1&mute=1&loop=1&playlist=mL9pg9fBxFc" title="Isosceles Invasion Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+          <iframe width="100%" height="100%"
+            src="https://www.youtube.com/embed/mL9pg9fBxFc?autoplay=1&mute=1&loop=1&playlist=mL9pg9fBxFc"
+            title="Isosceles Invasion Hero" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen style="border-radius: 12px;"></iframe>
         </div>
       </div>
     </header>
@@ -68,22 +73,25 @@
         <div class="two-column-grid">
           <div class="text-content">
             <p class="lead-text">
-              Isosceles Invasion is an arcade defence concept where triangle classifications drive enemy behaviors.
+              Isosceles Invasion is a simple physics-based platformer built in GameMaker that explores core 2D
+              development concepts.
             </p>
             <p>
-              Each wave enforces a new geometry rule, pushing players to reconfigure turret loadouts on the fly.
-              My goal was to gamify geometric concepts into an engaging arcade defence experience, making math concepts intuitive through gameplay.
+              I focused on building a robust physics controller from scratch, handling everything from tile-based
+              collisions to momentum calculations.
+              The unique twist is the "gun propulsion" mechanic—players use the recoil of their weapon to navigate the
+              level, requiring careful management of momentum and firing angles.
             </p>
           </div>
           <div class="media-content">
-             <div class="stat-card">
-                <h3>Core Pillars</h3>
-                <ul class="feature-list">
-                  <li><strong>Geometric Logic:</strong> Enemy behavior based on triangle types.</li>
-                  <li><strong>Adaptive Strategy:</strong> Loadout reconfiguration per wave.</li>
-                  <li><strong>Arcade Feel:</strong> Juicy hit reactions and scoring.</li>
-                </ul>
-             </div>
+            <div class="stat-card">
+              <h3>Core Pillars</h3>
+              <ul class="feature-list">
+                <li><strong>Physics:</strong> Custom collision and momentum systems.</li>
+                <li><strong>Mechanics:</strong> Gun-recoil propulsion movement.</li>
+                <li><strong>Level Design:</strong> Prototyping challenging platforming layouts.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -94,40 +102,44 @@
           <h2 class="section-title">System Mechanics</h2>
           <div class="dashed-line"></div>
         </div>
-        
+
         <div class="programs-grid">
           <div class="program-card">
-            <div class="card-icon">📐</div>
-            <h3>Geometric Archetypes</h3>
-            <p>Enemies defined through triangle classifications (equilateral, isosceles, scalene) and adaptive movement rules.</p>
+            <div class="card-icon">🚀</div>
+            <h3>Gun Propulsion</h3>
+            <p>A clever movement mechanic where shooting propels the player in the opposite direction, turning combat
+              into locomotion.</p>
           </div>
           <div class="program-card">
-            <div class="card-icon">🌊</div>
-            <h3>Wave Editor</h3>
-            <p>Blueprint-driven tools for tuning spawn cadence, angle distributions, and scoring.</p>
+            <div class="card-icon">🧱</div>
+            <h3>Collisions</h3>
+            <p>Custom 2D physics calculations for precise tile-based collision interactions and moving platforms.</p>
           </div>
           <div class="program-card">
-            <div class="card-icon">💥</div>
-            <h3>Game Feel</h3>
-            <p>Juicy hit reactions and screen-space UI cues reinforce geometric learning moments.</p>
+            <div class="card-icon">👾</div>
+            <h3>Moving Enemies</h3>
+            <p>Basic AI behaviors that patrol platforms and react to the player's presence.</p>
           </div>
         </div>
       </section>
 
       <!-- Visuals Showcase -->
       <section class="project-section">
-         <div class="section-header">
+        <div class="section-header">
           <h2 class="section-title">Visual Assets</h2>
           <div class="dashed-line"></div>
         </div>
         <div class="media-showcase">
-           <img src="Isosceles_Invasion_Files/image-1764803500445.png" alt="Gameplay Screenshot" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+          <img src="Isosceles_Invasion_Files/image-1764803500445.png" alt="Gameplay Screenshot"
+            style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
         </div>
       </section>
 
     </main>
 
-    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+    <footer>
+      <p>&copy; 2023 Lewis Whitham. All rights reserved.</p>
+    </footer>
   </div>
   <script src="./assets/js/main.js"></script>
   <script src="./assets/js/dither.js"></script>
@@ -146,4 +158,5 @@
     });
   </script>
 </body>
+
 </html>

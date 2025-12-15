@@ -214,6 +214,7 @@
     width: 0.9rem;
     height: 0.9rem;
     background-image: url('../svgs/asterisk.svg');
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg) brightness(1.5);
     background-size: contain;
     background-repeat: no-repeat;
 }

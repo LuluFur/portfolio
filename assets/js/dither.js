@@ -13,14 +13,14 @@ class DitherSection {
 
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
-        
+
         this.config = Object.assign({
             spacing: 24,
-            size: 4,
+            size: 10,
             color: '#5d5d8a',
             fadeRadius: 1200,
             moveStrength: 30,
-            ease: 0.05
+            ease: 0.01
         }, options);
 
         this.width = 0;
@@ -47,7 +47,7 @@ class DitherSection {
         this.canvas.style.height = 'calc(100% + 100px)';
         this.canvas.style.zIndex = '-1';
         this.canvas.style.pointerEvents = 'none';
-        
+
         // Ensure container has relative positioning if not already
         const style = getComputedStyle(this.container);
         if (style.position === 'static') {
@@ -74,7 +74,7 @@ class DitherSection {
                 }
             });
         }, { threshold: 0 });
-        
+
         observer.observe(this.container);
 
         this.resize();
@@ -100,13 +100,13 @@ class DitherSection {
         // Match the expanded CSS size (container + 100px)
         this.width = rect.width + 100;
         this.height = rect.height + 100;
-        
+
         // Handle High DPI
         const dpr = window.devicePixelRatio || 1;
         this.canvas.width = this.width * dpr;
         this.canvas.height = this.height * dpr;
         this.ctx.scale(dpr, dpr);
-        
+
         // Force a redraw after resize
         if (this.isVisible) {
             this.renderFrame();
@@ -119,7 +119,7 @@ class DitherSection {
         // Calculate mouse position relative to window center for parallax direction
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        
+
         this.targetX = x * this.config.moveStrength;
         this.targetY = y * this.config.moveStrength;
 
@@ -137,12 +137,12 @@ class DitherSection {
         const dx = this.targetX - this.currentX;
         const dy = this.targetY - this.currentY;
 
-        // Optimization 3: Stop rendering if movement is negligible (static frame)
+        // Optimization: Stop if movement is negligible
         if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) {
             this.currentX = this.targetX;
             this.currentY = this.targetY;
-            this.renderFrame(); // Ensure final state is drawn
-            this.isAnimating = false; // Stop the loop
+            this.renderFrame();
+            this.isAnimating = false;
             return;
         }
 
@@ -162,38 +162,51 @@ class DitherSection {
 
         const cx = this.width / 2;
         const cy = this.height / 2;
-        const buffer = 100;
 
-        // Optimization 4: Batch drawing operations
+        // Grid properties
+        const gridSpacing = this.config.spacing; // Fixed spacing
+
+        // Offset grid by current parallax position to create movement
+        // We use % gridSpacing to keep the grid "locked" but moving effectively
+        const offsetX = this.currentX % gridSpacing;
+        const offsetY = this.currentY % gridSpacing;
+
+        // Draw Grid
         this.ctx.beginPath();
 
-        for (let x = -buffer; x < this.width + buffer; x += this.config.spacing) {
-            for (let y = -buffer; y < this.height + buffer; y += this.config.spacing) {
-                
+        // Expand buffer to cover parallax movement
+        const buffer = gridSpacing * 2;
+
+        for (let x = -buffer; x < this.width + buffer; x += gridSpacing) {
+            for (let y = -buffer; y < this.height + buffer; y += gridSpacing) {
+
+                // Effective Grid Coordinates (with Parallax)
                 const drawX = x + this.currentX;
                 const drawY = y + this.currentY;
 
-                // Distance from center of THIS section
+                // Distance from CENTER of the canvas
                 const dist = Math.sqrt((drawX - cx) ** 2 + (drawY - cy) ** 2);
-                
-                let prob = 1 - (dist / this.config.fadeRadius);
-                if (prob < 0) prob = 0;
 
-                // Apply Bezier-like curve for faster fade
-                prob = prob * prob * prob;
+                // Calculate Scale Factor (1.0 at center, 0.0 at fadeRadius)
+                let scale = 1 - (dist / this.config.fadeRadius);
+                if (scale < 0) continue; // Skip if too far
 
-                // Random seed based on original coordinates
-                const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
-                const randomVal = seed - Math.floor(seed);
+                // Non-linear fade for better vignette look
+                scale = scale * scale;
 
-                if (randomVal < prob) {
-                    // Optimization 5: Use rect instead of arc (faster)
-                    this.ctx.rect(drawX, drawY, this.config.size, this.config.size);
-                }
+                // Draw Plus Sign (+)
+                // Base size from config, modulated by scale
+                const size = this.config.size * scale;
+                const halfSize = size / 2;
+                const thickness = Math.max(1, size * 0.3); // Dynamic thickness but at least 1px
+
+                // Horizontal arm
+                this.ctx.rect(drawX - halfSize, drawY - thickness / 2, size, thickness);
+                // Vertical arm
+                this.ctx.rect(drawX - thickness / 2, drawY - halfSize, thickness, size);
             }
         }
-        
-        // Single fill call for all dots
+
         this.ctx.fill();
     }
 }
@@ -220,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         spacing: 30,
         fadeRadius: 1500
     });
-    
+
     // Programs Section
     new DitherSection('.programs', {
         color: 'rgba(255, 255, 255, 0.2)', // White tint
