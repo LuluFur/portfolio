@@ -503,7 +503,8 @@ nav {
 
 .hero-subtitle {
     font-size: clamp(1rem, 3vw, 1.5rem);
-    max-width: 700px;
+    max-width: 900px;
+    /* Increased from 700px to prevent awkward wrapping */
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 3rem
@@ -515,8 +516,10 @@ nav {
 }
 
 .cta-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 35, 0.85);
+    /* Darker semi-transparent fill */
+    border: 2px solid rgba(0, 217, 255, 0.5);
+    /* Thicker cyan border */
     color: #fff;
     padding: 1rem 2.8rem;
     border-radius: var(--radius-pill);
@@ -530,9 +533,9 @@ nav {
     text-decoration: none;
     backdrop-filter: blur(12px);
     box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    /* Top highlight */
+        0 4px 25px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(0, 217, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -729,12 +732,14 @@ nav {
 
 
 
-.marquee-track img:hover {
-    opacity: 1;
-    /* Restore color and add glow on hover */
-    filter: brightness(1) invert(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-    cursor: pointer;
-    transform: scale(1.1);
+@media (hover: hover) {
+    .marquee-track img:hover {
+        opacity: 1;
+        /* Restore color and add glow on hover */
+        filter: brightness(1) invert(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        cursor: pointer;
+        transform: scale(1.1);
+    }
 }
 
 /* Floating Marquee Item */

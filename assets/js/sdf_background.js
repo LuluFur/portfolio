@@ -123,6 +123,14 @@ class SDFBackground {
         this.canvas = document.getElementById('sdf-canvas');
         if (!this.canvas) return;
 
+        // PERF: Only run heavy SDF shaders on Desktop
+        // "Mobile" here implies touch devices or non-fine pointers
+        this.isDesktop = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
+
+        if (!this.isDesktop) {
+            return;
+        }
+
         this.gl = this.canvas.getContext('webgl');
         if (!this.gl) {
             console.error("WebGL not supported");
@@ -130,15 +138,12 @@ class SDFBackground {
         }
 
         // State
-        // Positions are normalized to pixel coords (0 to width, 0 to height) initially
-        // but we manage them in JS and pass to shader
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-
+        // Store percentage positions (px, py) to maintain relative layout on resize
+        // 0.0 to 1.0 relative to screen width/height.
         this.shapes = [
-            { x: w * 0.85, y: h * 0.2, type: 'circle', radius: 40 },
-            { x: w * 0.90, y: h * 0.5, type: 'box', size: 40 },
-            { x: w * 0.85, y: h * 0.8, type: 'triangle', size: 40 }
+            { px: 0.05, py: 0.05, type: 'circle', radius: 40 },    // Blue Circle: Top Left
+            { px: 0.95, py: 0.5, type: 'box', size: 40 },         // Purple Square: Middle Right
+            { px: 0.05, py: 0.95, type: 'triangle', size: 40 }     // Red Triangle: Bottom Left
         ];
 
         this.mouse = { x: 0, y: 0 };
@@ -215,12 +220,17 @@ class SDFBackground {
         this.canvas.height = window.innerHeight * dpr;
         this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
-        // Reposition shapes if off screen
+        // Device Detection (Simple pointer check)
+        this.isDesktop = window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window);
+
         const w = window.innerWidth;
         const h = window.innerHeight;
-        this.shapes[0].x = Math.min(this.shapes[0].x, w - 50);
-        this.shapes[1].x = Math.min(this.shapes[1].x, w - 50);
-        this.shapes[2].x = Math.min(this.shapes[2].x, w - 50);
+
+        // Update shape positions based on stored percentages
+        this.shapes.forEach(s => {
+            s.x = w * s.px;
+            s.y = h * s.py;
+        });
     }
 
     addListeners() {
@@ -240,6 +250,9 @@ class SDFBackground {
     // and flip Y when passing to shader.
 
     handleDown(e) {
+        // 0. Disable interaction on non-desktop
+        if (!this.isDesktop) return;
+
         // 1. Prioritize Interaction: Ignore if clicking buttons, links, inputs.
         const target = e.target;
         const tag = target.tagName;
@@ -282,6 +295,11 @@ class SDFBackground {
             const s = this.shapes[this.draggedShapeIndex];
             s.x = e.clientX;
             s.y = e.clientY;
+
+            // Update percentage positions so they persist correctly on resize
+            s.px = s.x / window.innerWidth;
+            s.py = s.y / window.innerHeight;
+
             e.preventDefault(); // Prevent scroll/selection while dragging
         }
     }

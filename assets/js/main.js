@@ -375,7 +375,11 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 class ParticleSystem {
   constructor() {
-    this.particles = [];
+    this.poolSize = 50;
+    this.particles = new Array(this.poolSize).fill(null).map(() => ({
+      x: 0, y: 0, vx: 0, vy: 0, life: 0, decay: 0, color: '#fff', size: 0, active: false
+    }));
+
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
 
@@ -384,9 +388,9 @@ class ParticleSystem {
     this.canvas.style.pointerEvents = 'none';
     this.canvas.style.top = '0';
     this.canvas.style.left = '0';
-    this.canvas.style.width = '100vw'; // Full screen for absolute positioning calculation
+    this.canvas.style.width = '100vw';
     this.canvas.style.height = '100vh';
-    this.canvas.style.zIndex = '1001'; // Above floating item (z-index 1000)
+    this.canvas.style.zIndex = '1001';
 
     document.body.appendChild(this.canvas);
 
@@ -400,46 +404,51 @@ class ParticleSystem {
     this.canvas.height = window.innerHeight;
   }
 
-  /**
-   * Spawns a burst of particles at a specific coordinate.
-   * @param {number} x - Screen X coordinate
-   * @param {number} y - Screen Y coordinate
-   * @param {string} colorStr - Hex or RGBA string
-   * @param {number} count - Number of particles
-   */
-  spawn(x, y, colorStr, count = 20) {
-    for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 4 + Math.random() * 6; // Fast burst (4-10 px/frame)
-      this.particles.push({
-        x: x,
-        y: y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1.0,
-        decay: 0.015 + Math.random() * 0.015,
-        color: colorStr,
-        size: 4 + Math.random() * 4
-      });
+  spawn(x, y, colorStr, count = 10) {
+    let spawned = 0;
+    for (let i = 0; i < this.poolSize; i++) {
+      if (spawned >= count) break;
+
+      const p = this.particles[i];
+      if (!p.active) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 4 + Math.random() * 6;
+
+        p.x = x;
+        p.y = y;
+        p.vx = Math.cos(angle) * speed;
+        p.vy = Math.sin(angle) * speed;
+        p.life = 1.0;
+        p.decay = 0.015 + Math.random() * 0.015;
+        p.color = colorStr;
+        p.size = 4 + Math.random() * 4;
+        p.active = true;
+
+        spawned++;
+      }
     }
   }
 
   animate() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    for (let i = this.particles.length - 1; i >= 0; i--) {
+    let activeCount = 0;
+    for (let i = 0; i < this.poolSize; i++) {
       const p = this.particles[i];
+      if (!p.active) continue;
+
+      activeCount++;
 
       // Physics
       p.x += p.vx;
       p.y += p.vy;
-      p.vx *= 0.95; // Drag
+      p.vx *= 0.95;
       p.vy *= 0.95;
       p.life -= p.decay;
 
-      // Cull dead particles
+      // Kill
       if (p.life <= 0) {
-        this.particles.splice(i, 1);
+        p.active = false;
         continue;
       }
 
@@ -511,6 +520,17 @@ class MarqueeController {
     // Re-query complete list of items including clones
     this.allItems = Array.from(this.track.querySelectorAll('img'));
 
+    // --- DETECT CAPABILITIES ---
+    this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    // Simple heuristic for low power/perf: < 4 logical cores
+    this.isLowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4);
+
+    // On Touch devices, we'll rely on Center Pop. 
+    // We add a class to body to disable hover via CSS if needed.
+    if (this.isTouch) {
+      document.body.classList.add('is-touch');
+    }
+
     this.init();
   }
 
@@ -518,13 +538,27 @@ class MarqueeController {
     this.animate = this.animate.bind(this);
     this.handleResize = this.handleResize.bind(this);
 
+    // Intersection Observer to pause/play
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isPaused = false;
+          requestAnimationFrame(this.animate);
+        } else {
+          this.isPaused = true;
+        }
+      });
+    }, { rootMargin: '100px' });
+
+    this.observer.observe(this.container);
+
     window.addEventListener('resize', this.handleResize);
 
     // Wait for page load AND CSS entry animation (0.6s delay + 0.8s duration = 1.4s)
     const start = () => {
       setTimeout(() => {
-        requestAnimationFrame(this.animate);
-      }, 2000); // 2s delay ensures animation is fully complete
+        if (!this.isPaused) requestAnimationFrame(this.animate);
+      }, 2000);
     };
 
     if (document.readyState === 'complete') {
@@ -545,6 +579,8 @@ class MarqueeController {
   }
 
   animate() {
+    if (this.isPaused) return;
+
     // 0. Pause if Focus Mode
     if (document.body.classList.contains('focus-mode')) {
       requestAnimationFrame(this.animate);
@@ -556,6 +592,7 @@ class MarqueeController {
     const targetSpeed = this.isFloating ? this.slowSpeed : this.baseSpeed;
     this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.02;
 
+    // High refresh rate adjustment (simple) or just use currentSpeed
     this.scrollPos -= this.currentSpeed;
 
     // 2. Infinite Loop Logic
@@ -572,6 +609,8 @@ class MarqueeController {
     this.track.style.transform = `translateX(${this.scrollPos}px)`;
 
     // 3. Center Detection (Only if not already floating and cooled down)
+    // Reduce checks on Low Power devices? Or strict checking.
+    // Center detection is light, but DOM writes are heavy.
     if (!this.isFloating && this.cooldown <= 0) {
       this.checkCenter();
     }
