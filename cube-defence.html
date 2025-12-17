@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,15 +10,16 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
+
 <body>
   <div id="p5-canvas"></div>
-  
+
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo">
         <span>Lewis Whitham</span>
       </div>
-    
+
       <ul class="nav-links">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#programs">Programs</a></li>
@@ -53,7 +55,11 @@
       <div class="hero-visual">
         <!-- Placeholder for hero image/video -->
         <div class="hero-media-placeholder">
-           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DeV-7ofG0lQ?autoplay=1&mute=1&loop=1&playlist=DeV-7ofG0lQ" title="CubeTD Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+          <iframe width="100%" height="100%"
+            src="https://www.youtube.com/embed/DeV-7ofG0lQ?autoplay=1&mute=1&loop=1&playlist=DeV-7ofG0lQ"
+            title="CubeTD Hero" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen style="border-radius: 12px;"></iframe>
         </div>
       </div>
     </header>
@@ -68,24 +74,27 @@
         <div class="two-column-grid">
           <div class="text-content">
             <p class="lead-text">
-              Cube Defence serves as my dedicated testing ground for tower-defence mechanics within the Roblox ecosystem.
+              Cube Defence serves as my dedicated testing ground for tower-defence mechanics within the Roblox
+              ecosystem.
             </p>
             <p>
-              Rather than a full commercial release, this project focuses on the "feel" of the genre—specifically testing 
+              Rather than a full commercial release, this project focuses on the "feel" of the genre—specifically
+              testing
               enemy pacing, turret upgrade paths, and the critical UI feedback loops that keep players engaged.
-              My primary objective was to create a system where I could shave friction from the iteration process, 
-              allowing me to rapidly balance wave spikes and economy curves without getting bogged down in boilerplate code.
+              My primary objective was to create a system where I could shave friction from the iteration process,
+              allowing me to rapidly balance wave spikes and economy curves without getting bogged down in boilerplate
+              code.
             </p>
           </div>
           <div class="media-content">
-             <div class="stat-card">
-                <h3>Core Pillars</h3>
-                <ul class="feature-list">
-                  <li><strong>Modular Architecture:</strong> Hot-swappable tower behaviors.</li>
-                  <li><strong>Wave Authoring:</strong> Custom tools for spawn cadence.</li>
-                  <li><strong>Feedback Loops:</strong> Polished UI for player clarity.</li>
-                </ul>
-             </div>
+            <div class="stat-card">
+              <h3>Core Pillars</h3>
+              <ul class="feature-list">
+                <li><strong>Modular Architecture:</strong> Hot-swappable tower behaviors.</li>
+                <li><strong>Wave Authoring:</strong> Custom tools for spawn cadence.</li>
+                <li><strong>Feedback Loops:</strong> Polished UI for player clarity.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -96,56 +105,51 @@
           <h2 class="section-title">System Mechanics</h2>
           <div class="dashed-line"></div>
         </div>
-        
+
         <div class="programs-grid">
           <div class="program-card">
             <div class="card-icon">🏰</div>
             <h3>Modular Towers</h3>
-            <p>Built using modular scripts allowing distinct attack types like splash damage, single-target high DPS, and status effects to be mixed and matched.</p>
+            <p>Built using modular scripts allowing distinct attack types like splash damage, single-target high DPS,
+              and status effects to be mixed and matched.</p>
           </div>
           <div class="program-card">
             <div class="card-icon">🌊</div>
             <h3>Wave Authoring</h3>
-            <p>Custom tools to finely dial in spawn cadence, create mixed enemy compositions, and stage dramatic boss reveals for rapid difficulty testing.</p>
+            <p>Custom tools to finely dial in spawn cadence, create mixed enemy compositions, and stage dramatic boss
+              reveals for rapid difficulty testing.</p>
           </div>
           <div class="program-card">
             <div class="card-icon">📊</div>
             <h3>UI & Feedback</h3>
-            <p>Polished player-facing UI for upgrade previews, floating damage numbers, and clear resource flow indicators.</p>
+            <p>Polished player-facing UI for upgrade previews, floating damage numbers, and clear resource flow
+              indicators.</p>
           </div>
         </div>
       </section>
 
       <!-- Media Showcase -->
       <section class="project-section">
-         <div class="section-header">
+        <div class="section-header">
           <h2 class="section-title">Gameplay Showcase</h2>
           <div class="dashed-line"></div>
         </div>
         <div class="media-showcase">
-           <iframe width="100%" height="500" src="https://www.youtube.com/embed/Xma89H1E_9Y" title="CubeTD Gameplay" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></iframe>
+          <iframe width="100%" height="500" src="https://www.youtube.com/embed/Xma89H1E_9Y" title="CubeTD Gameplay"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></iframe>
         </div>
       </section>
 
     </main>
 
-    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+    <footer>
+      <p>&copy; 2023 Lewis Whitham. All rights reserved.</p>
+    </footer>
   </div>
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/dither.js"></script>
-  <script>
-    // Initialize dither effect
-    document.addEventListener('DOMContentLoaded', () => {
-      // Apply dither per section (each section gets its own lightweight canvas)
-      document.querySelectorAll('.project-hero, .project-section').forEach((section) => {
-        new DitherSection(section, {
-          color: 'rgba(0, 217, 255, 0.2)',
-          size: 4,
-          spacing: 30,
-          fadeRadius: 1500
-        });
-      });
-    });
-  </script>
+
 </body>
+
 </html>

@@ -34,13 +34,50 @@
 body {
     font-family: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background-color: #13141f;
-    background-image:
-        linear-gradient(var(--grid-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-color: #13141f;
+    /* SDF Background replaces previous pattern */
     color: #fff;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    user-select: none;
+}
+
+#sdf-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    /* Behind everything */
+    pointer-events: none;
+    /* Events captured by window listener in JS */
+}
+
+/* Focus Mode: Fades out content when dragging SDF shapes */
+body.focus-mode .content-wrapper {
+    opacity: 0.1;
+    filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+body.focus-mode {
+    cursor: grabbing;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.content-wrapper {
+    transition: opacity 0.4s ease, filter 0.4s ease;
 }
 
 /* Custom Scrollbar */
@@ -883,7 +920,6 @@ nav {
     overflow: hidden;
     position: relative;
     z-index: 2;
-    /* Ensure above dither */
     transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
@@ -1128,7 +1164,6 @@ nav {
     padding: 2rem;
     position: relative;
     z-index: 2;
-    /* Ensure above dither */
     transition: transform .3s, box-shadow .3s, border-color .3s;
     text-align: center;
     --hover-glow: rgba(0, 217, 255, 0.22)
@@ -1282,7 +1317,6 @@ nav {
     color: #fff;
     position: relative;
     z-index: 2;
-    /* Ensure above dither */
 }
 
 .social-platform-item:hover {
@@ -1694,7 +1728,6 @@ footer {
     align-items: start;
     position: relative;
     z-index: 2;
-    /* Ensure content above dither */
 }
 
 .program-column {
@@ -1766,7 +1799,6 @@ footer {
     overflow: hidden;
     position: relative;
     z-index: 2;
-    /* Ensure above dither */
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;

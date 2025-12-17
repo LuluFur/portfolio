@@ -27,12 +27,14 @@
         content="Portfolio of Lewis Whitham, a Game Developer and Digital Artist specializing in gameplay programming, interactive UI/UX.">
     <meta property="twitter:image" content="neon-lit-portrait--t3chat--1.jpg">
     <base href="./">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.2/p5.min.js"></script>
+    <base href="./">
+    <!-- p5.js removed, replaced by custom WebGL SDF -->
+    <script src="./assets/js/sdf_background.js" defer></script>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <div id="p5-canvas"></div>
+    <canvas id="sdf-canvas"></canvas>
 
     <div class="content-wrapper">
         <!-- Navigation -->
@@ -990,7 +992,7 @@
     </div>
 
     <script src="./assets/js/main.js"></script>
-    <script src="./assets/js/dither.js"></script>
+
 </body>
 
 </html>

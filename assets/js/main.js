@@ -1,194 +1,8 @@
 // =============================================================================
-// p5.js 2.0 Background Particles
+// MAIN INITIALIZATION
 // =============================================================================
-const CONNECTION_DISTANCE = 150;
-const GRID_SIZE = 160;
-const MAX_CONNECTIONS_PER_PARTICLE = 6;
-let particles = [];
-let textParticles = [];
-let variableWeight = 300;
-let weightDirection = 1;
-let particleCount = determineParticleCount();
-const spatialGrid = new Map();
 
-function determineParticleCount() {
-  const isSmallScreen = window.innerWidth < 768;
-  const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 4;
-  const lowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
-  const highDensity = (window.devicePixelRatio || 1) > 2;
-  let count = isSmallScreen ? 70 : 110;
-  if (lowMemory || lowCores || highDensity) { count *= 0.65; }
-  return Math.max(40, Math.round(count));
-}
-
-function createParticle() {
-  const xPct = random(1);
-  const yPct = random(1);
-  return {
-    xPct: xPct, yPct: yPct,
-    x: xPct * width, y: yPct * height,
-    vx: random(-0.5, 0.5), vy: random(-0.5, 0.5),
-    size: random(2, 6), opacityVal: random(0.3, 0.7), // Increased opacity for glow visibility
-    hue: random([180, 270]) // Cyan (180) and Purple (270) only, removed red (0) to match image
-  };
-}
-
-function syncParticlePool(targetCount) {
-  if (particles.length > targetCount) {
-    particles.length = targetCount;
-    return;
-  }
-  for (let i = particles.length; i < targetCount; i++) {
-    particles.push(createParticle());
-  }
-}
-
-function setup() {
-  const canvas = createCanvas(windowWidth, windowHeight);
-  canvas.parent('p5-canvas');
-  syncParticlePool(particleCount);
-
-  // Performance: Pause rendering when tab is not visible
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      noLoop();
-    } else {
-      loop();
-    }
-  });
-}
-
-function draw() {
-  clear();
-  variableWeight += weightDirection * 2;
-  if (variableWeight > 900 || variableWeight < 300) { weightDirection *= -1; }
-  updateParticles();
-  populateSpatialGrid();
-  renderParticles();
-}
-
-function updateParticles() {
-  for (let p of particles) {
-    p.xPct += p.vx / width;
-    p.yPct += p.vy / height;
-
-    if (p.xPct < 0) p.xPct += 1;
-    if (p.xPct > 1) p.xPct -= 1;
-    if (p.yPct < 0) p.yPct += 1;
-    if (p.yPct > 1) p.yPct -= 1;
-
-    p.x = p.xPct * width;
-    p.y = p.yPct * height;
-  }
-}
-
-function populateSpatialGrid() {
-  spatialGrid.clear();
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    const key = getCellKey(p.x, p.y);
-    let bucket = spatialGrid.get(key);
-    if (!bucket) {
-      bucket = [];
-      spatialGrid.set(key, bucket);
-    }
-    bucket.push(i);
-  }
-}
-
-function getCellKey(x, y) {
-  return `${Math.floor(x / GRID_SIZE)}:${Math.floor(y / GRID_SIZE)}`;
-}
-
-function renderParticles() {
-  for (let i = 0; i < particles.length; i++) {
-    const p = particles[i];
-    applyParticleColor(p);
-    noStroke();
-    circle(p.x, p.y, p.size);
-    drawConnectionsFor(i, p);
-  }
-}
-
-function applyParticleColor(particle) {
-  const ctx = drawingContext; // Access native context
-  // Radial Gradient Glow
-  // Inner color: opaque, Outer color: transparent
-  const grad = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size * 2);
-
-  if (particle.hue === 180) { // Cyan
-    grad.addColorStop(0, `rgba(0, 217, 255, ${particle.opacityVal})`);
-    grad.addColorStop(1, `rgba(0, 217, 255, 0)`);
-  } else { // Purple/Pink
-    grad.addColorStop(0, `rgba(168, 85, 247, ${particle.opacityVal})`);
-    grad.addColorStop(1, `rgba(168, 85, 247, 0)`);
-  }
-
-  ctx.fillStyle = grad;
-}
-
-function drawConnectionsFor(index, particle) {
-  let connections = 0;
-  for (const neighborIndex of getNeighborIndices(particle)) {
-    if (neighborIndex <= index) { continue; }
-    const other = particles[neighborIndex];
-    const d = dist(particle.x, particle.y, other.x, other.y);
-    if (d < CONNECTION_DISTANCE) {
-
-      // Gradient Line
-      const ctx = drawingContext;
-      const grad = ctx.createLinearGradient(particle.x, particle.y, other.x, other.y);
-
-      const opacity = map(d, 0, CONNECTION_DISTANCE, 0.4, 0); // Dimmer lines
-
-      if (particle.hue === 180) {
-        grad.addColorStop(0, `rgba(0, 217, 255, ${opacity})`);
-      } else {
-        grad.addColorStop(0, `rgba(168, 85, 247, ${opacity})`);
-      }
-
-      if (other.hue === 180) {
-        grad.addColorStop(1, `rgba(0, 217, 255, ${opacity})`);
-      } else {
-        grad.addColorStop(1, `rgba(168, 85, 247, ${opacity})`);
-      }
-
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 1; // Slightly thicker for glow visibility
-
-      //   stroke(255, 255, 255, map(d, 0, CONNECTION_DISTANCE, 35, 0)); // Old stroke
-      //   strokeWeight(0.5);
-
-      // Use native stroke because p5 stroke() resets strokeStyle
-      ctx.beginPath();
-      ctx.moveTo(particle.x, particle.y);
-      ctx.lineTo(other.x, other.y);
-      ctx.stroke();
-
-      if (++connections >= MAX_CONNECTIONS_PER_PARTICLE) { break; }
-    }
-  }
-}
-
-function getNeighborIndices(particle) {
-  const cellX = Math.floor(particle.x / GRID_SIZE);
-  const cellY = Math.floor(particle.y / GRID_SIZE);
-  const neighbors = [];
-  for (let dx = -1; dx <= 1; dx++) {
-    for (let dy = -1; dy <= 1; dy++) {
-      const bucket = spatialGrid.get(`${cellX + dx}:${cellY + dy}`);
-      if (bucket) { neighbors.push(...bucket); }
-    }
-  }
-  return neighbors;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  const desiredCount = determineParticleCount();
-  particleCount = desiredCount;
-  syncParticlePool(desiredCount);
-}
+// Page Load Flow
 
 document.addEventListener('DOMContentLoaded', () => {
   // Page Entry Transition (for non-index pages)
@@ -654,6 +468,8 @@ class MarqueeController {
     this.cooldown = 0;           // Timer to prevent double-triggering
     this.isFloating = false;     // State flag
     this.lastTriggeredItem = null;
+    this.activeClone = null;
+    this.activeOriginalItem = null;
 
     // --- INFINITE SCROLL SETUP ---
     // We clone the item set enough times to fill the screen width + buffer.
@@ -677,6 +493,9 @@ class MarqueeController {
 
   init() {
     this.animate = this.animate.bind(this);
+    this.handleResize = this.handleResize.bind(this);
+
+    window.addEventListener('resize', this.handleResize);
 
     // Wait for page load AND CSS entry animation (0.6s delay + 0.8s duration = 1.4s)
     const start = () => {
@@ -692,7 +511,23 @@ class MarqueeController {
     }
   }
 
+  handleResize() {
+    if (this.isFloating && this.activeClone && this.activeOriginalItem) {
+      const rect = this.activeOriginalItem.getBoundingClientRect();
+      this.activeClone.style.left = `${rect.left + window.scrollX}px`;
+      this.activeClone.style.top = `${rect.top + window.scrollY}px`;
+      this.activeClone.style.width = `${rect.width}px`;
+      this.activeClone.style.height = `${rect.height}px`;
+    }
+  }
+
   animate() {
+    // 0. Pause if Focus Mode
+    if (document.body.classList.contains('focus-mode')) {
+      requestAnimationFrame(this.animate);
+      return;
+    }
+
     // 1. Move scroll
     // Smoothly lerp speed - Easing adjusted (0.02)
     const targetSpeed = this.isFloating ? this.slowSpeed : this.baseSpeed;
@@ -744,10 +579,12 @@ class MarqueeController {
 
   triggerFloat(originalItem) {
     this.isFloating = true;
+    this.activeOriginalItem = originalItem;
 
     // 1. Create Clone
     const rect = originalItem.getBoundingClientRect();
     const clone = originalItem.cloneNode(true);
+    this.activeClone = clone;
 
     // Style Clone
     clone.classList.add('marquee-float-item');
@@ -830,6 +667,8 @@ class MarqueeController {
     setTimeout(() => {
       // Animation complete
       clone.remove();
+      this.activeClone = null;
+      this.activeOriginalItem = null;
       originalItem.classList.remove('marquee-item-hidden');
       this.isFloating = false;
       this.lastTriggeredItem = originalItem; // Mark as just triggered

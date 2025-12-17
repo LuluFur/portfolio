@@ -142,21 +142,7 @@
     </footer>
   </div>
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/dither.js"></script>
-  <script>
-    // Initialize dither effect
-    document.addEventListener('DOMContentLoaded', () => {
-      // Apply dither per section (each section gets its own lightweight canvas)
-      document.querySelectorAll('.project-hero, .project-section').forEach((section) => {
-        new DitherSection(section, {
-          color: 'rgba(0, 217, 255, 0.2)',
-          size: 4,
-          spacing: 30,
-          fadeRadius: 1500
-        });
-      });
-    });
-  </script>
+
 </body>
 
 </html>

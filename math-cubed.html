@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,15 +10,16 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
+
 <body>
   <div id="p5-canvas"></div>
-  
+
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo">
         <span>Lewis Whitham</span>
       </div>
-    
+
       <ul class="nav-links">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#programs">Programs</a></li>
@@ -53,7 +55,11 @@
       <div class="hero-visual">
         <!-- Placeholder for hero image/video -->
         <div class="hero-media-placeholder">
-           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ZOSgTVgXXGk?autoplay=1&mute=1&loop=1&playlist=ZOSgTVgXXGk" title="Math Cubed Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+          <iframe width="100%" height="100%"
+            src="https://www.youtube.com/embed/ZOSgTVgXXGk?autoplay=1&mute=1&loop=1&playlist=ZOSgTVgXXGk"
+            title="Math Cubed Hero" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen style="border-radius: 12px;"></iframe>
         </div>
       </div>
     </header>
@@ -71,19 +77,21 @@
               Math Cubed breaks maths drills into satisfying arcade loops.
             </p>
             <p>
-              I iterated on reward pacing, tactile UI, and Unreal Blueprint tools so number puzzles feel as punchy as action games. 
-              The goal was to remove the "chore" feeling from learning and replace it with the dopamine hit of a high score.
+              I iterated on reward pacing, tactile UI, and Unreal Blueprint tools so number puzzles feel as punchy as
+              action games.
+              The goal was to remove the "chore" feeling from learning and replace it with the dopamine hit of a high
+              score.
             </p>
           </div>
           <div class="media-content">
-             <div class="stat-card">
-                <h3>Core Pillars</h3>
-                <ul class="feature-list">
-                  <li><strong>Gamification:</strong> Arcade loops for education.</li>
-                  <li><strong>Tactile UI:</strong> Satisfying feedback for correct answers.</li>
-                  <li><strong>Difficulty Scaling:</strong> Modular problem generation.</li>
-                </ul>
-             </div>
+            <div class="stat-card">
+              <h3>Core Pillars</h3>
+              <ul class="feature-list">
+                <li><strong>Gamification:</strong> Arcade loops for education.</li>
+                <li><strong>Tactile UI:</strong> Satisfying feedback for correct answers.</li>
+                <li><strong>Difficulty Scaling:</strong> Modular problem generation.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -94,7 +102,7 @@
           <h2 class="section-title">System Mechanics</h2>
           <div class="dashed-line"></div>
         </div>
-        
+
         <div class="programs-grid">
           <div class="program-card">
             <div class="card-icon">🧩</div>
@@ -121,36 +129,26 @@
           <div class="dashed-line"></div>
         </div>
         <div class="programs-grid" style="margin-top: 2rem;">
-            <a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" class="program-card" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center;">
-                <div class="card-icon">📝</div>
-                <h3 class="program-name">Design Document</h3>
-                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    Technical specifications and game mechanics.
-                </p>
-                <span class="cta-btn" style="margin-top: auto; font-size: 0.9rem;">Open PDF ↗</span>
-            </a>
+          <a href="Math_Cubed_Files/L_Whitham_Project-4-Design-Document_V2.pdf" target="_blank" class="program-card"
+            style="text-decoration: none; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="card-icon">📝</div>
+            <h3 class="program-name">Design Document</h3>
+            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
+              Technical specifications and game mechanics.
+            </p>
+            <span class="cta-btn" style="margin-top: auto; font-size: 0.9rem;">Open PDF ↗</span>
+          </a>
         </div>
       </section>
 
     </main>
 
-    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+    <footer>
+      <p>&copy; 2023 Lewis Whitham. All rights reserved.</p>
+    </footer>
   </div>
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/dither.js"></script>
-  <script>
-    // Initialize dither effect
-    document.addEventListener('DOMContentLoaded', () => {
-      // Apply dither per section (each section gets its own lightweight canvas)
-      document.querySelectorAll('.project-hero, .project-section').forEach((section) => {
-        new DitherSection(section, {
-          color: 'rgba(0, 217, 255, 0.2)',
-          size: 4,
-          spacing: 30,
-          fadeRadius: 1500
-        });
-      });
-    });
-  </script>
+
 </body>
+
 </html>

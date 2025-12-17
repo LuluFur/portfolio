@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,15 +10,16 @@
   <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/project-hero.css" />
 </head>
+
 <body>
   <div id="p5-canvas"></div>
-  
+
   <div class="content-wrapper">
     <nav class="site-nav">
       <div class="logo">
         <span>Lewis Whitham</span>
       </div>
-    
+
       <ul class="nav-links">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#programs">Programs</a></li>
@@ -53,7 +55,11 @@
       <div class="hero-visual">
         <!-- Placeholder for hero image/video -->
         <div class="hero-media-placeholder">
-           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/IGzAvMYppkw?autoplay=1&mute=1&loop=1&playlist=IGzAvMYppkw" title="Slime Slasher Hero" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 12px;"></iframe>
+          <iframe width="100%" height="100%"
+            src="https://www.youtube.com/embed/IGzAvMYppkw?autoplay=1&mute=1&loop=1&playlist=IGzAvMYppkw"
+            title="Slime Slasher Hero" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen style="border-radius: 12px;"></iframe>
         </div>
       </div>
     </header>
@@ -68,22 +74,24 @@
         <div class="two-column-grid">
           <div class="text-content">
             <p class="lead-text">
-              Built in GameMaker, Slime Slasher is where I dialed in melee feel—animation timing, hitstop, and particle bursts.
+              Built in GameMaker, Slime Slasher is where I dialed in melee feel—animation timing, hitstop, and particle
+              bursts.
             </p>
             <p>
-              I experimented with enemy reads and arena layouts to create a responsive combat system that feels fair but challenging.
+              I experimented with enemy reads and arena layouts to create a responsive combat system that feels fair but
+              challenging.
               The focus was on "game feel" - ensuring every hit, dodge, and movement felt satisfying and impactful.
             </p>
           </div>
           <div class="media-content">
-             <div class="stat-card">
-                <h3>Core Pillars</h3>
-                <ul class="feature-list">
-                  <li><strong>Game Feel:</strong> Hitstop, screen shake, and particle effects.</li>
-                  <li><strong>Combat Design:</strong> Enemy telegraphing and dodge mechanics.</li>
-                  <li><strong>VFX:</strong> Parametric systems for visual feedback.</li>
-                </ul>
-             </div>
+            <div class="stat-card">
+              <h3>Core Pillars</h3>
+              <ul class="feature-list">
+                <li><strong>Game Feel:</strong> Hitstop, screen shake, and particle effects.</li>
+                <li><strong>Combat Design:</strong> Enemy telegraphing and dodge mechanics.</li>
+                <li><strong>VFX:</strong> Parametric systems for visual feedback.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -94,7 +102,7 @@
           <h2 class="section-title">System Mechanics</h2>
           <div class="dashed-line"></div>
         </div>
-        
+
         <div class="programs-grid">
           <div class="program-card">
             <div class="card-icon">⚔️</div>
@@ -116,34 +124,24 @@
 
       <!-- Visuals Showcase -->
       <section class="project-section">
-         <div class="section-header">
+        <div class="section-header">
           <h2 class="section-title">Visual Assets</h2>
           <div class="dashed-line"></div>
         </div>
         <div class="media-showcase">
-           <img src="Slime_Slasher_Files/image-1764803366175.png" alt="Combat Screenshot" style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+          <img src="Slime_Slasher_Files/image-1764803366175.png" alt="Combat Screenshot"
+            style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
         </div>
       </section>
 
     </main>
 
-    <footer><p>&copy; 2023 Lewis Whitham. All rights reserved.</p></footer>
+    <footer>
+      <p>&copy; 2023 Lewis Whitham. All rights reserved.</p>
+    </footer>
   </div>
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/dither.js"></script>
-  <script>
-    // Initialize dither effect
-    document.addEventListener('DOMContentLoaded', () => {
-      // Apply dither per section (each section gets its own lightweight canvas)
-      document.querySelectorAll('.project-hero, .project-section').forEach((section) => {
-        new DitherSection(section, {
-          color: 'rgba(0, 217, 255, 0.2)',
-          size: 4,
-          spacing: 30,
-          fadeRadius: 1500
-        });
-      });
-    });
-  </script>
+
 </body>
+
 </html>
