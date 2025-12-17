@@ -1057,19 +1057,12 @@ nav {
     z-index: 10000;
     pointer-events: none;
     opacity: 1;
-    transition: opacity 0.8s ease-out;
+    transition: opacity 1.5s ease-out;
 }
 
 .page-enter-overlay.fade-out {
     opacity: 0;
 }
-
-
-
-/* Click Me Prompt */
-
-
-
 
 .project-info {
     padding: 1.5rem

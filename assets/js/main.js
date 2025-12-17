@@ -4,6 +4,8 @@
 
 // Page Load Flow
 
+// Page Load Flow
+
 document.addEventListener('DOMContentLoaded', () => {
   // Page Entry Transition (for non-index pages)
   if (document.querySelector('.project-hero') || document.querySelector('.page-hero')) {
@@ -14,13 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Force reflow
     overlay.getBoundingClientRect();
 
-    requestAnimationFrame(() => {
-      overlay.classList.add('fade-out');
-      setTimeout(() => {
-        overlay.remove();
-      }, 800);
+    // Wait for content (all images etc) to load before revealing
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => {
+        overlay.classList.add('fade-out');
+        setTimeout(() => {
+          overlay.remove();
+        }, 1500); // Match CSS transition
+      });
     });
   }
+
+  // Cleanup on Back Navigation (bfcache)
+  window.addEventListener('pageshow', (event) => {
+    const clones = document.querySelectorAll('.transition-hero-clone');
+    clones.forEach(el => el.remove());
+
+    // Restore opacity of any hidden project items (if user went back)
+    document.querySelectorAll('.project-item').forEach(item => {
+      item.style.opacity = '';
+    });
+  });
 
 
 
@@ -286,6 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const clone = this.cloneNode(true);
       clone.classList.remove('featured'); // Remove animation/glow
 
+      // Hide content inside the clone for smooth blend
+      Array.from(clone.children).forEach(child => {
+        child.style.transition = 'opacity 0.3s ease';
+        child.style.opacity = '0';
+      });
+
       // 3. Create wrapper for 3D context
       const wrapper = document.createElement('div');
       wrapper.classList.add('transition-hero-clone');
@@ -318,12 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (innerCard) {
         innerCard.style.transition = 'border-radius 1s ease';
         innerCard.style.borderRadius = '0';
+        innerCard.style.background = '#000'; // Blend to black
       }
 
       const backface = document.createElement('div');
       backface.style.position = 'absolute';
       backface.style.inset = '0';
-      backface.style.background = '#13141f';
+      backface.style.background = '#000'; // Solid black backface
       backface.style.transform = 'rotateY(180deg)';
       backface.style.backfaceVisibility = 'hidden';
       backface.style.borderRadius = '0';
