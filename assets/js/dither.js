@@ -1,250 +1,390 @@
-class DitherSection {
-    constructor(selector, options = {}) {
-        // Accept either a CSS selector string or a direct Element
-        if (typeof selector === 'string') {
-            this.container = document.querySelector(selector);
-        } else if (selector && selector.nodeType === 1) {
-            this.container = selector;
-        } else {
-            this.container = null;
-        }
+/**
+ * Dither Effect System
+ * Physics-based interactive dither pattern for desktop devices
+ * Falls back to static rendering on touch/mobile devices
+ */
 
+// =============================================================================
+// CONFIGURATION
+// Centralized settings for all dither effects across the site.
+// =============================================================================
+const DITHER_CONFIG = {
+    // Device Detection: Only run heavy physics on desktop with mouse
+    isDesktop: window.matchMedia('(pointer: fine)').matches && !('ontouchstart' in window),
+
+    // Physics Settings (only used on desktop)
+    physics: {
+        tension: 0.015,     // Spring stiffness
+        damping: 0.92,      // Friction
+        spread: 0.025,      // Wave propagation
+        waveForce: 0.15,    // Mouse wake force
+        mouseRadius: 150    // Mouse influence radius
+    },
+
+    // Circuit Settings
+    circuit: {
+        nodeCount: 60,
+        connectionDist: 200,
+        pulseSpeed: 2,
+        pulseChance: 0.02
+    },
+
+    // Section Definitions
+    sections: [
+        // Hero: Circuit Board Effect
+
+
+        // Other Sections: Grid Dither
+        { selector: '.about', color: 'rgba(168, 85, 247, 0.15)', spacing: 32, fadeMargin: 120, zIndex: 1 },
+        { selector: '.sketches-section', color: 'rgba(255, 107, 107, 0.15)', spacing: 32, fadeMargin: 120, zIndex: 1 },
+        { selector: '.programs', color: 'rgba(255, 255, 255, 0.12)', spacing: 32, fadeMargin: 120, zIndex: 1 },
+        { selector: '.contact', color: 'rgba(0, 217, 255, 0.15)', spacing: 32, fadeMargin: 120, zIndex: 1 },
+        { selector: '.project-hero', color: 'rgba(0, 217, 255, 0.18)', spacing: 28, fadeMargin: 180, zIndex: 1 },
+        { selector: '.project-article', color: 'rgba(168, 85, 247, 0.12)', spacing: 32, fadeMargin: 100, zIndex: 1 }
+    ],
+
+    baseSize: 6,
+    maxSize: 14
+};
+
+/**
+ * =============================================================================
+ * DITHER SECTION CLASS
+ * Manages a single dither effect canvas.
+ * Supports two modes:
+ * 1. 'grid': Standard square grid that reacts to mouse physics (wave equations).
+ * 2. 'circuit': Interactive circuit board effect with traces and signals.
+ * =============================================================================
+ */
+class DitherSection {
+    constructor(config) {
+        this.container = document.querySelector(config.selector);
         if (!this.container) return;
+
+        this.color = config.color;
+        this.spacing = config.spacing;
+        this.fadeMargin = config.fadeMargin || 100;
+        this.zIndex = config.zIndex;
+        this.layout = config.layout || 'grid';
+        this.usePhysics = DITHER_CONFIG.isDesktop && config.hasPhysics;
 
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
+        this.setupCanvas();
 
-        this.config = Object.assign({
-            spacing: 24,
-            size: 10,
-            color: '#5d5d8a',
-            fadeRadius: 1200,
-            moveStrength: 30,
-            ease: 0.01
-        }, options);
-
+        this.points = [];
+        this.connections = []; // For circuit layout
+        this.pulses = [];      // For circuit layout
         this.width = 0;
         this.height = 0;
-        this.targetX = 0;
-        this.targetY = 0;
-        this.currentX = 0;
-        this.currentY = 0;
 
-        // Performance flags
-        this.isVisible = false;
-        this.isAnimating = false;
-        this.animationFrameId = null;
+        if (this.usePhysics) {
+            this.mouseX = -1000;
+            this.mouseY = -1000;
+            this.prevMouseX = -1000;
+            this.prevMouseY = -1000;
+            this.isHovering = false;
+            this.lastFrameTime = 0;
+            this.containerRect = null;
+        }
 
         this.init();
     }
 
-    init() {
-        this.canvas.style.position = 'absolute';
-        // Expand canvas to prevent clipping during parallax
-        this.canvas.style.top = '-50px';
-        this.canvas.style.left = '-50px';
-        this.canvas.style.width = 'calc(100% + 100px)';
-        this.canvas.style.height = 'calc(100% + 100px)';
-        this.canvas.style.zIndex = '-1';
-        this.canvas.style.pointerEvents = 'none';
+    setupCanvas() {
+        const s = this.canvas.style;
+        s.position = 'absolute';
+        s.top = s.left = '0';
+        s.width = s.height = '100%';
+        s.zIndex = this.zIndex;
+        s.pointerEvents = 'none';
 
-        // Ensure container has relative positioning if not already
         const style = getComputedStyle(this.container);
         if (style.position === 'static') {
             this.container.style.position = 'relative';
         }
-
         this.container.insertBefore(this.canvas, this.container.firstChild);
+    }
 
+    init() {
         this.resize = this.resize.bind(this);
         this.draw = this.draw.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-
         window.addEventListener('resize', this.resize);
-        window.addEventListener('mousemove', this.handleMouseMove);
 
-        // Optimization 1: Intersection Observer to only render when visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                this.isVisible = entry.isIntersecting;
-                if (this.isVisible) {
-                    this.startLoop();
-                } else {
-                    this.stopLoop();
-                }
+        if (this.usePhysics) {
+            this.handleMouseMove = this.handleMouseMove.bind(this);
+            this.handleMouseLeave = this.handleMouseLeave.bind(this);
+            window.addEventListener('mousemove', this.handleMouseMove);
+            this.container.addEventListener('mouseleave', this.handleMouseLeave);
+        }
+
+        new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                this.isVisible = e.isIntersecting;
+                if (this.isVisible) this.startLoop();
+                else this.stopLoop();
             });
-        }, { threshold: 0 });
-
-        observer.observe(this.container);
+        }, { threshold: 0 }).observe(this.container);
 
         this.resize();
     }
 
-    startLoop() {
-        if (!this.isAnimating && this.isVisible) {
-            this.isAnimating = true;
-            this.draw();
-        }
-    }
-
-    stopLoop() {
-        this.isAnimating = false;
-        if (this.animationFrameId) {
-            cancelAnimationFrame(this.animationFrameId);
-            this.animationFrameId = null;
-        }
-    }
-
     resize() {
         const rect = this.container.getBoundingClientRect();
-        // Match the expanded CSS size (container + 100px)
-        this.width = rect.width + 100;
-        this.height = rect.height + 100;
+        this.width = rect.width;
+        this.height = rect.height;
+        if (this.usePhysics) this.containerRect = rect;
 
-        // Handle High DPI
         const dpr = window.devicePixelRatio || 1;
         this.canvas.width = this.width * dpr;
         this.canvas.height = this.height * dpr;
         this.ctx.scale(dpr, dpr);
 
-        // Force a redraw after resize
-        if (this.isVisible) {
-            this.renderFrame();
+        this.points = [];
+        this.connections = [];
+
+        // Always grid for stability now
+        this.generateGrid();
+
+        if (this.isVisible) this.render();
+    }
+
+    generateGrid() {
+        // Use wider spacing for circuit feel
+        const spacing = this.layout === 'circuit' ? 32 : this.spacing;
+        const cols = Math.ceil(this.width / spacing) + 2;
+        const rows = Math.ceil(this.height / spacing) + 2;
+        const offX = (this.width - (cols - 2) * spacing) / 2 - spacing;
+        const offY = (this.height - (rows - 2) * spacing) / 2 - spacing;
+
+        this.grid = []; // 2D array for neighbor access if needed, or just flattened
+
+        for (let ix = 0; ix < cols; ix++) {
+            for (let iy = 0; iy < rows; iy++) {
+                const isEdge = ix === 0 || ix === cols - 1 || iy === 0 || iy === rows - 1;
+                this.points.push({
+                    x: offX + ix * spacing,
+                    y: offY + iy * spacing,
+                    z: 0, vz: 0,
+                    pinned: isEdge,
+                    // Circuit Props
+                    signal: 0,
+                    signalDecay: 0.02 + Math.random() * 0.03,
+                    ix, iy // Grid coords
+                });
+            }
+        }
+    }
+
+    // Removed generateCircuit (old graph style)
+
+    startLoop() {
+        if (this.isAnimating || !this.isVisible) return;
+        this.isAnimating = true;
+        this.lastFrameTime = performance.now();
+        this.draw();
+    }
+
+    stopLoop() {
+        this.isAnimating = false;
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
         }
     }
 
     handleMouseMove(e) {
-        if (!this.isVisible) return;
-
-        // Calculate mouse position relative to window center for parallax direction
-        const x = (e.clientX / window.innerWidth - 0.5) * 2;
-        const y = (e.clientY / window.innerHeight - 0.5) * 2;
-
-        this.targetX = x * this.config.moveStrength;
-        this.targetY = y * this.config.moveStrength;
-
-        // Optimization 2: Restart loop if it was idle
+        if (!this.isVisible || !this.containerRect) return;
+        this.mouseX = e.clientX - this.containerRect.left;
+        this.mouseY = e.clientY - this.containerRect.top;
+        this.isHovering = this.mouseX >= 0 && this.mouseX <= this.width &&
+            this.mouseY >= 0 && this.mouseY <= this.height;
         this.startLoop();
     }
 
+    handleMouseLeave() {
+        this.isHovering = false;
+        // Don't reset immediately, let signals decay
+    }
+
+    // ===============================================
+    // DRAW & RENDER LOOP
+    // ===============================================
     draw() {
         if (!this.isVisible) {
             this.isAnimating = false;
             return;
         }
 
-        // Calculate delta
-        const dx = this.targetX - this.currentX;
-        const dy = this.targetY - this.currentY;
+        const now = performance.now();
+        // const dt = ... (unused for simple decay)
 
-        // Optimization: Stop if movement is negligible
-        if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01) {
-            this.currentX = this.targetX;
-            this.currentY = this.targetY;
-            this.renderFrame();
-            this.isAnimating = false;
-            return;
-        }
+        let active = false;
+        const spacing = this.layout === 'circuit' ? 32 : this.spacing;
 
-        // Smooth movement
-        this.currentX += dx * this.config.ease;
-        this.currentY += dy * this.config.ease;
+        // 1. Inject Energy from Mouse
+        if (this.isHovering) {
+            const range = 250; // Interaction radius
+            const rangeSq = range * range;
 
-        this.renderFrame();
+            for (const p of this.points) {
+                const dx = p.x - this.mouseX;
+                const dy = p.y - this.mouseY;
+                const distSq = dx * dx + dy * dy;
 
-        this.animationFrameId = requestAnimationFrame(this.draw);
-    }
-
-    renderFrame() {
-        // Clear
-        this.ctx.clearRect(0, 0, this.width, this.height);
-        this.ctx.fillStyle = this.config.color;
-
-        const cx = this.width / 2;
-        const cy = this.height / 2;
-
-        // Grid properties
-        const gridSpacing = this.config.spacing; // Fixed spacing
-
-        // Offset grid by current parallax position to create movement
-        // We use % gridSpacing to keep the grid "locked" but moving effectively
-        const offsetX = this.currentX % gridSpacing;
-        const offsetY = this.currentY % gridSpacing;
-
-        // Draw Grid
-        this.ctx.beginPath();
-
-        // Expand buffer to cover parallax movement
-        const buffer = gridSpacing * 2;
-
-        for (let x = -buffer; x < this.width + buffer; x += gridSpacing) {
-            for (let y = -buffer; y < this.height + buffer; y += gridSpacing) {
-
-                // Effective Grid Coordinates (with Parallax)
-                const drawX = x + this.currentX;
-                const drawY = y + this.currentY;
-
-                // Distance from CENTER of the canvas
-                const dist = Math.sqrt((drawX - cx) ** 2 + (drawY - cy) ** 2);
-
-                // Calculate Scale Factor (1.0 at center, 0.0 at fadeRadius)
-                let scale = 1 - (dist / this.config.fadeRadius);
-                if (scale < 0) continue; // Skip if too far
-
-                // Non-linear fade for better vignette look
-                scale = scale * scale;
-
-                // Draw Plus Sign (+)
-                // Base size from config, modulated by scale
-                const size = this.config.size * scale;
-                const halfSize = size / 2;
-                const thickness = Math.max(1, size * 0.3); // Dynamic thickness but at least 1px
-
-                // Horizontal arm
-                this.ctx.rect(drawX - halfSize, drawY - thickness / 2, size, thickness);
-                // Vertical arm
-                this.ctx.rect(drawX - thickness / 2, drawY - halfSize, thickness, size);
+                if (distSq < rangeSq) {
+                    const power = 1 - (distSq / rangeSq);
+                    // Add signal based on proximity
+                    p.signal = Math.max(p.signal, power);
+                    active = true;
+                }
             }
         }
 
-        this.ctx.fill();
+        // ---------------------------------------------------------------------
+        // 2. AMBIENT ANIMATION (Heartbeat)
+        // ---------------------------------------------------------------------
+        // Randomly light up nodes in circuit mode to make it feel alive
+        if (this.layout === 'circuit' && Math.random() < 0.05) {
+            const p = this.points[Math.floor(Math.random() * this.points.length)];
+            p.signal = 1;
+            active = true;
+        }
+
+        // ---------------------------------------------------------------------
+        // 3. RENDER LOGIC
+        // ---------------------------------------------------------------------
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        // --- LAYER 1: CIRCUIT CONNECTIONS ---
+        if (this.layout === 'circuit') {
+            ctx.lineWidth = 1.5;
+
+            // We iterate points and check Right and Down neighbors to avoid double drawing
+            // We need a way to look up neighbors efficiently. 
+            // Since points are pushed in order (ix loop outer, iy loop inner?), let's assume index logic or simple proximity check
+            // Or just iterate standard loops if we had 2D grid.
+            // Simple approach: Iterate all, check dist spacing * 1.1 
+
+            for (let i = 0; i < this.points.length; i++) {
+                const p = this.points[i];
+
+                // Decay
+                if (p.signal > 0) {
+                    p.signal -= p.signalDecay;
+                    if (p.signal < 0) p.signal = 0;
+                    else active = true;
+                }
+
+                if (p.signal > 0.05) {
+                    // Find neighbors (optimization: grid logic would be better but searching nearby in sorted buffer is okay-ish)
+                    // Actually, since generated in order, neighbors are at i+1 (if same col) and i+rows (next col)
+                    // Let's use the ix/iy we stored
+
+                    // Draw vertical line (to iy + 1)
+                    const pDown = this.points[i + 1];
+                    // Check if valid neighbor
+                    if (pDown && pDown.ix === p.ix && pDown.iy === p.iy + 1) {
+                        const strength = (p.signal + pDown.signal) / 2;
+                        if (strength > 0.05) {
+                            ctx.strokeStyle = `rgba(0, 217, 255, ${strength * 0.4})`;
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(pDown.x, pDown.y);
+                            ctx.stroke();
+                        }
+                    }
+
+                    // Draw horizontal line (to ix + 1)
+                    // We need to know Rows count to find horizontal neighbor index
+                    const rows = Math.ceil(this.height / spacing) + 2;
+                    const pRight = this.points[i + rows];
+                    if (pRight && pRight.ix === p.ix + 1 && pRight.iy === p.iy) {
+                        const strength = (p.signal + pRight.signal) / 2;
+                        if (strength > 0.05) {
+                            ctx.strokeStyle = `rgba(0, 217, 255, ${strength * 0.4})`;
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(pRight.x, pRight.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- LAYER 2: NODES / DOTS ---
+        for (const p of this.points) {
+            // Draw Dots
+            // Circuit mode: Nodes allow glow
+            if (this.layout === 'circuit') {
+                // Always visible weak dot
+                ctx.fillStyle = `rgba(0, 217, 255, ${0.1 + p.signal * 0.5})`;
+                const size = 2 + p.signal * 4;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Standard Dither Grid Logic for other sections
+                // Vignette
+                const margin = this.fadeMargin;
+                const minDist = Math.min(p.x, this.width - p.x, p.y, this.height - p.y);
+                if (minDist < 0) continue;
+                const t = Math.min(minDist / margin, 1);
+                const vignette = 1 - (1 - t) ** 3;
+
+                const size = (DITHER_CONFIG.baseSize * vignette);
+                if (size < 0.5) continue;
+
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.rect(p.x - size / 2, p.y - size / 2, size, size);
+                ctx.fill();
+            }
+        }
+
+        if (active || this.isHovering) {
+            this.animationId = requestAnimationFrame(this.draw);
+        } else {
+            this.isAnimating = false;
+        }
+    }
+
+
+    render() {
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.width, this.height);
+        ctx.fillStyle = this.color;
+
+        ctx.beginPath();
+
+        const baseSize = DITHER_CONFIG.baseSize;
+        const maxSize = DITHER_CONFIG.maxSize;
+        const margin = this.fadeMargin;
+
+        for (const p of this.points) {
+            // Vignette
+            let vignette = 1;
+            const minDist = Math.min(p.x, this.width - p.x, p.y, this.height - p.y);
+            if (minDist < 0) continue;
+            const t = Math.min(minDist / margin, 1);
+            vignette = 1 - (1 - t) ** 3;
+
+            const wave = this.usePhysics ? (1 + p.z * 0.15) : 1;
+            let size = baseSize * vignette * wave;
+            size = Math.min(size, maxSize);
+
+            if (size < 0.5) continue;
+            if (size < 1.5) continue;
+
+            ctx.rect(p.x - size / 2, p.y - size / 2, size, size);
+        }
+        ctx.fill();
     }
 }
 
-// Initialize for sections
+// Init
 document.addEventListener('DOMContentLoaded', () => {
-    // Hero Section
-    new DitherSection('.hero', {
-        color: 'rgba(0, 217, 255, 0.2)', // Cyan tint
-        spacing: 30,
-        fadeRadius: 1500
-    });
-
-    // About Section
-    new DitherSection('.about', {
-        color: 'rgba(168, 85, 247, 0.2)', // Purple tint
-        spacing: 30,
-        fadeRadius: 1500
-    });
-
-    // Sketches Section
-    new DitherSection('.sketches-section', {
-        color: 'rgba(255, 107, 107, 0.2)', // Coral tint
-        spacing: 30,
-        fadeRadius: 1500
-    });
-
-    // Programs Section
-    new DitherSection('.programs', {
-        color: 'rgba(255, 255, 255, 0.2)', // White tint
-        spacing: 30,
-        fadeRadius: 1500
-    });
-
-    // Contact Section
-    new DitherSection('.contact', {
-        color: 'rgba(0, 217, 255, 0.2)', // Cyan tint again
-        spacing: 30,
-        fadeRadius: 1500
-    });
+    DITHER_CONFIG.sections.forEach(config => new DitherSection(config));
 });

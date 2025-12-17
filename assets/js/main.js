@@ -1,5 +1,6 @@
-// Extracted from index.html inline script
-// p5.js 2.0 Sketch with lightweight optimizations
+// =============================================================================
+// p5.js 2.0 Background Particles
+// =============================================================================
 const CONNECTION_DISTANCE = 150;
 const GRID_SIZE = 160;
 const MAX_CONNECTIONS_PER_PARTICLE = 6;
@@ -27,8 +28,8 @@ function createParticle() {
     xPct: xPct, yPct: yPct,
     x: xPct * width, y: yPct * height,
     vx: random(-0.5, 0.5), vy: random(-0.5, 0.5),
-    size: random(2, 6), opacityVal: random(0.1, 0.5),
-    hue: random([0, 180, 270])
+    size: random(2, 6), opacityVal: random(0.3, 0.7), // Increased opacity for glow visibility
+    hue: random([180, 270]) // Cyan (180) and Purple (270) only, removed red (0) to match image
   };
 }
 
@@ -110,9 +111,20 @@ function renderParticles() {
 }
 
 function applyParticleColor(particle) {
-  if (particle.hue === 0) { fill(255, 107, 107, particle.opacityVal * 255); }
-  else if (particle.hue === 180) { fill(0, 217, 255, particle.opacityVal * 255); }
-  else { fill(168, 85, 247, particle.opacityVal * 255); }
+  const ctx = drawingContext; // Access native context
+  // Radial Gradient Glow
+  // Inner color: opaque, Outer color: transparent
+  const grad = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size * 2);
+
+  if (particle.hue === 180) { // Cyan
+    grad.addColorStop(0, `rgba(0, 217, 255, ${particle.opacityVal})`);
+    grad.addColorStop(1, `rgba(0, 217, 255, 0)`);
+  } else { // Purple/Pink
+    grad.addColorStop(0, `rgba(168, 85, 247, ${particle.opacityVal})`);
+    grad.addColorStop(1, `rgba(168, 85, 247, 0)`);
+  }
+
+  ctx.fillStyle = grad;
 }
 
 function drawConnectionsFor(index, particle) {
@@ -122,9 +134,37 @@ function drawConnectionsFor(index, particle) {
     const other = particles[neighborIndex];
     const d = dist(particle.x, particle.y, other.x, other.y);
     if (d < CONNECTION_DISTANCE) {
-      stroke(255, 255, 255, map(d, 0, CONNECTION_DISTANCE, 35, 0));
-      strokeWeight(0.5);
-      line(particle.x, particle.y, other.x, other.y);
+
+      // Gradient Line
+      const ctx = drawingContext;
+      const grad = ctx.createLinearGradient(particle.x, particle.y, other.x, other.y);
+
+      const opacity = map(d, 0, CONNECTION_DISTANCE, 0.4, 0); // Dimmer lines
+
+      if (particle.hue === 180) {
+        grad.addColorStop(0, `rgba(0, 217, 255, ${opacity})`);
+      } else {
+        grad.addColorStop(0, `rgba(168, 85, 247, ${opacity})`);
+      }
+
+      if (other.hue === 180) {
+        grad.addColorStop(1, `rgba(0, 217, 255, ${opacity})`);
+      } else {
+        grad.addColorStop(1, `rgba(168, 85, 247, ${opacity})`);
+      }
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1; // Slightly thicker for glow visibility
+
+      //   stroke(255, 255, 255, map(d, 0, CONNECTION_DISTANCE, 35, 0)); // Old stroke
+      //   strokeWeight(0.5);
+
+      // Use native stroke because p5 stroke() resets strokeStyle
+      ctx.beginPath();
+      ctx.moveTo(particle.x, particle.y);
+      ctx.lineTo(other.x, other.y);
+      ctx.stroke();
+
       if (++connections >= MAX_CONNECTIONS_PER_PARTICLE) { break; }
     }
   }
@@ -170,32 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // Dynamic Text Rotation (Hero)
-  const dynamicText = document.getElementById('hero-dynamic-text');
-  if (dynamicText) {
-    const roles = [
-      "Game Development",
-      "Gameplay Systems",
-      "Rapid Prototyping",
-      "Interactive UI / UX",
-      "Level Design"
-    ];
-    let roleIndex = 0;
 
-    setInterval(() => {
-      roleIndex = (roleIndex + 1) % roles.length;
-
-      // Slide out
-      dynamicText.classList.add('swapping');
-
-      setTimeout(() => {
-        // Change text
-        dynamicText.textContent = roles[roleIndex];
-        // Slide in
-        dynamicText.classList.remove('swapping');
-      }, 300); // Wait for opacity            
-    }, 3000); // 3 seconds per role
-  }
 
   // --- Global Scroll Animations ---
 
@@ -506,4 +521,331 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     });
   });
+});
+
+// =============================================================================
+// MARQUEE CONTROLLER - JS Driven Interactivity
+// =============================================================================
+// =============================================================================
+// PARTICLE SYSTEM - For Marquee Sparkles
+// =============================================================================
+/**
+ * =============================================================================
+ * PARTICLE SYSTEM
+ * Handles the visual "sparkles" for the marquee Pop-Out animation.
+ * Spawns particles on a separate fixed canvas layer.
+ * =============================================================================
+ */
+class ParticleSystem {
+  constructor() {
+    this.particles = [];
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
+
+    // Canvas Setup
+    this.canvas.style.position = 'fixed';
+    this.canvas.style.pointerEvents = 'none';
+    this.canvas.style.top = '0';
+    this.canvas.style.left = '0';
+    this.canvas.style.width = '100vw'; // Full screen for absolute positioning calculation
+    this.canvas.style.height = '100vh';
+    this.canvas.style.zIndex = '1001'; // Above floating item (z-index 1000)
+
+    document.body.appendChild(this.canvas);
+
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
+    this.animate();
+  }
+
+  resize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
+  /**
+   * Spawns a burst of particles at a specific coordinate.
+   * @param {number} x - Screen X coordinate
+   * @param {number} y - Screen Y coordinate
+   * @param {string} colorStr - Hex or RGBA string
+   * @param {number} count - Number of particles
+   */
+  spawn(x, y, colorStr, count = 20) {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 6; // Fast burst (4-10 px/frame)
+      this.particles.push({
+        x: x,
+        y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 1.0,
+        decay: 0.015 + Math.random() * 0.015,
+        color: colorStr,
+        size: 4 + Math.random() * 4
+      });
+    }
+  }
+
+  animate() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const p = this.particles[i];
+
+      // Physics
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vx *= 0.95; // Drag
+      p.vy *= 0.95;
+      p.life -= p.decay;
+
+      // Cull dead particles
+      if (p.life <= 0) {
+        this.particles.splice(i, 1);
+        continue;
+      }
+
+      // Render
+      this.ctx.globalAlpha = p.life;
+      this.ctx.fillStyle = p.color;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      this.ctx.fill();
+    }
+
+    requestAnimationFrame(() => this.animate());
+  }
+}
+
+/**
+ * =============================================================================
+ * MARQUEE CONTROLLER
+ * Manages the infinite scrolling logo marquee in the specific layout.
+ * Features:
+ *  - Physics-based smooth scrolling.
+ *  - Infinite loop buffering by cloning items.
+ *  - "Pop-Out" interactivity: items float/scale/color when reaching the center.
+ *  - Integration with ParticleSystem for visual effects.
+ *  - Syncs start with Page Load for stability.
+ * =============================================================================
+ */
+class MarqueeController {
+  constructor() {
+    this.track = document.querySelector('.marquee-track');
+    this.container = document.querySelector('.logo-marquee');
+    if (!this.track || !this.container) return;
+
+    this.particles = new ParticleSystem();
+
+    // Setup Items
+    this.items = Array.from(this.track.children);
+    this.scrollPos = 0;
+
+    // Speed Settings
+    this.baseSpeed = 0.5;  // Normal cruising speed
+    this.slowSpeed = 0.05; // Slow-mo during "Pop" interaction
+    this.currentSpeed = this.baseSpeed;
+
+    // Interaction Settings
+    this.floatDistance = 40;     // Height to raise the active item
+    this.floatDuration = 3000;   // Duration of the "Pop" (ms)
+    this.detectionThreshold = 40; // Pixel distance from center to trigger pop
+    this.cooldown = 0;           // Timer to prevent double-triggering
+    this.isFloating = false;     // State flag
+    this.lastTriggeredItem = null;
+
+    // --- INFINITE SCROLL SETUP ---
+    // We clone the item set enough times to fill the screen width + buffer.
+    this.originalCount = this.items.length;
+
+    // Clone 2 extra sets for safe looping (Total 3 sets)
+    this.items.forEach(item => {
+      const clone = item.cloneNode(true);
+      this.track.appendChild(clone);
+    });
+    this.items.forEach(item => {
+      const clone = item.cloneNode(true);
+      this.track.appendChild(clone);
+    });
+
+    // Re-query complete list of items including clones
+    this.allItems = Array.from(this.track.querySelectorAll('img'));
+
+    this.init();
+  }
+
+  init() {
+    this.animate = this.animate.bind(this);
+
+    // Wait for page load AND CSS entry animation (0.6s delay + 0.8s duration = 1.4s)
+    const start = () => {
+      setTimeout(() => {
+        requestAnimationFrame(this.animate);
+      }, 2000); // 2s delay ensures animation is fully complete
+    };
+
+    if (document.readyState === 'complete') {
+      start();
+    } else {
+      window.addEventListener('load', start);
+    }
+  }
+
+  animate() {
+    // 1. Move scroll
+    // Smoothly lerp speed - Easing adjusted (0.02)
+    const targetSpeed = this.isFloating ? this.slowSpeed : this.baseSpeed;
+    this.currentSpeed += (targetSpeed - this.currentSpeed) * 0.02;
+
+    this.scrollPos -= this.currentSpeed;
+
+    // 2. Infinite Loop Logic
+    // Calculate total width of one set of items
+    // We can approximate by measuring track width / 3
+    const trackWidth = this.track.scrollWidth;
+    const setWidth = trackWidth / 3;
+
+    // If we scrolled past one set, reset
+    if (Math.abs(this.scrollPos) >= setWidth) {
+      this.scrollPos += setWidth;
+    }
+
+    this.track.style.transform = `translateX(${this.scrollPos}px)`;
+
+    // 3. Center Detection (Only if not already floating and cooled down)
+    if (!this.isFloating && this.cooldown <= 0) {
+      this.checkCenter();
+    }
+
+    if (this.cooldown > 0) this.cooldown -= 16; // Approx ms per frame
+
+    requestAnimationFrame(this.animate);
+  }
+
+  checkCenter() {
+    const containerRect = this.container.getBoundingClientRect();
+    const centerX = (containerRect.left + containerRect.width / 2) - 40;
+
+    for (const item of this.allItems) {
+      const rect = item.getBoundingClientRect();
+      const itemCenterX = rect.left + rect.width / 2;
+      const dist = Math.abs(itemCenterX - centerX);
+
+      // Check if center is visible (within container)
+      if (rect.left > containerRect.left && rect.right < containerRect.right) {
+        if (dist < this.detectionThreshold && item !== this.lastTriggeredItem) {
+          this.triggerFloat(item);
+          break;
+        }
+      }
+    }
+  }
+
+  triggerFloat(originalItem) {
+    this.isFloating = true;
+
+    // 1. Create Clone
+    const rect = originalItem.getBoundingClientRect();
+    const clone = originalItem.cloneNode(true);
+
+    // Style Clone
+    clone.classList.add('marquee-float-item');
+    clone.style.left = `${rect.left + window.scrollX}px`;
+    clone.style.top = `${rect.top + window.scrollY}px`;
+    clone.style.width = `${rect.width}px`;
+    clone.style.height = `${rect.height}px`;
+    clone.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+
+    // Initial State for Transition (White)
+    clone.style.opacity = '1';
+    // Start white filter from CSS logic: brightness(0) invert(1)
+    // Except C# which is grayscale(100%) brightness(500%)
+    // We need to set explicit inline filter to transition FROM
+    if (originalItem.alt === "C#") {
+      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
+    } else {
+      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
+    }
+
+    document.body.appendChild(clone);
+
+    // 2. Hide Original
+    originalItem.classList.add('marquee-item-hidden');
+
+    // Determine Color
+    const alt = (originalItem.alt || '').toLowerCase();
+    let glowColor = 'rgba(255, 255, 255, 0.8)'; // Default white
+    let particleColor = '#ffffff';
+
+    if (alt.includes('unreal')) { glowColor = 'rgba(255, 255, 255, 0.8)'; particleColor = '#ffffff'; }
+    if (alt.includes('unity')) { glowColor = 'rgba(200, 200, 200, 0.8)'; particleColor = '#cccccc'; }
+    if (alt.includes('roblox')) { glowColor = 'rgba(0, 162, 255, 0.8)'; particleColor = '#00a2ff'; }
+    if (alt.includes('gamemaker')) { glowColor = 'rgba(131, 191, 79, 0.8)'; particleColor = '#83bf4f'; }
+    if (alt.includes('c++')) { glowColor = 'rgba(0, 89, 156, 0.8)'; particleColor = '#00599c'; }
+    if (alt.includes('c#')) { glowColor = 'rgba(130, 48, 133, 0.8)'; particleColor = '#9b4993'; }
+    if (alt.includes('js') || alt.includes('javascript')) { glowColor = 'rgba(247, 223, 30, 0.8)'; particleColor = '#f7df1e'; }
+    if (alt.includes('blender')) { glowColor = 'rgba(232, 125, 13, 0.8)'; particleColor = '#e87d0d'; }
+
+    // Spawn Particles
+    this.particles.spawn(rect.left + rect.width / 2, rect.top + rect.height / 2, particleColor, 40);
+
+    // 3. Animate Clone Up & Color Lerp
+    // Need requestAnimationFrame to ensure DOM is updated before adding transform
+    requestAnimationFrame(() => {
+      clone.style.transform = `translate(0, -${this.floatDistance}px) scale(2.5) rotate(5deg)`;
+      // End State (Color + Glow)
+      // Note: brightness(1) invert(0) restores original color (except C# devicon needs reset)
+      if (originalItem.alt === "C#") {
+        // C# Devicon needs to remove the white-forcing filter. 
+        // grayscale(0%) brightness(100%) restores it.
+        clone.style.filter = `grayscale(0%) brightness(100%) drop-shadow(0 0 15px ${glowColor})`;
+      } else {
+        clone.style.filter = `brightness(1) invert(0) drop-shadow(0 0 15px ${glowColor})`;
+      }
+    });
+
+    // 4. Wait, then Return
+    setTimeout(() => {
+      this.returnFloat(clone, originalItem, glowColor);
+    }, this.floatDuration);
+  }
+
+  returnFloat(clone, originalItem, glowColor) {
+    // Find where the original item is NOW
+    const currentRect = originalItem.getBoundingClientRect();
+
+    // Animate clone to that position
+    clone.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
+    clone.style.left = `${currentRect.left + window.scrollX}px`;
+    clone.style.top = `${currentRect.top + window.scrollY}px`;
+
+    // Lerp Color Back to White
+    if (originalItem.alt === "C#") {
+      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
+    } else {
+      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
+    }
+
+    setTimeout(() => {
+      // Animation complete
+      clone.remove();
+      originalItem.classList.remove('marquee-item-hidden');
+      this.isFloating = false;
+      this.lastTriggeredItem = originalItem; // Mark as just triggered
+      this.cooldown = 2000; // Longer buffer to ensure it scrolls out of detection zone
+
+      // Clear lastTriggeredItem after it has definitely moved away
+      setTimeout(() => {
+        if (this.lastTriggeredItem === originalItem) {
+          this.lastTriggeredItem = null;
+        }
+      }, 5000); // 5 seconds should be plenty for it to move out of 40px range even at slow speed
+    }, 600); // Match CSS transition time
+  }
+}
+
+// Init Marquee
+document.addEventListener('DOMContentLoaded', () => {
+  new MarqueeController();
 });

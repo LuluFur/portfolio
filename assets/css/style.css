@@ -207,7 +207,8 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: -1;
+    /* Sitting between Hero BG (z:-2) and Content (z:1) */
     pointer-events: none;
 }
 
@@ -223,7 +224,6 @@ nav {
     width: 100%;
     padding: 1.5rem 5%;
     background: rgba(19, 20, 31, 0.85);
-    backdrop-filter: blur(10px);
     z-index: 100;
     display: flex;
     justify-content: space-between;
@@ -302,9 +302,9 @@ nav {
     border-radius: var(--radius-pill);
     background: linear-gradient(90deg, var(--cyan), var(--purple));
     transform: scaleX(0);
-    transform-origin: left;
-    opacity: 0;
-    transition: transform 220ms ease, opacity 220ms ease;
+    transform-origin: right;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 8px var(--cyan);
 }
 
 .site-nav .nav-links a.active {
@@ -312,17 +312,33 @@ nav {
     color: rgba(255, 255, 255, 0.98);
 }
 
-.site-nav .nav-links a.active::after,
+.site-nav .nav-links a.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
 .site-nav .nav-links a:hover::after {
     transform: scaleX(1);
-    opacity: 1;
+    transform-origin: left;
 }
 
 .resume-btn {
-    background: linear-gradient(135deg, var(--coral), #ff8787);
+    background: rgba(255, 127, 80, 0.85);
+    /* Coral with opacity */
     padding: .6rem 1.5rem;
     border-radius: var(--radius-pill);
     font-weight: 600;
+    backdrop-filter: blur(8px);
+    /* Glassmorphism */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 127, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.resume-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 127, 80, 0.5);
+    background: rgba(255, 127, 80, 0.95);
 }
 
 /* Hero */
@@ -335,27 +351,61 @@ nav {
     text-align: center;
     padding: 0 5%;
     position: relative;
+    /* Background moved to ::before for z-indexing with particles */
 }
 
+/* Background Image Layer */
+
+
 .hero-title {
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-size: clamp(2.5rem, 8vw, 8rem);
     font-weight: 700;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 2rem;
     letter-spacing: -0.03em;
     line-height: 1.2;
+    white-space: nowrap;
 }
 
 .hero-name {
     display: inline-block;
-    font-weight: 900;
-    font-family: 'Space Grotesk';
-    background: linear-gradient(135deg, var(--coral) 0%, var(--cyan) 50%, var(--purple) 100%);
-    background-size: 200% 200%;
+    font-weight: 800;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Modern Tech Sans */
+
+    /* Outline and Glow Effect */
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.95);
+    text-shadow:
+        0 0 15px rgba(0, 217, 255, 0.5),
+        0 0 30px rgba(0, 217, 255, 0.3),
+        0 0 50px rgba(0, 217, 255, 0.2);
+
+    /* Gradient Fallback/Fill if desired, but user asked for "Outline" specifically */
+    /* If we want a gradient fill INSIDE the outline, we'd use background-clip, but outline usually implies hollow or filled. 
+       User said: "I'm Lewis Whitham has a 2px white outline and a light-blue glow."
+       We'll keep the text transparent for hollow look or fill it? 
+       Usually outline implies stroke. Let's try hollow with gradient fill maybe?
+       Let's stick to the prompt: Outline + Glow. 
+       If I leave color transparent, it shows background. User probably wants white outline.
+    */
+
+    /* Let's actually fill it with a very subtle gradient or just white? 
+       "Ref image style" - usually solid white or gradient. 
+       I will set a subtle gradient fill AND the stroke.
+    */
+    background: linear-gradient(180deg, #fff 40%, #bde0fe 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: gradientShift 3s ease infinite, fontPulse 2s ease-in-out infinite;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.5px #fff;
+    /* Thinner outline as requested */
+    filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.6));
+
+    padding: 0 10px;
+    /* Space for glow */
+
+    animation: fontPulse 4s ease-in-out infinite;
     position: relative;
 }
 
@@ -428,26 +478,52 @@ nav {
 }
 
 .cta-btn {
-    background: rgba(0, 217, 255, 0.05);
-    border: 1px solid rgba(0, 217, 255, 0.3);
-    color: var(--cyan);
-    padding: 0.95rem 2.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 1rem 2.8rem;
     border-radius: var(--radius-pill);
     font-size: 1.1rem;
-    font-weight: 750;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    text-decoration: none
+    gap: 0.8rem;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    /* Top highlight */
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
 }
 
 .cta-btn:hover {
-    background: var(--cyan);
-    color: #000;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    /* Slightly lighter on hover */
+    border-color: rgba(0, 217, 255, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 30px rgba(0, 217, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.cta-btn:hover::before {
+    left: 100%;
 }
 
 .cta-btn .icon {
@@ -458,65 +534,133 @@ nav {
 
 /* Hero Carousel */
 .hero-carousel-wrapper {
-    margin-top: 2.5rem;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 4rem;
     position: relative;
-    /* For absolute centering of text */
     opacity: 0;
     animation: fadeInUp 0.8s 0.6s forwards;
     pointer-events: none;
 }
 
-.dynamic-text-container {
-    font-size: 1.3rem;
-    /* Slightly larger text */
-    color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    gap: 0.5ch;
-    align-items: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    background: rgba(19, 20, 31, 0.75);
-    /* Darker, more opaque bg for readability over icons */
-    padding: 0.6rem 2rem;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    pointer-events: auto;
-    position: absolute;
-    z-index: 10;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.static-prefix {
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.dynamic-text {
-    font-weight: 700;
-    color: var(--cyan);
-    min-width: 16ch;
-    /* Prevent jitter */
+/* Gradient Borders for Carousel */
+.logo-marquee {
     position: relative;
-    display: inline-block;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    width: 100%;
+    max-width: 1200px;
+    height: 125px;
+    /* Increased slightly */
+    display: flex;
+    /* Verify Vertical Centering */
+    align-items: center;
+    /* Center items vertically */
+    pointer-events: auto;
+    /* Remove default mask to apply ours with borders */
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    /* Stronger fade at edges */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    z-index: 10;
+    /* Ensure container is above other background elements */
 }
 
-.dynamic-text.swapping {
-    opacity: 0;
-    transform: translateY(10px);
+/* Top Border Glow */
+/* Top Border Glow - Outside & Radial */
+/* Top Border Glow - Outside & Light Beam Style */
+/* Top Border Glow - Layered & Behind */
+/* Top Border Glow - Layered & Behind (Moved to Wrapper) */
+.hero-carousel-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    /* Sitting just outside */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+
+    /* Two layers: 
+       1. Top (First): Short, intense white beam.
+       2. Bottom (Second): Longer, softer cyan beam.
+    */
+    background:
+        radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 90%),
+        radial-gradient(ellipse at center, rgba(0, 217, 255, 0.8) 0%, transparent 90%);
+
+    background-size: 40% 100%, 100% 100%;
+    /* First gradient (white) is much narrower (shorter horizontally) */
+    background-position: center, center;
+    background-repeat: no-repeat;
+
+    filter: blur(2px);
+    /* Soften the edge */
+    border-radius: 100%;
+    box-shadow: 0 -2px 15px rgba(0, 217, 255, 0.6);
+    opacity: 1;
+    /* Brighter */
+    z-index: -1;
+    /* Behind the element */
+    pointer-events: none;
 }
+
+/* Bottom Border Glow */
+/* Bottom Border Glow - Outside & Radial */
+/* Bottom Border Glow - Mirror of Top */
+/* Bottom Border Glow - Mirror of Top */
+/* Bottom Border Glow - Mirror of Top (Moved to Wrapper) */
+.hero-carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+
+    background:
+        radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 90%),
+        radial-gradient(ellipse at center, rgba(0, 217, 255, 0.8) 0%, transparent 90%);
+
+    background-size: 40% 100%, 100% 100%;
+    background-position: center, center;
+    background-repeat: no-repeat;
+
+    filter: blur(2px);
+    border-radius: 100%;
+    box-shadow: 0 2px 15px rgba(0, 217, 255, 0.6);
+    opacity: 1;
+    z-index: -1;
+    /* Behind */
+    pointer-events: none;
+}
+
+/* Side Fading for Content (Re-applying mask to content only if needed) */
+/* Actually, the simpler way is to keep the mask on the marquee container, 
+   but borders on a wrapper? 
+   Existing .logo-marquee element has the mask. 
+   If I put borders on it, they will be masked. 
+   "Top and bottom border glow" - usually implies visible borders.
+   If mask fades SIDES, top/bottom borders might still be visible in center?
+   Yes, standard mask is horizontal (left/right transparent).
+   So borders will fade out with the mask?
+   Wait, mask-image: linear-gradient(to right, transparent, black 15%...)
+   Yes, that works perfectly for "dissipates from center" (if the mask covers the whole thing).
+   But if we want borders to explicitly dissipate from center (which the mask does essentially at the edges), 
+   let's keep the mask.
+*/
+
+
+
+
+
 
 /* Logo Marquee */
 .logo-marquee {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    /* 2x bigger width cap */
-    height: 80px;
+    max-width: 1400px;
+    height: 125px;
     /* 2x bigger height */
     overflow: hidden;
     mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
@@ -527,39 +671,61 @@ nav {
 .marquee-track {
     display: flex;
     gap: 6rem;
-    /* 2x bigger gap */
     padding-right: 6rem;
-    /* Fix skip: match gap at the end */
     width: max-content;
-    animation: marqueeScroll 25s linear infinite;
-    /* Slower scroll for larger distance */
+    /* animation: marqueeScroll 30s linear infinite; REMOVED for JS control */
+    align-items: center;
+    position: relative;
+    /* For JS offsets */
+    will-change: transform;
 }
 
 .marquee-track img {
-    height: 48px;
-    /* 2x bigger icons */
+    height: 60px;
+    /* Larger icons */
     width: auto;
-    opacity: 0.35;
-    /* Lower opacity so text pops */
-    transition: opacity 0.3s ease, filter 0.3s ease;
-    filter: grayscale(100%) brightness(200%);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    /* Full white by default */
+    filter: brightness(0) invert(1);
 }
+
+
 
 .marquee-track img:hover {
-    opacity: 0.8;
-    filter: grayscale(0%);
+    opacity: 1;
+    /* Restore color and add glow on hover */
+    filter: brightness(1) invert(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
     cursor: pointer;
+    transform: scale(1.1);
 }
 
-@keyframes marqueeScroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
+/* Floating Marquee Item */
+.marquee-float-item {
+    position: absolute;
+    /* Changed from fixed to absolute to scroll with page */
+    z-index: 1000;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 0.4s ease,
+        opacity 0.4s ease;
+    will-change: transform, top, left;
+    filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.4));
 }
+
+/* C# Icon Specific Fix - Devicon needs grayscale + brightness to become white */
+.marquee-track img[alt="C#"] {
+    filter: grayscale(100%) brightness(500%);
+    /* Blow out color to white */
+}
+
+/* Hide original item when clone is active */
+.marquee-item-hidden {
+    opacity: 0 !important;
+}
+
+/* Removed CSS keyframes as we use JS now */
+/* @keyframes marqueeScroll ... */
 
 /* About */
 .about-grid {
@@ -574,11 +740,11 @@ nav {
 }
 
 .profile-card {
-    /* background:var(--card-bg); removed for mixin */
+    background: var(--card-bg);
     padding: 2rem;
     text-align: center;
     position: sticky;
-    top: 120px
+    top: 120px;
 }
 
 .profile-img {
@@ -619,13 +785,15 @@ nav {
 }
 
 .section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
     color: #fff;
     -webkit-text-fill-color: initial;
     margin-bottom: 2rem;
     position: relative;
     display: inline-block;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .section-title::after {
@@ -713,6 +881,9 @@ nav {
     border: 1px solid var(--border-soft);
     box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
     overflow: hidden;
+    position: relative;
+    z-index: 2;
+    /* Ensure above dither */
     transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
@@ -955,6 +1126,9 @@ nav {
 .program-card {
     /* background:var(--card-bg); removed for mixin */
     padding: 2rem;
+    position: relative;
+    z-index: 2;
+    /* Ensure above dither */
     transition: transform .3s, box-shadow .3s, border-color .3s;
     text-align: center;
     --hover-glow: rgba(0, 217, 255, 0.22)
@@ -1105,7 +1279,10 @@ nav {
     gap: 1.5rem;
     transition: all .3s;
     text-decoration: none;
-    color: #fff
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    /* Ensure above dither */
 }
 
 .social-platform-item:hover {
@@ -1515,6 +1692,9 @@ footer {
     max-width: 1400px;
     margin: 0 auto;
     align-items: start;
+    position: relative;
+    z-index: 2;
+    /* Ensure content above dither */
 }
 
 .program-column {
@@ -1584,6 +1764,9 @@ footer {
     border: 1px solid rgba(0, 217, 255, 0.2);
     border-radius: 12px;
     overflow: hidden;
+    position: relative;
+    z-index: 2;
+    /* Ensure above dither */
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
