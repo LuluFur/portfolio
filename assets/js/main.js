@@ -531,6 +531,17 @@ class MarqueeController {
       document.body.classList.add('is-touch');
     }
 
+    // Create persistent float item
+    this.floatItem = document.createElement('img');
+    this.floatItem.classList.add('marquee-float-item');
+    this.floatItem.style.position = 'absolute';
+    this.floatItem.style.pointerEvents = 'none';
+    this.floatItem.style.top = '-1000px'; // Initial off-screen
+    this.floatItem.style.left = '-1000px';
+    this.floatItem.style.opacity = '0';
+    this.floatItem.style.zIndex = '1000';
+    document.body.appendChild(this.floatItem);
+
     this.init();
   }
 
@@ -643,31 +654,34 @@ class MarqueeController {
     this.isFloating = true;
     this.activeOriginalItem = originalItem;
 
-    // 1. Create Clone
+    // 1. Reuse Persistent Float Item
     const rect = originalItem.getBoundingClientRect();
-    const clone = originalItem.cloneNode(true);
+    const clone = this.floatItem;
     this.activeClone = clone;
 
+    // Sync content
+    clone.src = originalItem.src;
+    clone.alt = originalItem.alt;
+
     // Style Clone
-    clone.classList.add('marquee-float-item');
     clone.style.left = `${rect.left + window.scrollX}px`;
     clone.style.top = `${rect.top + window.scrollY}px`;
     clone.style.width = `${rect.width}px`;
     clone.style.height = `${rect.height}px`;
     clone.style.transform = 'translate(0, 0) scale(1) rotate(0deg)';
 
-    // Initial State for Transition (White)
+    // Ensure visibility
     clone.style.opacity = '1';
+    clone.classList.remove('marquee-item-hidden');
+
+    // Initial State for Transition (White)
     // Start white filter from CSS logic: brightness(0) invert(1)
     // Except C# which is grayscale(100%) brightness(500%)
-    // We need to set explicit inline filter to transition FROM
     if (originalItem.alt === "C#") {
       clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
     } else {
       clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
     }
-
-    document.body.appendChild(clone);
 
     // 2. Hide Original
     originalItem.classList.add('marquee-item-hidden');
@@ -728,7 +742,10 @@ class MarqueeController {
 
     setTimeout(() => {
       // Animation complete
-      clone.remove();
+      // Hide clone instead of create/destroy
+      clone.style.opacity = '0';
+      clone.style.top = '-1000px';
+
       this.activeClone = null;
       this.activeOriginalItem = null;
       originalItem.classList.remove('marquee-item-hidden');
@@ -741,7 +758,7 @@ class MarqueeController {
         if (this.lastTriggeredItem === originalItem) {
           this.lastTriggeredItem = null;
         }
-      }, 5000); // 5 seconds should be plenty for it to move out of 40px range even at slow speed
+      }, 5000);
     }, 600); // Match CSS transition time
   }
 }
