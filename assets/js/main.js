@@ -179,6 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const updateActiveNavOnScroll = () => {
     if (sectionTargets.length === 0 || navLinks.length === 0) return;
 
+    // Optimization: Skip if nav is hidden (Mobile)
+    const nav = document.querySelector('nav');
+    if (nav && getComputedStyle(nav).display === 'none') return;
+
     const scrollY = window.scrollY || window.pageYOffset;
     const offset = 160; // accounts for fixed nav height
     let activeHash = `#${sectionTargets[0].id}`;

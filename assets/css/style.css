@@ -2186,3 +2186,10 @@ kbd {
     width: 20px;
     height: 20px;
 }
+
+/* Hide Nav on Mobile */
+@media (max-width: 968px) {
+    nav {
+        display: none !important;
+    }
+}
