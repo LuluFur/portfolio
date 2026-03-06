@@ -504,14 +504,11 @@ class MarqueeController {
     this.originalCount = this.items.length;
 
     // Clone 2 extra sets for safe looping (Total 3 sets)
-    this.items.forEach(item => {
-      const clone = item.cloneNode(true);
-      this.track.appendChild(clone);
-    });
-    this.items.forEach(item => {
-      const clone = item.cloneNode(true);
-      this.track.appendChild(clone);
-    });
+    for (let c = 0; c < 2; c++) {
+      this.items.forEach(item => {
+        this.track.appendChild(item.cloneNode(true));
+      });
+    }
 
     // Re-query complete list of items including clones
     this.allItems = Array.from(this.track.querySelectorAll('img'));
