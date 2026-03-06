@@ -643,6 +643,12 @@ class MarqueeController {
     }
   }
 
+  getWhiteFilter(item) {
+    return item.alt === "C#"
+      ? 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))'
+      : 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
+  }
+
   triggerFloat(originalItem) {
     this.isFloating = true;
     this.activeOriginalItem = originalItem;
@@ -668,13 +674,7 @@ class MarqueeController {
     clone.classList.remove('marquee-item-hidden');
 
     // Initial State for Transition (White)
-    // Start white filter from CSS logic: brightness(0) invert(1)
-    // Except C# which is grayscale(100%) brightness(500%)
-    if (originalItem.alt === "C#") {
-      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    } else {
-      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    }
+    clone.style.filter = this.getWhiteFilter(originalItem);
 
     // 2. Hide Original
     originalItem.classList.add('marquee-item-hidden');
@@ -727,11 +727,7 @@ class MarqueeController {
     clone.style.top = `${currentRect.top + window.scrollY}px`;
 
     // Lerp Color Back to White
-    if (originalItem.alt === "C#") {
-      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    } else {
-      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    }
+    clone.style.filter = this.getWhiteFilter(originalItem);
 
     setTimeout(() => {
       // Animation complete
