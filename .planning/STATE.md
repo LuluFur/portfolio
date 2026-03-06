@@ -3,8 +3,8 @@
 ## Current
 
 - **Milestone:** v1.0 — Quality & Bug Fix Pass
-- **Phase:** 8 (next)
-- **Status:** Phase 7 complete
+- **Phase:** 9 (next)
+- **Status:** Phase 8 complete
 
 ## Progress
 
@@ -17,6 +17,6 @@
 | 5 | Mobile navigation | Done |
 | 6 | Unnecessary library loads | Done |
 | 7 | Marquee DOM optimization | Done |
-| 8 | Page transition UX | Pending |
+| 8 | Page transition UX | Done |
 | 9 | Font loading & favicon | Pending |
 | 10 | Email handler conflict & final audit | Pending |
