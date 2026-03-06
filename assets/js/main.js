@@ -4,8 +4,6 @@
 
 // Page Load Flow
 
-// Page Load Flow
-
 document.addEventListener('DOMContentLoaded', () => {
   // Page Entry Transition (for non-index pages)
   if (document.querySelector('.project-hero') || document.querySelector('.page-hero')) {
@@ -364,12 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// =============================================================================
-// MARQUEE CONTROLLER - JS Driven Interactivity
-// =============================================================================
-// =============================================================================
-// PARTICLE SYSTEM - For Marquee Sparkles
-// =============================================================================
 /**
  * =============================================================================
  * PARTICLE SYSTEM
