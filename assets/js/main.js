@@ -218,6 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  // CTA Button Scroll
+  const ctaBtn = document.querySelector('.cta-btn');
+  if (ctaBtn) {
+    ctaBtn.addEventListener('click', () => {
+      document.querySelector('.about').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
   document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
