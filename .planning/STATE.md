@@ -3,14 +3,14 @@
 ## Current
 
 - **Milestone:** v1.0 — Quality & Bug Fix Pass
-- **Phase:** 1 (not started)
-- **Status:** Planning
+- **Phase:** 2 (next)
+- **Status:** Phase 1 complete
 
 ## Progress
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | Duplicate HTML cleanup | Pending |
+| 1 | Duplicate HTML cleanup | Done |
 | 2 | Social preview & meta tags | Pending |
 | 3 | Footer & stale content | Pending |
 | 4 | Accessibility — buttons & interactive elements | Pending |
