@@ -3,8 +3,8 @@
 ## Current
 
 - **Milestone:** v1.0 — Quality & Bug Fix Pass
-- **Phase:** 6 (next)
-- **Status:** Phase 5 complete
+- **Phase:** 7 (next)
+- **Status:** Phase 6 complete
 
 ## Progress
 
@@ -15,7 +15,7 @@
 | 3 | Footer & stale content | Done |
 | 4 | Accessibility — buttons & interactive elements | Done |
 | 5 | Mobile navigation | Done |
-| 6 | Unnecessary library loads | Pending |
+| 6 | Unnecessary library loads | Done |
 | 7 | Marquee DOM optimization | Pending |
 | 8 | Page transition UX | Pending |
 | 9 | Font loading & favicon | Pending |
