@@ -377,15 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
         innerCard.style.background = '#000'; // Blend to black
       }
 
-      const backface = document.createElement('div');
-      backface.style.position = 'absolute';
-      backface.style.inset = '0';
-      backface.style.background = '#000'; // Solid black backface
-      backface.style.transform = 'rotateY(180deg)';
-      backface.style.backfaceVisibility = 'hidden';
-      backface.style.borderRadius = '0';
-      backface.style.zIndex = '-1';
-
       // 8. Navigate after animation
       setTimeout(() => {
         window.location.href = href;
