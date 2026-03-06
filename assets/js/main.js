@@ -4,8 +4,6 @@
 
 // Page Load Flow
 
-// Page Load Flow
-
 document.addEventListener('DOMContentLoaded', () => {
   // Page Entry Transition (for non-index pages)
   if (document.querySelector('.project-hero') || document.querySelector('.page-hero')) {
@@ -364,12 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// =============================================================================
-// MARQUEE CONTROLLER - JS Driven Interactivity
-// =============================================================================
-// =============================================================================
-// PARTICLE SYSTEM - For Marquee Sparkles
-// =============================================================================
 /**
  * =============================================================================
  * PARTICLE SYSTEM
@@ -512,14 +504,11 @@ class MarqueeController {
     this.originalCount = this.items.length;
 
     // Clone 2 extra sets for safe looping (Total 3 sets)
-    this.items.forEach(item => {
-      const clone = item.cloneNode(true);
-      this.track.appendChild(clone);
-    });
-    this.items.forEach(item => {
-      const clone = item.cloneNode(true);
-      this.track.appendChild(clone);
-    });
+    for (let c = 0; c < 2; c++) {
+      this.items.forEach(item => {
+        this.track.appendChild(item.cloneNode(true));
+      });
+    }
 
     // Re-query complete list of items including clones
     this.allItems = Array.from(this.track.querySelectorAll('img'));
@@ -654,6 +643,12 @@ class MarqueeController {
     }
   }
 
+  getWhiteFilter(item) {
+    return item.alt === "C#"
+      ? 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))'
+      : 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
+  }
+
   triggerFloat(originalItem) {
     this.isFloating = true;
     this.activeOriginalItem = originalItem;
@@ -679,13 +674,7 @@ class MarqueeController {
     clone.classList.remove('marquee-item-hidden');
 
     // Initial State for Transition (White)
-    // Start white filter from CSS logic: brightness(0) invert(1)
-    // Except C# which is grayscale(100%) brightness(500%)
-    if (originalItem.alt === "C#") {
-      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    } else {
-      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    }
+    clone.style.filter = this.getWhiteFilter(originalItem);
 
     // 2. Hide Original
     originalItem.classList.add('marquee-item-hidden');
@@ -738,11 +727,7 @@ class MarqueeController {
     clone.style.top = `${currentRect.top + window.scrollY}px`;
 
     // Lerp Color Back to White
-    if (originalItem.alt === "C#") {
-      clone.style.filter = 'grayscale(100%) brightness(500%) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    } else {
-      clone.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 0 rgba(0,0,0,0))';
-    }
+    clone.style.filter = this.getWhiteFilter(originalItem);
 
     setTimeout(() => {
       // Animation complete
