@@ -3,8 +3,8 @@
 ## Current
 
 - **Milestone:** v1.0 — Quality & Bug Fix Pass
-- **Phase:** 3 (next)
-- **Status:** Phase 2 complete
+- **Phase:** 4 (next)
+- **Status:** Phase 3 complete
 
 ## Progress
 
@@ -12,7 +12,7 @@
 |-------|------|--------|
 | 1 | Duplicate HTML cleanup | Done |
 | 2 | Social preview & meta tags | Done |
-| 3 | Footer & stale content | Pending |
+| 3 | Footer & stale content | Done |
 | 4 | Accessibility — buttons & interactive elements | Pending |
 | 5 | Mobile navigation | Pending |
 | 6 | Unnecessary library loads | Pending |
