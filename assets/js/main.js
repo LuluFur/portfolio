@@ -218,6 +218,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+  // Mobile Nav Toggle
+  const navToggle = document.querySelector('.nav-toggle');
+  const siteNav = document.querySelector('.site-nav');
+  if (navToggle && siteNav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = siteNav.classList.toggle('nav-open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    siteNav.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        siteNav.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!siteNav.contains(e.target) && siteNav.classList.contains('nav-open')) {
+        siteNav.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   // CTA Button Scroll
   const ctaBtn = document.querySelector('.cta-btn');
   if (ctaBtn) {
